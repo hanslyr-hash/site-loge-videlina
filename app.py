@@ -1,5 +1,6 @@
 import os
 import uuid
+import httpx
 
 from datetime import date, datetime
 from functools import wraps
@@ -10,9 +11,11 @@ from psycopg.rows import dict_row
 from psycopg.errors import UniqueViolation
 
 from dotenv import load_dotenv
+from supabase import create_client
 
 from flask import (
     Flask,
+    Response,
     flash,
     g,
     redirect,
@@ -69,6 +72,23 @@ NEWS_IMAGE_FOLDER = ROOT / "static" / "news"
 
 app.config["NEWS_IMAGE_FOLDER"] = NEWS_IMAGE_FOLDER
 app.config["MAX_CONTENT_LENGTH"] = 20 * 1024 * 1024
+
+# =========================================================
+# SUPABASE STORAGE
+# =========================================================
+
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_KEY")
+
+supabase = None
+
+if SUPABASE_URL and SUPABASE_SERVICE_KEY:
+    supabase = create_client(
+        SUPABASE_URL,
+        SUPABASE_SERVICE_KEY
+    )
+
+SUPABASE_LIBRARY_BUCKET = "library"
 
 # =========================================================
 # POSTGRESQL
@@ -2138,12 +2158,58 @@ def library_file(item_id):
     if item is None:
         return "Ouvrage introuvable", 404
 
-    return send_from_directory(
-        app.config["LIBRARY_FOLDER"],
-        item["stored_name"],
-        as_attachment=False
+    if not SUPABASE_URL or not SUPABASE_SERVICE_KEY:
+        app.logger.error("Supabase n'est pas configuré.")
+        return "Stockage de la bibliothèque non configuré.", 500
+
+    filename = item["stored_name"]
+
+    storage_url = (
+        f"{SUPABASE_URL}/storage/v1/object/"
+        f"{SUPABASE_LIBRARY_BUCKET}/{filename}"
     )
 
+    headers = {
+        "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
+        "apikey": SUPABASE_SERVICE_KEY,
+    }
+
+    try:
+
+        response = httpx.get(
+            storage_url,
+            headers=headers,
+            timeout=60.0
+        )
+
+        if response.status_code != 200:
+
+            app.logger.error(
+                "Supabase Storage HTTP %s : %s",
+                response.status_code,
+                response.text[:500]
+            )
+
+            return "Impossible de charger cet ouvrage.", 500
+
+        return Response(
+            response.content,
+            mimetype="application/pdf",
+            headers={
+                "Content-Disposition": (
+                    f'inline; filename="{item["original_name"]}"'
+                ),
+                "Cache-Control": "private, no-store",
+            }
+        )
+
+    except Exception:
+
+        app.logger.exception(
+            "Erreur HTTP Supabase Storage"
+        )
+
+        return "Impossible de charger cet ouvrage.", 500
 
 # =========================================================
 # TÉLÉCHARGEMENT D'UN OUVRAGE
