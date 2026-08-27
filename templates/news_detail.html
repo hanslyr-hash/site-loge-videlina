@@ -1,0 +1,68 @@
+{% extends "base_member.html" %}
+
+{% block title %}
+{{ item.title }} | VIDELINA
+{% endblock %}
+
+{% block heading %}
+{{ item.title }}
+{% endblock %}
+
+{% block content %}
+
+<article class="panel news-detail">
+
+    <div class="panel-title">
+
+        <div>
+
+            <span class="badge">
+                {{ item.category }}
+            </span>
+
+            {% if item.published_at %}
+
+                <p class="news-date">
+                    Publié le
+                    {{ item.published_at.strftime('%d/%m/%Y') }}
+                </p>
+
+            {% endif %}
+
+        </div>
+
+        <a
+            href="{{ url_for('public_news') }}"
+            class="button"
+        >
+            ← Toutes les actualités
+        </a>
+
+    </div>
+
+
+    <h2>
+        {{ item.title }}
+    </h2>
+
+
+    {% if item.excerpt %}
+
+        <p>
+            <strong>
+                {{ item.excerpt }}
+            </strong>
+        </p>
+
+    {% endif %}
+
+
+    <div class="news-content">
+
+        {{ item.content|replace('\n', '<br>')|safe }}
+
+    </div>
+
+</article>
+
+{% endblock %}

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Membres de Videlina</title>
+</head>
+
+{% extends "base_member.html" %}
+
+{% block title %}
+Membres | Videlina
+{% endblock %}
+
+{% block heading %}
+Gestion des membres
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-grid">
+
+    <article class="panel">
+
+        <h2>Ajouter un membre</h2>
+
+        <form method="post" class="admin-form">
+
+            <label>
+                Nom complet
+                <input
+                    required
+                    name="name"
+                >
+            </label>
+
+            <label>
+                Adresse e-mail
+                <input
+                    required
+                    type="email"
+                    name="email"
+                >
+            </label>
+
+            <label>
+                Mot de passe provisoire
+                <input
+                    required
+                    minlength="10"
+                    type="password"
+                    name="password"
+                >
+            </label>
+
+            <label>
+                Fonction
+
+                <select name="role">
+
+                    <option value="Membre">
+                        Membre
+                    </option>
+
+                    <option value="Officier">
+                        Officier
+                    </option>
+
+                    <option value="Administrateur">
+                        Administrateur
+                    </option>
+
+                </select>
+
+            </label>
+
+            <label>
+                Grade
+
+                <select name="grade">
+
+                    <option value="Apprenti">
+                        Apprenti
+                    </option>
+
+                    <option value="Compagnon">
+                        Compagnon
+                    </option>
+
+                    <option value="Maître">
+                        Maître
+                    </option>
+
+                    <option value="Maître Secret">
+                        Maître Secret
+                    </option>
+
+                    <option value="Grand Elu, Parfait et Sublime Macon">
+                        Grand Elu, Parfait et Sublime Maçon
+                    </option>
+
+                    <option value="Chevalier Rose-Croix">
+                        Chevalier Rose-Croix
+                    </option>
+
+                    <option value="CKS">
+                        CKS
+                    </option>
+
+                </select>
+
+            </label>
+
+            <button type="submit">
+                Ajouter le membre
+            </button>
+
+        </form>
+
+    </article>
+
+    <article class="panel note">
+
+        <h2>Accès initial</h2>
+
+        <p>
+            Choisissez un mot de passe provisoire long et
+            transmettez-le au membre par un canal confidentiel.
+        </p>
+
+    </article>
+
+</section>
+
+
+<section class="panel table-panel">
+
+    <div class="panel-title">
+
+        <h2>Liste des membres</h2>
+
+        <span>
+            {{ members|length }} inscrit(s)
+        </span>
+
+    </div>
+
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Nom</th>
+
+                <th>Fonction</th>
+
+                <th>Grade</th>
+
+                <th>Statut</th>
+
+                <th>Actions</th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+        {% for member in members %}
+
+            <tr>
+
+                <td>
+
+                    <b>
+                        {{ member.name }}
+                    </b>
+
+                    <small>
+                        {{ member.email }}
+                    </small>
+
+                </td>
+
+
+                <!-- FONCTION -->
+
+                <td>
+
+                    {% if member.id != session.member_id %}
+
+                    <form
+                        method="post"
+                        action="{{ url_for(
+                            'update_member_role',
+                            member_id=member.id
+                        ) }}"
+                    >
+
+                        <select name="role">
+
+                            <option value="Membre"
+                                {% if member.role == "Membre" %}
+                                selected
+                                {% endif %}
+                            >
+                                Membre
+                            </option>
+
+                            <option value="Officier"
+                                {% if member.role == "Officier" %}
+                                selected
+                                {% endif %}
+                            >
+                                Officier
+                            </option>
+
+                            <option value="Administrateur"
+                                {% if member.role == "Administrateur" %}
+                                selected
+                                {% endif %}
+                            >
+                                Administrateur
+                            </option>
+
+                        </select>
+
+                        <button
+                            type="submit"
+                            class="small-button"
+                        >
+                            Modifier
+                        </button>
+
+                    </form>
+
+                    {% else %}
+
+                        {{ member.role }}
+
+                    {% endif %}
+
+                </td>
+
+
+                <!-- GRADE -->
+
+                <td>
+
+                    {% if member.id != session.member_id %}
+
+                    <form
+                        method="post"
+                        action="{{ url_for(
+                            'update_member_grade',
+                            member_id=member.id
+                        ) }}"
+                    >
+
+                        <select name="grade">
+
+                            <option value="Apprenti"
+                                {% if member.grade == "Apprenti" %}
+                                selected
+                                {% endif %}
+                            >
+                                Apprenti
+                            </option>
+
+                            <option value="Compagnon"
+                                {% if member.grade == "Compagnon" %}
+                                selected
+                                {% endif %}
+                            >
+                                Compagnon
+                            </option>
+
+                            <option value="Maître"
+                                {% if member.grade == "Maître" %}
+                                selected
+                                {% endif %}
+                            >
+                                Maître
+                            </option>
+
+                            <option value="Maître Secret"
+                                {% if member.grade == "Maître Secret" %}
+                                selected
+                                {% endif %}
+                            >
+                                Maître Secret
+                            </option>
+
+                            <option value="Grand Elu, Parfait et Sublime Macon"
+                                {% if member.grade == "Grand Elu, Parfait et Sublime Macon" %}
+                                selected
+                                {% endif %}
+                            >
+                                Grand Elu, Parfait et Sublime Maçon
+                            </option>
+
+                            <option value="Chevalier Rose-Croix"
+                                {% if member.grade == "Chevalier Rose-Croix" %}
+                                selected
+                                {% endif %}
+                            >
+                                Chevalier Rose-Croix
+                            </option>
+
+                            <option value="CKS"
+                                {% if member.grade == "CKS" %}
+                                selected
+                                {% endif %}
+                            >
+                                CKS
+                            </option>
+
+                        </select>
+
+                        <button
+                            type="submit"
+                            class="small-button"
+                        >
+                            Modifier
+                        </button>
+
+                    </form>
+
+                    {% else %}
+
+                        {{ member.grade }}
+
+                    {% endif %}
+
+                </td>
+
+
+                <!-- STATUT -->
+
+                <td>
+
+                    <span class="badge {{ member.status|lower }}">
+                        {{ member.status }}
+                    </span>
+
+                </td>
+
+
+                <!-- ACTION -->
+
+                <td>
+
+                    {% if member.id != session.member_id %}
+
+                    <form
+                        action="{{ url_for(
+                            'toggle_member_status',
+                            member_id=member.id
+                        ) }}"
+                        method="post"
+                    >
+
+                        <button
+                            type="submit"
+                            class="small-button"
+                        >
+
+                            {% if member.status == "Actif" %}
+                                Désactiver
+                            {% else %}
+                                Activer
+                            {% endif %}
+
+                        </button>
+
+                    </form>
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</section>
+
+{% endblock %}

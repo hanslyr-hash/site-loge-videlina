@@ -1,0 +1,107 @@
+{% extends "base_member.html" %}
+
+{% block title %}
+Actualités | VIDELINA
+{% endblock %}
+
+{% block heading %}
+Actualités VIDELINA
+{% endblock %}
+
+{% block content %}
+
+<section class="panel">
+
+    <div class="panel-title">
+
+        <div>
+            <h2>Actualités de la Loge</h2>
+
+            <p>
+                Découvrez les événements, travaux et publications
+                de la Respectable Loge Mixte VIDELINA.
+            </p>
+        </div>
+
+        <span>
+            {{ news|length }} publication(s)
+        </span>
+
+    </div>
+
+</section>
+
+
+<section class="news-grid">
+
+    {% for item in news %}
+
+        <article class="panel news-card">
+
+            {% if item.image_name %}
+
+                <div class="news-image-wrapper">
+
+                    <img
+                        src="{{ url_for('news_image', filename=item.image_name) }}"
+                        alt="{{ item.title }}"
+                        class="news-cover"
+                    >
+
+                </div>
+
+            {% endif %}
+
+
+            <div class="news-card-body">
+
+                <span class="badge">
+                    {{ item.category }}
+                </span>
+
+                <h2>
+                    {{ item.title }}
+                </h2>
+
+                {% if item.published_at %}
+
+                    <small class="news-date">
+                        {{ item.published_at.strftime('%d/%m/%Y') }}
+                    </small>
+
+                {% endif %}
+
+                {% if item.excerpt %}
+
+                    <p>
+                        {{ item.excerpt }}
+                    </p>
+
+                {% endif %}
+
+                <a
+                    href="{{ url_for('news_detail', news_id=item.id) }}"
+                    class="button news-button"
+                >
+                    Lire l'article →
+                </a>
+
+            </div>
+
+        </article>
+
+    {% else %}
+
+        <section class="panel">
+
+            <p class="empty">
+                Aucune actualité publiée pour le moment.
+            </p>
+
+        </section>
+
+    {% endfor %}
+
+</section>
+
+{% endblock %}

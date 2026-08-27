@@ -1,0 +1,191 @@
+{% extends "base_member.html" %}
+
+{% block title %}
+Modifier | {{ item.title }}
+{% endblock %}
+
+{% block heading %}
+Modifier l'actualité
+{% endblock %}
+
+{% block content %}
+
+<section class="panel">
+
+    <div class="panel-title">
+
+        <div>
+            <h2>{{ item.title }}</h2>
+
+            <p>
+                Modification de la publication
+            </p>
+        </div>
+
+        <a
+            href="{{ url_for('manage_news') }}"
+            class="button"
+        >
+            ← Retour
+        </a>
+
+    </div>
+
+
+    <form
+        method="post"
+        enctype="multipart/form-data"
+    >
+
+        <label>
+            Titre
+
+            <input
+                type="text"
+                name="title"
+                value="{{ item.title }}"
+                required
+            >
+        </label>
+
+
+        <label>
+            Catégorie
+
+            <select
+                name="category"
+                required
+            >
+
+                {% for category in [
+                    "Vie de la Loge",
+                    "Événement",
+                    "Conférence",
+                    "Symbolisme",
+                    "Philosophie",
+                    "Culture",
+                    "Annonce",
+                    "Autre"
+                ] %}
+
+                    <option
+                        value="{{ category }}"
+                        {% if item.category == category %}
+                            selected
+                        {% endif %}
+                    >
+                        {{ category }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+        </label>
+
+
+        <label>
+            Résumé
+
+            <textarea
+                name="excerpt"
+                rows="3"
+            >{{ item.excerpt or "" }}</textarea>
+
+        </label>
+
+
+        <label>
+            Contenu
+
+            <textarea
+                name="content"
+                rows="12"
+                required
+            >{{ item.content }}</textarea>
+
+        </label>
+
+
+        {% if item.image_name %}
+
+            <div>
+
+                <p>
+                    <strong>Image actuelle</strong>
+                </p>
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='news/' ~ item.image_name
+                    ) }}"
+                    alt="{{ item.title }}"
+                    style="
+                        width:100%;
+                        max-width:600px;
+                        height:280px;
+                        object-fit:cover;
+                        display:block;
+                        margin-bottom:15px;
+                    "
+                >
+
+            </div>
+
+        {% endif %}
+
+
+        <label>
+            Remplacer l'image
+
+            <input
+                type="file"
+                name="image"
+                accept=".jpg,.jpeg,.png,.webp"
+            >
+
+            <small>
+                Laisser vide pour conserver l'image actuelle.
+            </small>
+
+        </label>
+
+
+        <label>
+            Statut
+
+            <select name="status">
+
+                <option
+                    value="Brouillon"
+                    {% if item.status == "Brouillon" %}
+                        selected
+                    {% endif %}
+                >
+                    Brouillon
+                </option>
+
+                <option
+                    value="Publié"
+                    {% if item.status == "Publié" %}
+                        selected
+                    {% endif %}
+                >
+                    Publié
+                </option>
+
+            </select>
+
+        </label>
+
+
+        <button type="submit">
+            Enregistrer les modifications
+        </button>
+
+    </form>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+<!doctype html><html 
+lang="fr"
+><head><meta 
+    charset="utf-8"
+    ><meta name="viewport" 
+    content="width=device-width, initial-scale=1"
+    ><title>Connexion | Videlina</title><link rel="stylesheet" href="{{ url_for('static', filename='member.css') }}"
+    ></head
+    
+    
+    ><body class="auth-page"
+    ><section class="auth-card"
+    ><p class="eyebrow">Espace membre</p><h1>Heureux de vous revoir.</h1>
+    {% with messages=get_flashed_messages(with_categories=true) %}
+    {% for category,message in messages %}
+    
+    <div class="flash {{ category }}">{{ message }}</div>
+
+    {% endfor %}
+    
+    {% endwith %}
+    <form method="post"
+    ><label>Adresse e-mail<input required type="email" name="email"></label>
+    <label>Mot de passe<input required type="password" name="password"></label>
+    <button>Se connecter</button></form><a href="{{ url_for('home') }}">
+        ← Retour au site public</a>
+    
+    </section>
+</body>
+</html>

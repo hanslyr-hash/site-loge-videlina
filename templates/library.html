@@ -1,0 +1,387 @@
+{% extends "base_member.html" %}
+
+{% block title %}Bibliothèque | Videlina{% endblock %}
+
+{% block heading %}Bibliothèque spirituelle{% endblock %}
+
+{% block content %}
+
+<section class="panel">
+
+    <div class="panel-title">
+
+        <div>
+            <h2>Bibliothèque VIDELINA</h2>
+
+            <p>
+                Ouvrages spirituels, philosophiques et initiatiques
+                réservés aux membres.
+            </p>
+        </div>
+
+        <span>{{ items|length }} ouvrage(s)</span>
+
+    </div>
+
+</section>
+
+<!-- =====================================================
+     RECHERCHE DANS LA BIBLIOTHÈQUE
+     ===================================================== -->
+
+<section class="panel">
+
+    <form
+        method="get"
+        action="{{ url_for('library') }}"
+        class="admin-form"
+    >
+
+        <label>
+            Rechercher un ouvrage
+
+            <input
+                type="search"
+                name="q"
+                value="{{ search }}"
+                placeholder="Titre, auteur, catégorie..."
+                autocomplete="off"
+            >
+
+        </label>
+
+
+        <div class="library-actions">
+
+            <button
+                type="submit"
+                class="button"
+            >
+                🔎 Rechercher
+            </button>
+
+
+            {% if search %}
+
+            <a
+                href="{{ url_for('library') }}"
+                class="button"
+            >
+                Réinitialiser
+            </a>
+
+            {% endif %}
+
+        </div>
+
+    </form>
+
+
+    {% if search %}
+
+    <p>
+        Résultat(s) pour :
+        <strong>{{ search }}</strong>
+    </p>
+
+    {% endif %}
+
+</section>
+
+{% if session.member_role == 'Administrateur' %}
+
+<section class="panel">
+
+    <h2>Ajouter un ouvrage</h2>
+
+    <form
+        method="post"
+        enctype="multipart/form-data"
+        class="admin-form"
+    >
+
+        <label>
+            Titre
+            <input
+                type="text"
+                name="title"
+                required
+            >
+        </label>
+
+
+        <label>
+            Auteur
+            <input
+                type="text"
+                name="author"
+            >
+        </label>
+
+
+        <label>
+            Catégorie
+
+            <select name="category" required>
+
+                <option value="">
+                    Choisir une catégorie
+                </option>
+
+                <option value="Spiritualité">
+                    Spiritualité
+                </option>
+
+                <option value="Esotérisme">
+                    Esotérisme
+                </option>
+
+                <option value="Philosophie">
+                    Philosophie
+                </option>
+
+                <option value="Franc-maçonnerie">
+                    Franc-maçonnerie
+                </option>
+
+                <option value="Symbolisme">
+                    Symbolisme
+                </option>
+
+                <option value="Développement personnel">
+                    Développement personnel
+                </option>
+
+                <option value="Histoire">
+                    Histoire
+                </option>
+
+                <option value="Autre">
+                    Autre
+                </option>
+
+            </select>
+
+        </label>
+
+
+        <label>
+            Description
+
+            <textarea
+                name="description"
+                rows="4"
+            ></textarea>
+
+        </label>
+
+
+        <label>
+            Fichier
+
+            <input
+                type="file"
+                name="file"
+                accept=".pdf,.epub"
+                required
+            >
+
+        </label>
+
+
+        <button type="submit">
+            Ajouter à la bibliothèque
+        </button>
+
+    </form>
+
+</section>
+
+{% endif %}
+
+
+<section class="library-grid">
+
+    {% for item in items %}
+
+    <article class="panel library-card">
+
+        <div class="library-icon">
+
+            {% if item.file_extension == 'pdf' %}
+
+                PDF
+
+            {% else %}
+
+                EPUB
+
+            {% endif %}
+
+        </div>
+
+
+        <div class="library-card-body">
+
+            <span class="badge">
+                {{ item.category }}
+            </span>
+
+
+            <span class="badge">
+                Accès : {{ item.access_grade }}
+            </span>
+
+
+            <h2>
+                {{ item.title }}
+            </h2>
+
+
+            {% if item.author %}
+
+                <p>
+                    <strong>Auteur :</strong>
+                    {{ item.author }}
+                </p>
+
+            {% endif %}
+
+
+            {% if item.description %}
+
+                <p>
+                    {{ item.description }}
+                </p>
+
+            {% endif %}
+
+
+            <div class="library-actions">
+
+                <a
+                    href="{{ url_for(
+                        'read_library_item',
+                        item_id=item.id
+                    ) }}"
+                    class="button"
+                >
+                    Lire
+                </a>
+
+
+                <a
+                    href="{{ url_for(
+                        'download_library_item',
+                        item_id=item.id
+                    ) }}"
+                    class="button"
+                >
+                    Télécharger
+                </a>
+
+                {% if session.member_role == 'Administrateur' %}
+
+<form
+    method="post"
+    action="{{ url_for('update_library_access', item_id=item.id) }}"
+    class="admin-form"
+>
+
+    <label>
+        Modifier le grade minimum requis
+
+        <select name="access_grade" required>
+
+            <option value="Apprenti"
+                {% if item.access_grade == 'Apprenti' %}selected{% endif %}>
+                Apprenti
+            </option>
+
+            <option value="Compagnon"
+                {% if item.access_grade == 'Compagnon' %}selected{% endif %}>
+                Compagnon
+            </option>
+
+            <option value="Maître"
+                {% if item.access_grade == 'Maître' %}selected{% endif %}>
+                Maître
+            </option>
+
+            <option value="Maître Secret"
+                {% if item.access_grade == 'Maître Secret' %}selected{% endif %}>
+                Maître Secret
+            </option>
+
+            <option value="Grand Elu, Parfait et Sublime Maçon"
+                {% if item.access_grade == 'Grand Elu, Parfait et Sublime Maçon' %}selected{% endif %}>
+                Grand Élu, Parfait et Sublime Maçon
+            </option>
+
+            <option value="Chevalier Rose-Croix"
+                {% if item.access_grade == 'Chevalier Rose-Croix' %}selected{% endif %}>
+                Chevalier Rose-Croix
+            </option>
+
+            <option value="CKS"
+                {% if item.access_grade == 'CKS' %}selected{% endif %}>
+                CKS
+            </option>
+
+        </select>
+    </label>
+
+    <button type="submit" class="button">
+        Modifier l'accès
+    </button>
+
+</form>
+
+{% endif %}
+
+                {% if session.member_role == 'Administrateur' %}
+
+                <form
+                    method="post"
+                    action="{{ url_for(
+                        'delete_library_item',
+                        item_id=item.id
+                    ) }}"
+                    onsubmit="return confirm(
+                        'Supprimer cet ouvrage ?'
+                    );"
+                >
+
+                    <button
+                        type="submit"
+                        class="button danger"
+                    >
+                        Supprimer
+                    </button>
+
+                </form>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </article>
+
+
+    {% else %}
+
+    <section class="panel">
+
+        <p class="empty">
+            La bibliothèque ne contient encore aucun ouvrage.
+        </p>
+
+    </section>
+
+    {% endfor %}
+
+</section>
+
+{% endblock %}

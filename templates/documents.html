@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Tableau de bord</title>
+
+{% extends 'base_member.html' %}
+{% block heading %}Référentiel documentaire{% endblock %}
+{% block content %}
+    {% if session.member_role == 'Administrateur' %}
+        <section class="panel">
+            <h2>Ajouter une référence</h2>
+            <form method="post" class="admin-form three">
+                <label>Titre<input required name="title"></label>
+                <label>Catégorie<select required name="category">
+                    <option>Procès-verbal</option>
+                    <option>Planche</option>
+                    <option>Règlement</option>
+                    <option>Correspondance</option>
+                </select></label>
+                <label>Référence / lien<input required name="reference" placeholder="Dossier ou URL interne"></label>
+                <button>Ajouter</button>
+            </form>
+        </section>
+    {% endif %}
+    <section class="panel table-panel">
+        <div class="panel-title">
+            <h2>Documents enregistrés</h2>
+            <span>{{ documents|length }} élément(s)</span>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Catégorie</th>
+                    <th>Référence</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for document in documents %}
+                    <tr>
+                        <td><b>{{ document.title }}</b></td>
+                        <td><span class="badge">{{ document.category }}</span></td>
+                        <td>{{ document.reference }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3" class="empty">Aucun document enregistré.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}
+
+</body>
+</html>

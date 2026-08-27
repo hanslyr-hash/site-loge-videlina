@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Tableau de bord</title>
+
+{% extends 'base_member.html' %}
+{% block heading %}Tableau de bord{% endblock %}
+{% block content %}
+   
+<section class="stats">
+
+    <article>
+        <b>{{ counts.members }}</b>
+        <span>Membres actifs</span>
+    </article>
+
+    <article>
+        <b>{{ counts.meetings }}</b>
+        <span>Réunions à venir</span>
+    </article>
+
+    <article>
+        <b>{{ counts.documents }}</b>
+        <span>Documents référencés</span>
+    </article>
+
+    <article>
+        <b>{{ counts.news }}</b>
+        <span>Actualités</span>
+    </article>
+
+</section>
+
+    <section class="dashboard-grid">
+        <article class="panel">
+            <div class="panel-title">
+                <h2>Prochaines réunions</h2>
+                <a href="{{ url_for('manage_meetings') }}">Gérer →</a>
+            </div>
+
+            {% for meeting in meetings %}
+                <div class="row">
+                    <b>{{ meeting.meeting_date }}</b>
+                    <span>{{ meeting.title }}<small>{{ meeting.location }}</small></span>
+                </div>
+            {% else %}
+                <p class="empty">Aucune réunion enregistrée.</p>
+            {% endfor %}
+        </article>
+
+        <article class="panel">
+            <div class="panel-title">
+                <h2>Documents récents</h2>
+                <a href="{{ url_for('manage_documents') }}">Gérer →</a>
+            </div>
+            {% for document in documents %}
+                <div class="row">
+                    <b>{{ document.category }}</b>
+                    <span>{{ document.title }}<small>{{ document.reference }}</small></span>
+                </div>
+            {% else %}
+                <p class="empty">Aucun document référencé.</p>
+            {% endfor %}
+        </article>
+        
+    </section>
+{% endblock %}
+</body>
+</html>

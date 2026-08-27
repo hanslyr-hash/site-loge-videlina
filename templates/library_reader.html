@@ -1,0 +1,145 @@
+{% extends "base_member.html" %}
+
+{% block title %}
+Lecture | {{ item.title }}
+{% endblock %}
+
+{% block heading %}
+{{ item.title }}
+{% endblock %}
+
+{% block content %}
+
+<section class="panel">
+
+    <div class="panel-title">
+
+        <div>
+            <span class="badge">
+                {{ item.category }}
+            </span>
+
+            {% if item.author %}
+                <p>
+                    <strong>Auteur :</strong>
+                    {{ item.author }}
+                </p>
+            {% endif %}
+        </div>
+
+        <a
+            href="{{ url_for('download_library_item', item_id=item.id) }}"
+            class="button"
+        >
+            Télécharger
+        </a>
+
+    </div>
+
+    {% if item.file_extension == 'pdf' %}
+
+        <div
+            style="
+                width:100%;
+                height:80vh;
+            "
+        >
+       <div class="library-reader-container">
+
+    <div class="library-reader-toolbar">
+
+        <div>
+            <strong>{{ item.title }}</strong>
+
+            {% if item.author %}
+                <small>{{ item.author }}</small>
+            {% endif %}
+        </div>
+
+        <button
+            type="button"
+            class="button"
+            id="fullscreen-button"
+        >
+            Plein écran
+        </button>
+
+    </div>
+
+    <div class="library-reader">
+
+        <iframe
+            id="library-pdf"
+            src="{{ url_for('library_file', item_id=item.id) }}"
+            title="{{ item.title }}"
+            allowfullscreen
+        ></iframe>
+
+    </div>
+
+</div>
+
+    {% else %}
+
+        <div class="panel">
+
+            <h2>Ouvrage EPUB</h2>
+
+            <p>
+                La lecture intégrée des fichiers EPUB sera ajoutée
+                dans une prochaine étape.
+            </p>
+
+            <a
+                href="{{ url_for('download_library_item', item_id=item.id) }}"
+                class="button"
+            >
+                Télécharger l'EPUB
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</section>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const button = document.getElementById("fullscreen-button");
+    const reader = document.querySelector(".library-reader");
+
+    if (!button || !reader) {
+        return;
+    }
+
+    button.addEventListener("click", function () {
+
+        if (!document.fullscreenElement) {
+
+            if (reader.requestFullscreen) {
+                reader.requestFullscreen();
+            }
+
+        } else {
+
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+
+        }
+
+    });
+
+    document.addEventListener("fullscreenchange", function () {
+
+        if (document.fullscreenElement) {
+            button.textContent = "Quitter le plein écran";
+        } else {
+            button.textContent = "Plein écran";
+        }
+
+    });
+
+});
+</script>
+{% endblock %}

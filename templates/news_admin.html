@@ -1,0 +1,248 @@
+{% extends "base_member.html" %}
+
+{% block title %}
+Administration | Actualités VIDELINA
+{% endblock %}
+
+{% block heading %}
+Actualités VIDELINA
+{% endblock %}
+
+{% block content %}
+
+<section class="panel">
+
+    <div class="panel-title">
+
+        <div>
+            <h2>Publier une actualité</h2>
+
+            <p>
+                Créez et gérez les publications de la Loge.
+            </p>
+        </div>
+
+        <span>
+            {{ news|length }} publication(s)
+        </span>
+
+    </div>
+
+
+    <form
+    method="post"
+    enctype="multipart/form-data"
+    >
+
+        <label>
+            Titre
+
+            <input
+                type="text"
+                name="title"
+                required
+                placeholder="Titre de l'actualité"
+            >
+        </label>
+
+
+        <label>
+            Catégorie
+
+            <select name="category" required>
+
+                <option value="">
+                    Choisir une catégorie
+                </option>
+
+                <option>Vie de la Loge</option>
+                <option>Événement</option>
+                <option>Conférence</option>
+                <option>Symbolisme</option>
+                <option>Philosophie</option>
+                <option>Culture</option>
+                <option>Annonce</option>
+                <option>Autre</option>
+
+            </select>
+
+        </label>
+
+
+        <label>
+            Résumé
+
+            <textarea
+                name="excerpt"
+                rows="3"
+                placeholder="Court résumé de l'actualité..."
+            ></textarea>
+
+        </label>
+
+
+        <label>
+            Contenu
+
+            <textarea
+                name="content"
+                rows="10"
+                required
+                placeholder="Rédigez le contenu complet de l'actualité..."
+            ></textarea>
+
+        </label>
+
+        <label>
+    Image de couverture
+
+    <input
+        type="file"
+        name="image"
+        accept=".jpg,.jpeg,.png,.webp"
+    >
+
+    <small>
+        Formats acceptés : JPG, JPEG, PNG, WebP.
+        Taille maximale : 20 Mo.
+    </small>
+    </label>
+
+        <label>
+            Statut
+
+            <select name="status">
+
+                <option value="Brouillon">
+                    Brouillon
+                </option>
+
+                <option value="Publié">
+                    Publier immédiatement
+                </option>
+
+            </select>
+
+        </label>
+
+
+        <button type="submit">
+            Enregistrer l'actualité
+        </button>
+
+    </form>
+
+</section>
+
+
+<section class="panel">
+
+    <div class="panel-title">
+
+        <div>
+            <h2>Publications</h2>
+        </div>
+
+    </div>
+
+
+    {% for item in news %}
+
+<div class="library-actions">
+
+    <a
+        href="{{ url_for('edit_news', news_id=item.id) }}"
+        class="button"
+    >
+        Modifier
+    </a>
+
+    {% if item.status == "Publié" %}
+
+        <a
+            href="{{ url_for('news_detail', news_id=item.id) }}"
+            class="button"
+        >
+            Voir
+        </a>
+
+    {% endif %}
+
+
+    <form
+        method="post"
+        action="{{ url_for(
+            'delete_news',
+            news_id=item.id
+        ) }}"
+        onsubmit="return confirm(
+            'Voulez-vous vraiment supprimer cette actualité ?'
+        );"
+    >
+
+        <button
+            type="submit"
+            class="button danger"
+        >
+            Supprimer
+        </button>
+
+    </form>
+
+</div>
+
+{% if item.image_name %}
+
+    <img
+        src="{{ url_for(
+            'static',
+            filename='news/' ~ item.image_name
+        ) }}"
+        alt="{{ item.title }}"
+        style="
+            width:100%;
+            max-height:240px;
+            object-fit:cover;
+            margin-bottom:18px;
+        "
+    >
+
+{% endif %}
+
+        <article class="row">
+
+            <b>
+                {{ item.category }}
+            </b>
+
+            <span>
+
+                <strong>
+                    {{ item.title }}
+                </strong>
+
+                <small>
+
+                    {{ item.status }}
+
+                    {% if item.published_at %}
+                        · {{ item.published_at.strftime('%d/%m/%Y') }}
+                    {% endif %}
+
+                </small>
+
+            </span>
+
+        </article>
+
+    {% else %}
+
+        <p class="empty">
+            Aucune actualité enregistrée.
+        </p>
+
+    {% endfor %}
+
+</section>
+
+{% endblock %}

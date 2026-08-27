@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Réunions</title>
+
+{% extends 'base_member.html' %}
+{% block heading %}Réunions{% endblock %}{% block content %}{% if session.member_role == 'Administrateur' %}
+
+<section class="panel">
+    <h2>Planifier une réunion</h2>
+    <form method="post" class="admin-form three">
+        <label>Intitulé<input required name="title" placeholder="Tenue mensuelle"></label>
+        <label>Date<input required type="date" name="meeting_date"></label>
+        <label>Lieu<input required name="location" placeholder="Temple / salle"></label>
+        <label class="wide">Notes
+            <textarea name="notes" rows="3" placeholder="Informations réservées aux membres"></textarea>
+        </label>
+        <button>Enregistrer la réunion</button>
+    </form>
+</section>{% endif %}<section class="panel table-panel">
+    
+    <div class="panel-title">
+        <h2>Calendrier</h2>
+        <span>{{ meetings|length }} réunion(s)</span>
+    
+    </div>
+    
+    <table>
+        <thead>
+            <tr><th>Date</th><th>Réunion</th><th>Lieu</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+            {% for meeting in meetings %}
+            <tr>
+                <td>{{ meeting.meeting_date }}</td>
+                <td><b>{{ meeting.title }}</b></td>
+                <td>{{ meeting.location }}</td>
+                <td>{{ meeting.notes or '—' }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4" class="empty">Aucune réunion enregistrée.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>{% endblock %}
+
+  </body>
+</html>
