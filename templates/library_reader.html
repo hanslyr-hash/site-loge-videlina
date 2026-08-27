@@ -10,9 +10,9 @@ Lecture | {{ item.title }}
 
 {% block content %}
 
-<section class="panel">
+<section class="panel library-reader-page">
 
-    <div class="panel-title">
+    <div class="panel-title library-reader-header">
 
         <div>
             <span class="badge">
@@ -27,57 +27,91 @@ Lecture | {{ item.title }}
             {% endif %}
         </div>
 
-        <a
-            href="{{ url_for('download_library_item', item_id=item.id) }}"
-            class="button"
-        >
-            Télécharger
-        </a>
+        <div class="library-reader-actions">
+
+            <a
+                href="{{ url_for('download_library_item', item_id=item.id) }}"
+                class="button"
+            >
+                Télécharger
+            </a>
+
+            {% if item.file_extension == 'pdf' %}
+                <a
+                    href="{{ url_for('library_file', item_id=item.id) }}"
+                    class="button mobile-pdf-button"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Ouvrir le PDF
+                </a>
+            {% endif %}
+
+        </div>
 
     </div>
+
 
     {% if item.file_extension == 'pdf' %}
 
-        <div
-            style="
-                width:100%;
-                height:80vh;
-            "
-        >
-       <div class="library-reader-container">
+        <div class="library-reader-container">
 
-    <div class="library-reader-toolbar">
+            <div class="library-reader-toolbar">
 
-        <div>
-            <strong>{{ item.title }}</strong>
+                <div class="library-reader-info">
 
-            {% if item.author %}
-                <small>{{ item.author }}</small>
-            {% endif %}
+                    <strong>{{ item.title }}</strong>
+
+                    {% if item.author %}
+                        <small>{{ item.author }}</small>
+                    {% endif %}
+
+                </div>
+
+                <button
+                    type="button"
+                    class="button"
+                    id="fullscreen-button"
+                >
+                    Plein écran
+                </button>
+
+            </div>
+
+
+            <div class="library-reader">
+
+                <iframe
+                    id="library-pdf"
+                    src="{{ url_for('library_file', item_id=item.id) }}"
+                    title="{{ item.title }}"
+                    allow="fullscreen"
+                ></iframe>
+
+            </div>
+
+
+            <div class="mobile-pdf-help">
+
+                <p>
+                    📱 Sur téléphone, si le document ne s'affiche pas
+                    directement, utilisez le bouton
+                    <strong>« Ouvrir le PDF »</strong>.
+                </p>
+
+                <a
+                    href="{{ url_for('library_file', item_id=item.id) }}"
+                    class="button"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    📖 Lire le PDF sur le téléphone
+                </a>
+
+            </div>
+
         </div>
 
-        <button
-            type="button"
-            class="button"
-            id="fullscreen-button"
-        >
-            Plein écran
-        </button>
-
-    </div>
-
-    <div class="library-reader">
-
-        <iframe
-            id="library-pdf"
-            src="{{ url_for('library_file', item_id=item.id) }}"
-            title="{{ item.title }}"
-            allowfullscreen
-        ></iframe>
-
-    </div>
-
-</div>
 
     {% else %}
 
@@ -102,15 +136,22 @@ Lecture | {{ item.title }}
     {% endif %}
 
 </section>
+
+
 <script>
+
 document.addEventListener("DOMContentLoaded", function () {
 
-    const button = document.getElementById("fullscreen-button");
-    const reader = document.querySelector(".library-reader");
+    const button =
+        document.getElementById("fullscreen-button");
+
+    const reader =
+        document.querySelector(".library-reader");
 
     if (!button || !reader) {
         return;
     }
+
 
     button.addEventListener("click", function () {
 
@@ -130,16 +171,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
 
-    document.addEventListener("fullscreenchange", function () {
 
-        if (document.fullscreenElement) {
-            button.textContent = "Quitter le plein écran";
-        } else {
-            button.textContent = "Plein écran";
+    document.addEventListener(
+        "fullscreenchange",
+        function () {
+
+            if (document.fullscreenElement) {
+
+                button.textContent =
+                    "Quitter le plein écran";
+
+            } else {
+
+                button.textContent =
+                    "Plein écran";
+
+            }
+
         }
-
-    });
+    );
 
 });
+
 </script>
+
 {% endblock %}
