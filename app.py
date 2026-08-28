@@ -13,6 +13,8 @@ from psycopg.errors import UniqueViolation
 from dotenv import load_dotenv
 from supabase import create_client
 
+# -*- coding: utf-8 -*-
+
 from flask import (
     Flask,
     Response,
@@ -663,6 +665,12 @@ def dashboard():
 @admin_required
 def manage_members():
 
+    database = db()
+
+    # -----------------------------------------------------
+    # AJOUT D'UN MEMBRE
+    # -----------------------------------------------------
+
     if request.method == "POST":
 
         name = request.form.get(
@@ -699,7 +707,7 @@ def manage_members():
             "Compagnon",
             "Maître",
             "Maître Secret",
-            "Grand Elu, Parfait et Sublime Macon",
+            "Grand Elu, Parfait et Sublime Maçon",
             "Chevalier Rose-Croix",
             "CKS"
         )
@@ -722,7 +730,7 @@ def manage_members():
 
             try:
 
-                db().execute(
+                database.execute(
                     """
                     INSERT INTO members
                     (
@@ -743,7 +751,7 @@ def manage_members():
                     )
                 )
 
-                db().commit()
+                database.commit()
 
                 flash(
                     "Membre ajouté.",
@@ -752,16 +760,47 @@ def manage_members():
 
             except UniqueViolation:
 
-                db().rollback()
+                database.rollback()
 
                 flash(
                     "Cette adresse e-mail est déjà utilisée.",
                     "error"
                 )
 
-    return render_template(
-        "members.html",
-        members=db().execute(
+    # -----------------------------------------------------
+    # RECHERCHE D'UN MEMBRE
+    # -----------------------------------------------------
+
+    search = request.args.get(
+        "q",
+        ""
+    ).strip()
+
+    if search:
+
+        members = database.execute(
+            """
+            SELECT
+                id,
+                name,
+                email,
+                role,
+                grade,
+                status
+            FROM members
+            WHERE name ILIKE %s
+                or email ILIKE %s
+            ORDER BY name
+            """,
+            (
+                f"%{search}%",
+                f"%{search}%"
+            )
+        ).fetchall()
+
+    else:
+
+        members = database.execute(
             """
             SELECT
                 id,
@@ -774,11 +813,54 @@ def manage_members():
             ORDER BY name
             """
         ).fetchall()
+
+    return render_template(
+        "members.html",
+        members=members,
+        search=search
     )
 
 # =========================================================
-# ACTIVATION / DÉSACTIVATION
+# FICHE DÉTAILLÉE D'UN MEMBRE
 # =========================================================
+
+@app.get("/membres/<int:member_id>")
+@login_required
+@admin_required
+def member_detail(member_id):
+
+    database = db()
+
+    member = database.execute(
+        """
+        SELECT
+            id,
+            name,
+            email,
+            role,
+            grade,
+            status
+        FROM members
+        WHERE id = %s
+        """,
+        (member_id,)
+    ).fetchone()
+
+    if member is None:
+
+        flash(
+            "Membre introuvable.",
+            "error"
+        )
+
+        return redirect(
+            url_for("manage_members")
+        )
+
+    return render_template(
+        "member_detail.html",
+        member=member
+    )
 
 # =========================================================
 # ACTIVATION / DÉSACTIVATION
@@ -828,8 +910,6 @@ def toggle_member_status(member_id):
     return redirect(
         url_for("manage_members")
     )
-
-
 # =========================================================
 # MODIFICATION DU GRADE D'UN MEMBRE
 # =========================================================
@@ -1821,31 +1901,177 @@ def library():
                 url_for("library")
             )
 
-
         # =====================================================
-        # ENREGISTREMENT DU FICHIER
+        # ENREGISTREMENT DU FICHIER — SUPABASE STORAGE
         # =====================================================
 
         stored_name = (
             f"{uuid.uuid4().hex}.{extension}"
         )
 
-        library_folder = (
-            app.config["LIBRARY_FOLDER"]
+        if not SUPABASE_URL or not SUPABASE_SERVICE_KEY:
+
+            flash(
+                "Le stockage Supabase n'est pas configuré.",
+                "error"
+            )
+
+            return redirect(
+                url_for("library")
+            )
+
+        try:
+
+            # Lire le fichier envoyé
+            uploaded.stream.seek(0)
+            file_data = uploaded.read()
+
+            if not file_data:
+
+                flash(
+                    "Le fichier envoyé est vide.",
+                    "error"
+                )
+
+                return redirect(
+                    url_for("library")
+                )
+
+            # =================================================
+            # ENVOI VERS SUPABASE STORAGE
+            # =================================================
+
+            storage_url = (
+                f"{SUPABASE_URL}/storage/v1/object/"
+                f"{SUPABASE_LIBRARY_BUCKET}/{stored_name}"
+            )
+
+            content_type = (
+                "application/pdf"
+                if extension == "pdf"
+                else "application/epub+zip"
+            )
+
+            headers = {
+                "Authorization": (
+                    f"Bearer {SUPABASE_SERVICE_KEY}"
+                ),
+                "apikey": SUPABASE_SERVICE_KEY,
+                "Content-Type": content_type,
+            }
+
+            response = httpx.post(
+                storage_url,
+                headers=headers,
+                content=file_data,
+                timeout=120.0
+            )
+
+            if response.status_code not in (200, 201):
+
+                app.logger.error(
+                    "Erreur Supabase Storage HTTP %s : %s",
+                    response.status_code,
+                    response.text[:500]
+                )
+
+                flash(
+                    "Impossible d'envoyer le livre vers Supabase.",
+                    "error"
+                )
+
+                return redirect(
+                    url_for("library")
+                )
+
+            # =================================================
+            # ENREGISTREMENT DANS NEON
+            # =================================================
+
+            try:
+
+                db().execute(
+                    """
+                    INSERT INTO library_items
+                    (
+                        title,
+                        author,
+                        category,
+                        description,
+                        stored_name,
+                        original_name,
+                        file_extension,
+                        access_grade
+                    )
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                    """,
+                    (
+                        title,
+                        author,
+                        category,
+                        description,
+                        stored_name,
+                        original_name,
+                        extension,
+                        access_grade
+                    )
+                )
+
+                db().commit()
+
+            except Exception:
+
+                db().rollback()
+
+                # Supprimer le fichier de Supabase
+                # si l'enregistrement Neon échoue.
+
+                delete_url = (
+                    f"{SUPABASE_URL}/storage/v1/object/"
+                    f"{SUPABASE_LIBRARY_BUCKET}/{stored_name}"
+                )
+
+                try:
+
+                    httpx.delete(
+                        delete_url,
+                        headers={
+                            "Authorization": (
+                                f"Bearer {SUPABASE_SERVICE_KEY}"
+                            ),
+                            "apikey": SUPABASE_SERVICE_KEY,
+                        },
+                        timeout=30.0
+                    )
+
+                except Exception:
+
+                    app.logger.exception(
+                        "Impossible de supprimer le fichier "
+                        "Supabase après échec Neon."
+                    )
+
+                raise
+
+            flash(
+                "Ouvrage ajouté avec succès.",
+                "success"
+            )
+
+        except Exception:
+
+            app.logger.exception(
+                "Erreur lors de l'ajout du livre dans Supabase."
+            )
+
+            flash(
+                "Une erreur est survenue lors de l'ajout du livre.",
+                "error"
+            )
+
+        return redirect(
+            url_for("library")
         )
-
-        library_folder.mkdir(
-            parents=True,
-            exist_ok=True
-        )
-
-        file_path = (
-            library_folder
-            / stored_name
-        )
-
-        uploaded.save(file_path)
-
 
         # =====================================================
         # ENREGISTREMENT EN BASE

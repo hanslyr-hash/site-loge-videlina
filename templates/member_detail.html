@@ -1,0 +1,110 @@
+{% extends "base_member.html" %}
+
+{% block title %}
+Fiche membre | Videlina
+{% endblock %}
+
+{% block heading %}
+Fiche du membre
+{% endblock %}
+
+{% block content %}
+
+<section class="panel member-profile-card">
+
+    <div class="member-profile-header">
+
+        <div class="member-avatar">
+            {{ member.name[0]|upper }}
+        </div>
+
+        <div>
+            <p class="eyebrow">
+                Respectable Loge Mixte VIDELINA
+            </p>
+
+            <h2>
+                {{ member.name }}
+            </h2>
+
+            <span class="badge {{ member.status|lower }}">
+                {{ member.status }}
+            </span>
+        </div>
+
+    </div>
+
+
+    <div class="member-profile-grid">
+
+        <div class="member-info">
+
+            <span>Nom complet</span>
+
+            <strong>
+                {{ member.name }}
+            </strong>
+
+        </div>
+
+
+        <div class="member-info">
+
+            <span>Adresse e-mail</span>
+
+            <strong>
+                {{ member.email }}
+            </strong>
+
+        </div>
+
+
+        <div class="member-info">
+
+            <span>Fonction</span>
+
+            <strong>
+                {{ member.role }}
+            </strong>
+
+        </div>
+
+
+        <div class="member-info">
+
+            <span>Grade</span>
+
+            <strong>
+                {{ member.grade }}
+            </strong>
+
+        </div>
+
+
+        <div class="member-info">
+
+            <span>Statut</span>
+
+            <strong>
+                {{ member.status }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="member-profile-actions">
+
+        <a
+            href="{{ url_for('manage_members') }}"
+            class="button"
+        >
+            ← Retour à l'annuaire
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}

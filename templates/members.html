@@ -135,11 +135,65 @@ Gestion des membres
 </section>
 
 
+   <!-- RECHERCHE DES MEMBRES -->
+
+<form
+    method="get"
+    action="{{ url_for('manage_members') }}"
+    class="member-search"
+>
+
+    <div class="search-input">
+
+        <span>🔎</span>
+
+        <input
+            type="search"
+            name="q"
+            value="{{ search }}"
+            placeholder="Rechercher par nom ou e-mail..."
+            autocomplete="off"
+        >
+
+    </div>
+
+    <button type="submit">
+        Rechercher
+    </button>
+
+    {% if search %}
+
+    <a
+        href="{{ url_for('manage_members') }}"
+        class="small-button"
+    >
+        Réinitialiser
+    </a>
+
+    {% endif %}
+
+</form>
+
+{% if search %}
+
+<p class="search-result">
+
+    Résultats pour :
+    <strong>{{ search }}</strong>
+
+    — {{ members|length }} membre(s)
+
+</p>
+
+{% endif %}
+
+    <table>
+
 <section class="panel table-panel">
 
     <div class="panel-title">
 
-        <h2>Liste des membres</h2>
+        <h2>Annuaire des membres</h2>
 
         <span>
             {{ members|length }} inscrit(s)
@@ -177,9 +231,14 @@ Gestion des membres
 
                 <td>
 
-                    <b>
-                        {{ member.name }}
-                    </b>
+                    <a
+    href="{{ url_for('member_detail', member_id=member.id) }}"
+    class="member-name-link"
+>
+    <b>
+        {{ member.name }}
+    </b>
+</a>
 
                     <small>
                         {{ member.email }}
