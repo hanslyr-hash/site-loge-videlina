@@ -1,63 +1,324 @@
 <!doctype html>
 <html lang="fr">
-    <head><meta charset="utf-8">
 
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        
-        <title>{% block title %}Espace membre | Videlina{% endblock %}</title>
-        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="{{ url_for('static', filename='member.css') }}">
-    
-    </head>
-    
-    <body>
-        <aside>
-            <a class="member-brand" href="{{ url_for('dashboard') }}">
-                
-                <span>V</span>
-                <b>VIDELINA
-                    <small>ESPACE MEMBRE</small>
-                </b>
+<head>
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>
+        {% block title %}Espace membre | Videlina{% endblock %}
+    </title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='member.css') }}"
+    >
+</head>
+
+<body>
+
+    <aside>
+
+        <a
+            class="member-brand"
+            href="{{ url_for('dashboard') }}"
+        >
+            <span>V</span>
+
+            <b>
+                VIDELINA
+                <small>ESPACE MEMBRE</small>
+            </b>
+        </a>
+
+        <nav>
+
+            <a href="{{ url_for('dashboard') }}">
+                Tableau de bord
             </a>
-            
-            <nav>
-                <a href="{{ url_for('dashboard') }}">Tableau de bord</a>
-                {% if session.member_role == 'Administrateur' %}
-                <a href="{{ url_for('manage_members') }}">Membres</a>
-                
-                {% endif %}
 
-                <a href="{{ url_for('manage_meetings') }}">Réunions</a>
-                <a href="{{ url_for('manage_documents') }}">Documents</a>
+            {% if session.member_role == 'Administrateur' %}
 
-                {% if session.member_role == 'Administrateur' %}
-                 <a href="{{ url_for('manage_news') }}">Actualités</a>
-                {% endif %}
-                
-               <a href="{{ url_for('library') }}">Bibliothèque</a>
-               <a href="{{ url_for('change_password') }}">🔐 Changer mon mot de passe</a>
-               <a href="{{ url_for('home') }}">Site public</a>
-                
-            </nav>
-            <a class="logout" href="{{ url_for('logout') }}">Déconnexion</a>
-        </aside>
-        <main class="member-main">
-            <header>
-                <div>
-                    <p class="eyebrow">Respectable Loge Mixte VIDELINA</p>
-                    <h1>{% block heading %}Espace membre{% endblock %}</h1>
+            <a href="{{ url_for('manage_members') }}">
+                Membres
+            </a>
+
+            {% endif %}
+
+            <a href="{{ url_for('manage_meetings') }}">
+                Réunions
+            </a>
+
+            <a href="{{ url_for('manage_documents') }}">
+                Documents
+            </a>
+
+            {% if session.member_role == 'Administrateur' %}
+
+            <a href="{{ url_for('manage_news') }}">
+                Actualités
+            </a>
+
+            {% endif %}
+
+            <a href="{{ url_for('library') }}">
+                Bibliothèque
+            </a>
+
+            <a href="{{ url_for('change_password') }}">
+                🔐 Changer mon mot de passe
+            </a>
+
+            <a href="{{ url_for('home') }}">
+                Site public
+            </a>
+
+        </nav>
+
+        <a
+            class="logout"
+            href="{{ url_for('logout') }}"
+        >
+            Déconnexion
+        </a>
+
+    </aside>
+
+
+    <main class="member-main">
+
+        <header>
+
+            <div>
+
+                <p class="eyebrow">
+                    Respectable Loge Mixte VIDELINA
+                </p>
+
+                <h1>
+                    {% block heading %}
+                        Espace membre
+                    {% endblock %}
+                </h1>
+
+            </div>
+
+
+            <!-- =================================================
+                 ACTIONS DU HEADER
+                 ================================================= -->
+
+            <div class="header-actions">
+
+
+                <!-- =================================================
+                     NOTIFICATIONS
+                     ================================================= -->
+
+                <div class="notification-wrapper">
+
+                    <button
+                        type="button"
+                        class="notification-button"
+                        onclick="toggleNotifications()"
+                        aria-label="Notifications"
+                    >
+
+                        🔔
+
+                        {% if unread_notifications_count > 0 %}
+
+                        <span class="notification-badge">
+                            {{ unread_notifications_count }}
+                        </span>
+
+                        {% endif %}
+
+                    </button>
+
+
+                    <!-- PANNEAU DES NOTIFICATIONS -->
+
+                    <div
+                        id="notification-panel"
+                        class="notification-panel"
+                    >
+
+                        <div class="notification-header">
+
+                            <b>
+                                Notifications
+                            </b>
+
+                            {% if unread_notifications_count > 0 %}
+
+                            <span>
+                                {{ unread_notifications_count }}
+                                non lue(s)
+                            </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        {% if notifications %}
+
+                            {% for notification in notifications %}
+
+                            <a
+                                href="{{ url_for(
+                                    'read_notification',
+                                    notification_id=notification.id
+                                ) }}"
+                                class="notification-item
+                                {% if not notification.is_read %}
+                                    unread
+                                {% endif %}"
+                            >
+
+                                <strong>
+                                    {{ notification.title }}
+                                </strong>
+
+                                <span>
+                                    {{ notification.message }}
+                                </span>
+
+                                <small>
+                                    {{ notification.created_at.strftime('%d/%m/%Y %H:%M') }}
+                                </small>
+
+                            </a>
+
+                            {% endfor %}
+
+                        {% else %}
+
+                            <div class="notification-empty">
+
+                                Aucune notification.
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
                 </div>
+
+
+                <!-- =================================================
+                     PROFIL
+                     ================================================= -->
+
                 <div class="profile">
-                    <b>{{ session.member_name }}</b>
-                    <small>{{ session.member_role }}</small>
+
+                    <b>
+                        {{ session.member_name }}
+                    </b>
+
+                    <small>
+                        {{ session.member_role }}
+                    </small>
+
                 </div>
-            </header>
-            {% with messages=get_flashed_messages(with_categories=true) %}
-                {% for category,message in messages %}
-                    <div class="flash {{ category }}">{{ message }}</div>
-                {% endfor %}
-            {% endwith %}
-            {% block content %}{% endblock %}
-        </main>
-    </body>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             MESSAGES FLASH
+             ================================================= -->
+
+        {% with messages = get_flashed_messages(
+            with_categories=true
+        ) %}
+
+            {% for category, message in messages %}
+
+                <div class="flash {{ category }}">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endwith %}
+
+
+        <!-- =================================================
+             CONTENU DES PAGES
+             ================================================= -->
+
+        {% block content %}
+
+        {% endblock %}
+
+
+    </main>
+
+
+    <!-- =========================================================
+         JAVASCRIPT — NOTIFICATIONS
+         ========================================================= -->
+
+    <script>
+
+        function toggleNotifications() {
+
+            const panel =
+                document.getElementById(
+                    "notification-panel"
+                );
+
+            if (panel) {
+
+                panel.classList.toggle("show");
+
+            }
+
+        }
+
+
+        // Fermer le panneau lorsqu'on clique ailleurs
+
+        document.addEventListener(
+            "click",
+            function(event) {
+
+                const wrapper =
+                    document.querySelector(
+                        ".notification-wrapper"
+                    );
+
+                const panel =
+                    document.getElementById(
+                        "notification-panel"
+                    );
+
+                if (
+                    wrapper &&
+                    panel &&
+                    !wrapper.contains(event.target)
+                ) {
+
+                    panel.classList.remove("show");
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
 </html>

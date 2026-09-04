@@ -715,3 +715,207 @@ button.button {
 .member-name-link:hover {
     color: var(--gold);
 }
+
+/* =========================================================
+   NOTIFICATIONS VIDELINA
+   ========================================================= */
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.notification-wrapper {
+    position: relative;
+}
+
+.notification-button {
+    position: relative;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    display: grid;
+    place-items: center;
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    font-size: 20px;
+    cursor: pointer;
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        color .2s ease;
+}
+
+.notification-button:hover {
+    background: var(--cream);
+    border-color: var(--gold);
+    color: var(--gold);
+}
+
+.notification-badge {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    min-width: 20px;
+    height: 20px;
+    padding: 2px 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--gold);
+    color: #fff;
+    font: 600 10px var(--sans);
+    line-height: 1;
+}
+
+
+/* ---------------------------------------------------------
+   PANNEAU DES NOTIFICATIONS
+   --------------------------------------------------------- */
+
+.notification-panel {
+    position: absolute;
+    top: 52px;
+    right: 0;
+    width: 360px;
+    max-width: calc(100vw - 30px);
+    max-height: 470px;
+    overflow-y: auto;
+
+    background: #fff;
+    border: 1px solid var(--line);
+
+    box-shadow:
+        0 15px 40px rgba(20, 32, 32, .15);
+
+    display: none;
+    z-index: 1000;
+}
+
+.notification-panel.show {
+    display: block;
+}
+
+
+/* ---------------------------------------------------------
+   EN-TÊTE DES NOTIFICATIONS
+   --------------------------------------------------------- */
+
+.notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 16px 18px;
+
+    border-bottom: 1px solid var(--line);
+    background: var(--cream);
+}
+
+.notification-header b {
+    font: 600 18px var(--serif);
+}
+
+.notification-header span {
+    color: var(--muted);
+    font-size: 10px;
+}
+
+
+/* ---------------------------------------------------------
+   NOTIFICATION
+   --------------------------------------------------------- */
+
+.notification-item {
+    display: block;
+
+    padding: 16px 18px;
+
+    color: var(--ink);
+    text-decoration: none;
+
+    border-bottom: 1px solid #eee9e0;
+
+    transition:
+        background .2s ease;
+}
+
+.notification-item:hover {
+    background: #faf8f3;
+}
+
+.notification-item.unread {
+    background: #fffaf0;
+    border-left: 3px solid var(--gold);
+}
+
+.notification-item strong {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font: 600 16px var(--serif);
+    color: var(--ink);
+}
+
+.notification-item span {
+    display: block;
+
+    color: #5b625c;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.notification-item small {
+    display: block;
+
+    margin-top: 8px;
+
+    color: var(--muted);
+    font-size: 10px;
+}
+
+
+/* ---------------------------------------------------------
+   AUCUNE NOTIFICATION
+   --------------------------------------------------------- */
+
+.notification-empty {
+    padding: 30px 20px;
+
+    text-align: center;
+
+    color: var(--muted);
+    font-size: 13px;
+}
+
+
+/* ---------------------------------------------------------
+   MOBILE
+   --------------------------------------------------------- */
+
+@media (max-width: 600px) {
+
+    .header-actions {
+        gap: 10px;
+    }
+
+    .notification-button {
+        width: 38px;
+        height: 38px;
+        font-size: 18px;
+    }
+
+    .notification-panel {
+        position: fixed;
+        top: 75px;
+        right: 15px;
+        width: calc(100vw - 30px);
+        max-width: none;
+        max-height: 70vh;
+    }
+
+}

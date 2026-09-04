@@ -1,0 +1,83 @@
+{% extends 'base_member.html' %}
+
+{% block heading %}Modifier la réunion{% endblock %}
+
+{% block content %}
+
+<section class="panel">
+
+    <h2>Modifier la réunion</h2>
+
+    <form
+        method="post"
+        class="admin-form three"
+    >
+
+        <label>
+            Intitulé
+
+            <input
+                required
+                name="title"
+                value="{{ meeting.title }}"
+                placeholder="Tenue mensuelle"
+            >
+        </label>
+
+
+        <label>
+            Date
+
+            <input
+                required
+                type="date"
+                name="meeting_date"
+                value="{{ meeting.meeting_date }}"
+            >
+        </label>
+
+
+        <label>
+            Lieu
+
+            <input
+                required
+                name="location"
+                value="{{ meeting.location }}"
+                placeholder="Temple / salle"
+            >
+        </label>
+
+
+        <label class="wide">
+            Notes
+
+            <textarea
+                name="notes"
+                rows="4"
+                placeholder="Informations réservées aux membres"
+            >{{ meeting.notes or '' }}</textarea>
+
+        </label>
+
+
+        <div class="form-actions">
+
+            <button type="submit">
+                💾 Enregistrer les modifications
+            </button>
+
+            <a
+                href="{{ url_for('manage_meetings') }}"
+                class="btn-cancel"
+            >
+                ↩️ Annuler
+            </a>
+
+        </div>
+
+    </form>
+
+</section>
+
+{% endblock %}
