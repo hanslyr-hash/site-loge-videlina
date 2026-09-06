@@ -1,0 +1,117 @@
+{% extends "base_member.html" %}
+
+{% block title %}
+Répondre au visiteur
+{% endblock %}
+
+{% block heading %}
+Répondre au visiteur
+{% endblock %}
+
+{% block content %}
+
+<div class="admin-card">
+
+    <div class="admin-card-header">
+
+        <div>
+            <p class="eyebrow gold">
+                Message visiteur
+            </p>
+
+            <h2>
+                Répondre à {{ message.name }}
+            </h2>
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MESSAGE ORIGINAL
+         ===================================================== -->
+
+    <div class="contact-original-message">
+
+        <div class="contact-message-meta">
+
+            <strong>
+                {{ message.name }}
+            </strong>
+
+            <span>
+                {{ message.email }}
+            </span>
+
+        </div>
+
+
+        <div class="contact-message-subject">
+
+            <strong>
+                Objet :
+            </strong>
+
+            {{ message.subject }}
+
+        </div>
+
+
+        <div class="contact-message-content">
+
+            {{ message.message }}
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         FORMULAIRE DE RÉPONSE
+         ===================================================== -->
+
+    <form
+        method="post"
+        class="contact-reply-form"
+    >
+
+        <label for="reply_message">
+
+            Votre réponse
+
+        </label>
+
+        <textarea
+            id="reply_message"
+            name="reply_message"
+            rows="10"
+            required
+            placeholder="Écrivez votre réponse au visiteur..."
+        ></textarea>
+
+
+        <div class="contact-reply-actions">
+
+            <button
+                type="submit"
+                class="button"
+            >
+                Envoyer la réponse
+                <span>→</span>
+            </button>
+
+
+            <a
+                href="{{ url_for('manage_contact_messages') }}"
+                class="button secondary"
+            >
+                Annuler
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

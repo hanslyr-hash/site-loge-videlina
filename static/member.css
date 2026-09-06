@@ -919,3 +919,27 @@ button.button {
     }
 
 }
+
+/* =========================================================
+   BADGE MESSAGES VISITEURS
+   ========================================================= */
+
+.message-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 22px;
+    height: 22px;
+
+    margin-left: 8px;
+    padding: 0 6px;
+
+    border-radius: 50%;
+
+    font-size: 0.75rem;
+    font-weight: 700;
+
+    background: #b08d57;
+    color: #ffffff;
+}

@@ -37,49 +37,68 @@
             </b>
         </a>
 
-        <nav>
+    <nav>
 
-            <a href="{{ url_for('dashboard') }}">
-                Tableau de bord
-            </a>
+    <a href="{{ url_for('dashboard') }}">
+        Tableau de bord
+    </a>
 
-            {% if session.member_role == 'Administrateur' %}
+    {% if session.member_role == 'Administrateur' %}
 
-            <a href="{{ url_for('manage_members') }}">
-                Membres
-            </a>
+    <a href="{{ url_for('manage_members') }}">
+        Membres
+    </a>
 
-            {% endif %}
+    {% endif %}
 
-            <a href="{{ url_for('manage_meetings') }}">
-                Réunions
-            </a>
 
-            <a href="{{ url_for('manage_documents') }}">
-                Documents
-            </a>
+    <a href="{{ url_for('manage_meetings') }}">
+        Réunions
+    </a>
 
-            {% if session.member_role == 'Administrateur' %}
 
-            <a href="{{ url_for('manage_news') }}">
-                Actualités
-            </a>
+    <a href="{{ url_for('manage_documents') }}">
+        Documents
+    </a>
 
-            {% endif %}
 
-            <a href="{{ url_for('library') }}">
-                Bibliothèque
-            </a>
+    {% if session.member_role == 'Administrateur' %}
 
-            <a href="{{ url_for('change_password') }}">
-                🔐 Changer mon mot de passe
-            </a>
+    <a href="{{ url_for('manage_news') }}">
+        Actualités
+    </a>
 
-            <a href="{{ url_for('home') }}">
-                Site public
-            </a>
+    <a href="{{ url_for('manage_contact_messages') }}">
+        Messages visiteurs
 
-        </nav>
+        {% if unread_contact_messages_count > 0 %}
+
+            <span class="message-badge">
+                {{ unread_contact_messages_count }}
+            </span>
+
+        {% endif %}
+    </a>
+
+    {% endif %}
+    
+
+    <a href="{{ url_for('library') }}">
+        Bibliothèque
+    </a>
+
+
+    <a href="{{ url_for('change_password') }}">
+        🔐 Changer mon mot de passe
+    </a>
+
+
+    <a href="{{ url_for('home') }}">
+        Site public
+    </a>
+
+    </nav>
+
 
         <a
             class="logout"

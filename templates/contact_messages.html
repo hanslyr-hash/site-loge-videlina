@@ -1,0 +1,317 @@
+{% extends "base_member.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <p class="eyebrow">Administration</p>
+        <h1>Messages des visiteurs</h1>
+        <p>
+            Consultez les messages reçus depuis le formulaire
+            de contact du site.
+        </p>
+    </div>
+</div>
+
+
+{% if messages %}
+
+<div class="messages-list">
+
+    {% for message in messages %}
+
+    <article
+        class="message-card {% if not message.is_read %}unread{% endif %}"
+    >
+
+        <div class="message-header">
+
+            <div>
+                <h2>
+                    {{ message.subject }}
+                </h2>
+
+                <p class="message-meta">
+                    <strong>{{ message.name }}</strong>
+                    —
+                    <a href="mailto:{{ message.email }}">
+                        {{ message.email }}
+                    </a>
+                </p>
+            </div>
+
+            <div class="message-date">
+                {{ message.created_at.strftime('%d/%m/%Y à %H:%M') }}
+            </div>
+
+        </div>
+
+
+        <div class="message-body">
+            {{ message.message | e | replace('\n', '<br>') | safe }}
+        </div>
+
+{% if message.reply_message %}
+
+<div class="message-reply">
+
+    <div class="message-reply-header">
+
+        <strong>
+            ✓ Réponse envoyée
+        </strong>
+
+        {% if message.replied_at %}
+        <span>
+            {{ message.replied_at.strftime('%d/%m/%Y à %H:%M') }}
+        </span>
+        {% endif %}
+
+    </div>
+
+    <div class="message-reply-body">
+
+        {{ message.reply_message | e | replace('\n', '<br>') | safe }}
+
+    </div>
+
+</div>
+
+{% endif %}
+
+        <div class="message-actions">
+            <a
+                href="{{ url_for(
+                'reply_contact_message',
+                message_id=message.id
+                ) }}"
+                class="button"
+            >
+                ↩ Répondre
+            </a>
+            {% if not message.is_read %}
+
+            <form
+                method="post"
+                action="{{ url_for(
+                    'read_contact_message',
+                    message_id=message.id
+                ) }}"
+            >
+                <button
+                    type="submit"
+                    class="button"
+                >
+                    ✓ Marquer comme lu
+                </button>
+            </form>
+
+            {% else %}
+
+            <span class="read-label">
+                ✓ Message lu
+            </span>
+
+            {% endif %}
+
+
+            <form
+                method="post"
+                action="{{ url_for(
+                    'delete_contact_message',
+                    message_id=message.id
+                ) }}"
+                onsubmit="return confirm(
+                    'Voulez-vous vraiment supprimer ce message ?'
+                );"
+            >
+                <button
+                    type="submit"
+                    class="button button-danger"
+                >
+                    🗑 Supprimer
+                </button>
+            </form>
+
+        </div>
+
+    </article>
+
+    {% endfor %}
+
+</div>
+
+
+{% else %}
+
+<div class="empty-state">
+
+    <div class="empty-icon">
+        ✉
+    </div>
+
+    <h2>Aucun message</h2>
+
+    <p>
+        Aucun visiteur n'a encore envoyé de message
+        depuis le formulaire de contact.
+    </p>
+
+</div>
+
+{% endif %}
+
+
+<style>
+
+.page-header {
+    margin-bottom: 2rem;
+}
+
+.page-header h1 {
+    margin-bottom: 0.5rem;
+}
+
+.messages-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.message-card {
+    padding: 1.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 12px;
+    background: #fff;
+}
+
+.message-card.unread {
+    border-left: 4px solid #b08d57;
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.message-header h2 {
+    margin: 0 0 0.5rem;
+}
+
+.message-meta {
+    margin: 0;
+    opacity: 0.8;
+}
+
+.message-meta a {
+    text-decoration: none;
+}
+
+.message-date {
+    white-space: nowrap;
+    font-size: 0.9rem;
+    opacity: 0.65;
+}
+
+.message-body {
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+    background: #f7f5f1;
+    border-radius: 8px;
+    line-height: 1.7;
+}
+
+.message-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.message-actions form {
+    margin: 0;
+}
+
+.button-danger {
+    background: #8b2e2e;
+}
+
+.read-label {
+    opacity: 0.65;
+    font-size: 0.9rem;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    border: 1px dashed rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+}
+
+.empty-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.message-reply {
+    margin-bottom: 1.25rem;
+    padding: 1.25rem;
+    border-left: 4px solid #b08d57;
+    background: #f3f0ea;
+    border-radius: 8px;
+}
+
+.message-reply-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.message-reply-header strong {
+    font-size: 0.95rem;
+}
+
+.message-reply-header span {
+    font-size: 0.85rem;
+    opacity: 0.65;
+}
+
+.message-reply-body {
+    line-height: 1.7;
+    white-space: normal;
+}
+
+@media (max-width: 700px) {
+
+    .message-reply-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .message-header {
+        flex-direction: column;
+    }
+
+    .message-date {
+        white-space: normal;
+    }
+
+    .message-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .message-actions form,
+    .message-actions button {
+        width: 100%;
+    }
+
+}
+
+</style>
+
+{% endblock %}

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import resend
 import uuid
 import httpx
 
@@ -41,6 +42,8 @@ from werkzeug.utils import secure_filename
 # =========================================================
 
 load_dotenv()
+
+resend.api_key = os.getenv("RESEND_API_KEY")
 
 ROOT = Path(__file__).resolve().parent
 
@@ -574,20 +577,47 @@ def home():
 
 @app.post("/contact")
 def contact():
+    name = request.form.get("name", "").strip()
+    email = request.form.get("email", "").strip()
+    subject = request.form.get("subject", "").strip()
+    message = request.form.get("message", "").strip()
 
-    values = [
-        request.form.get(
-            key,
-            ""
-        ).strip()
+    sent = False
 
-        for key in (
-            "name",
-            "email",
-            "subject",
-            "message",
-        )
-    ]
+    # Vérification des champs obligatoires
+    if name and email and subject and message:
+        database = db()
+
+        try:
+            database.execute(
+                """
+                INSERT INTO contact_messages
+                    (name, email, subject, message)
+                VALUES
+                    (%s, %s, %s, %s)
+                """,
+                (
+                    name,
+                    email,
+                    subject,
+                    message,
+                ),
+            )
+
+            database.commit()
+            sent = True
+
+            print("✅ Message visiteur enregistré dans Neon.")
+
+        except Exception as error:
+            database.rollback()
+
+            print(
+                f"❌ Erreur enregistrement message visiteur : {error}"
+            )
+
+    else:
+        print("⚠️ Formulaire contact incomplet.")
 
     news = db().execute(
         """
@@ -601,11 +631,228 @@ def contact():
 
     return render_template(
         "index.html",
-        sent=all(values),
+        sent=sent,
         form=request.form,
         news=news,
     )
 
+# =========================================================
+# MESSAGES DES VISITEURS
+# =========================================================
+
+@app.get("/admin/messages")
+@login_required
+@admin_required
+def manage_contact_messages():
+
+    database = db()
+
+    messages = database.execute(
+        """
+        SELECT
+            id,
+            name,
+            email,
+            subject,
+            message,
+            is_read,
+            created_at,
+            reply_message,
+            replied_at
+        FROM contact_messages
+        ORDER BY created_at DESC
+        """
+    ).fetchall()
+
+    return render_template(
+        "contact_messages.html",
+        messages=messages,
+    )
+
+
+# =========================================================
+# MARQUER UN MESSAGE COMME LU
+# =========================================================
+
+@app.post(
+    "/admin/messages/<int:message_id>/lire"
+)
+@login_required
+@admin_required
+def read_contact_message(message_id):
+
+    database = db()
+
+    database.execute(
+        """
+        UPDATE contact_messages
+        SET is_read = TRUE
+        WHERE id = %s
+        """,
+        (message_id,),
+    )
+
+    database.commit()
+
+    return redirect(
+        url_for("manage_contact_messages")
+    )
+
+
+# =========================================================
+# SUPPRIMER UN MESSAGE VISITEUR
+# =========================================================
+
+@app.post(
+    "/admin/messages/<int:message_id>/supprimer"
+)
+@login_required
+@admin_required
+def delete_contact_message(message_id):
+
+    database = db()
+
+    database.execute(
+        """
+        DELETE FROM contact_messages
+        WHERE id = %s
+        """,
+        (message_id,),
+    )
+
+    database.commit()
+
+    flash(
+        "Message supprimé avec succès.",
+        "success",
+    )
+
+    return redirect(
+        url_for("manage_contact_messages")
+    )
+
+
+# =========================================================
+# RÉPONDRE À UN MESSAGE VISITEUR PAR E-MAIL
+# =========================================================
+
+@app.route(
+    "/admin/messages/<int:message_id>/repondre",
+    methods=["GET", "POST"],
+)
+@login_required
+@admin_required
+def reply_contact_message(message_id):
+
+    database = db()
+
+    message = database.execute(
+        """
+        SELECT
+            id,
+            name,
+            email,
+            subject,
+            message,
+            is_read,
+            created_at
+        FROM contact_messages
+        WHERE id = %s
+        """,
+        (message_id,),
+    ).fetchone()
+
+    if message is None:
+
+        flash(
+            "Message visiteur introuvable.",
+            "error",
+        )
+
+        return redirect(
+            url_for("manage_contact_messages")
+        )
+
+    if request.method == "POST":
+
+        reply_message = request.form.get(
+            "reply_message",
+            "",
+        ).strip()
+
+        if not reply_message:
+
+            flash(
+                "La réponse ne peut pas être vide.",
+                "error",
+            )
+
+            return render_template(
+                "contact_message_reply.html",
+                message=message,
+            )
+
+        try:
+
+            resend.Emails.send(
+                {
+                    "from": os.getenv(
+                        "MAIL_FROM",
+                        "onboarding@resend.dev",
+                    ),
+                    "to": [message["email"]],
+                    "subject": (
+                        "Re: "
+                        + message["subject"]
+                    ),
+                    "text": reply_message,
+                }
+            )
+
+            database.execute(
+                """
+                UPDATE contact_messages
+                SET
+                    is_read = TRUE,
+                    reply_message = %s,
+                    replied_at = NOW()
+                WHERE id = %s
+                """,
+                (
+                    reply_message,
+                    message_id,
+                ),
+            )
+
+
+            database.commit()
+
+            flash(
+                "Réponse envoyée avec succès.",
+                "success",
+            )
+
+            return redirect(
+                url_for("manage_contact_messages")
+            )
+
+        except Exception as error:
+
+            database.rollback()
+
+            print(
+                f"❌ Erreur envoi e-mail Resend : {error}"
+            )
+
+            flash(
+                "Impossible d'envoyer la réponse.",
+                "error",
+            )
+
+    return render_template(
+        "contact_message_reply.html",
+        message=message,
+    )
 
 # =========================================================
 # NOTIFICATIONS
@@ -664,6 +911,48 @@ def inject_notifications():
         "unread_notifications_count": unread_count,
     }
 
+# =========================================================
+# COMPTEUR DES MESSAGES VISITEURS NON LUS
+# =========================================================
+
+@app.context_processor
+def inject_contact_messages_count():
+
+    if "member_id" not in session:
+        return {
+            "unread_contact_messages_count": 0
+        }
+
+    if session.get("member_role") != "Administrateur":
+        return {
+            "unread_contact_messages_count": 0
+        }
+
+    try:
+
+        database = db()
+
+        count = database.execute(
+            """
+            SELECT COUNT(*) AS total
+            FROM contact_messages
+            WHERE is_read = FALSE
+            """
+        ).fetchone()["total"]
+
+        return {
+            "unread_contact_messages_count": count
+        }
+
+    except Exception as error:
+
+        print(
+            f"⚠️ Erreur compteur messages visiteurs : {error}"
+        )
+
+        return {
+            "unread_contact_messages_count": 0
+        }
 
 # =========================================================
 # LIRE UNE NOTIFICATION
@@ -1027,6 +1316,8 @@ def dashboard():
 
     database = db()
 
+
+
     counts = {
 
         "members": database.execute(
@@ -1064,6 +1355,15 @@ def dashboard():
             """
             SELECT COUNT(*) AS total
             FROM news
+            """
+        ).fetchone()["total"],
+
+        # Messages envoyés depuis le formulaire public
+        "messages": database.execute(
+            """
+            SELECT COUNT(*) AS total
+            FROM contact_messages
+            WHERE is_read = FALSE
             """
         ).fetchone()["total"],
     }

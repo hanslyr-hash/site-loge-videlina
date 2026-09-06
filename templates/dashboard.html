@@ -9,8 +9,9 @@
 
 {% extends 'base_member.html' %}
 {% block heading %}Tableau de bord{% endblock %}
+
 {% block content %}
-   
+
 <section class="stats">
 
     <article>
@@ -33,41 +34,109 @@
         <span>Actualités</span>
     </article>
 
+    <!-- Messages des visiteurs -->
+    <article>
+        <a
+            href="{{ url_for('manage_contact_messages') }}"
+            style="text-decoration: none; color: inherit; display: block;"
+        >
+            <b>{{ counts.messages }}</b>
+
+            <span>
+                Messages visiteurs
+            </span>
+
+            {% if counts.messages > 0 %}
+                <small style="display: block; margin-top: 6px;">
+                    ✉ {{ counts.messages }} message{% if counts.messages > 1 %}s{% endif %} non lu{% if counts.messages > 1 %}s{% endif %}
+                </small>
+            {% endif %}
+        </a>
+    </article>
+
 </section>
 
-    <section class="dashboard-grid">
-        <article class="panel">
-            <div class="panel-title">
-                <h2>Prochaines réunions</h2>
-                <a href="{{ url_for('manage_meetings') }}">Gérer →</a>
+
+<section class="dashboard-grid">
+
+    <article class="panel">
+
+        <div class="panel-title">
+
+            <h2>Prochaines réunions</h2>
+
+            <a href="{{ url_for('manage_meetings') }}">
+                Gérer →
+            </a>
+
+        </div>
+
+        {% for meeting in meetings %}
+
+            <div class="row">
+
+                <b>{{ meeting.meeting_date }}</b>
+
+                <span>
+                    {{ meeting.title }}
+                    <small>
+                        {{ meeting.location }}
+                    </small>
+                </span>
+
             </div>
 
-            {% for meeting in meetings %}
-                <div class="row">
-                    <b>{{ meeting.meeting_date }}</b>
-                    <span>{{ meeting.title }}<small>{{ meeting.location }}</small></span>
-                </div>
-            {% else %}
-                <p class="empty">Aucune réunion enregistrée.</p>
-            {% endfor %}
-        </article>
+        {% else %}
 
-        <article class="panel">
-            <div class="panel-title">
-                <h2>Documents récents</h2>
-                <a href="{{ url_for('manage_documents') }}">Gérer →</a>
+            <p class="empty">
+                Aucune réunion enregistrée.
+            </p>
+
+        {% endfor %}
+
+    </article>
+
+
+    <article class="panel">
+
+        <div class="panel-title">
+
+            <h2>Documents récents</h2>
+
+            <a href="{{ url_for('manage_documents') }}">
+                Gérer →
+            </a>
+
+        </div>
+
+        {% for document in documents %}
+
+            <div class="row">
+
+                <b>{{ document.category }}</b>
+
+                <span>
+                    {{ document.title }}
+                    <small>
+                        {{ document.reference }}
+                    </small>
+                </span>
+
             </div>
-            {% for document in documents %}
-                <div class="row">
-                    <b>{{ document.category }}</b>
-                    <span>{{ document.title }}<small>{{ document.reference }}</small></span>
-                </div>
-            {% else %}
-                <p class="empty">Aucun document référencé.</p>
-            {% endfor %}
-        </article>
-        
-    </section>
+
+        {% else %}
+
+            <p class="empty">
+                Aucun document référencé.
+            </p>
+
+        {% endfor %}
+
+    </article>
+
+</section>
+
 {% endblock %}
+
 </body>
 </html>
