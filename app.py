@@ -654,7 +654,7 @@ def home():
         FROM actions
         WHERE status = 'Publié'
         ORDER BY
-            activity_date DESC NULLS LAST,
+            action_date DESC NULLS LAST,
             created_at DESC
         LIMIT 5
     """).fetchall()
