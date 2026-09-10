@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Activités de la Respectable Loge Mixte VIDELINA — Orient de Terrier-Rouge."
+    >
+
+    <meta
+        name="author"
+        content="Respectable Loge Mixte VIDELINA"
+    >
+
+    <meta
+        name="theme-color"
+        content="#121d1d"
+    >
+
+    <!-- =====================================================
+         FAVICON
+         ===================================================== -->
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="{{ url_for('static', filename='Logo Videlina.png') }}"
+    >
+
+    <link
+        rel="apple-touch-icon"
+        href="{{ url_for('static', filename='Logo Videlina.png') }}"
+    >
+
+
+    <!-- =====================================================
+         POLICES
+         ===================================================== -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         CSS
+         ===================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+
+    <title>
+        Activités | Respectable Loge Mixte VIDELINA
+    </title>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     BARRE DE NAVIGATION
+     ========================================================= -->
+
+<header class="topbar">
+
+    <a
+        href="{{ url_for('home') }}"
+        class="brand"
+        aria-label="Accueil — Respectable Loge Mixte VIDELINA"
+    >
+
+        <div class="brand-mark">
+
+            <img
+                src="{{ url_for('static', filename='Logo Videlina.png') }}"
+                alt="Logo officiel de la Respectable Loge Mixte VIDELINA"
+            >
+
+        </div>
+
+        <div>
+
+            <strong>
+                VIDELINA
+            </strong>
+
+            <small>
+                Respectable Loge Mixte
+            </small>
+
+        </div>
+
+    </a>
+
+
+    <button
+        class="menu-toggle"
+        type="button"
+        aria-label="Ouvrir le menu"
+        aria-expanded="false"
+    >
+        ☰
+    </button>
+
+
+    <nav aria-label="Navigation principale">
+
+        <a href="{{ url_for('home') }}">
+            Accueil
+        </a>
+
+        <a href="{{ url_for('histoire') }}">
+            Histoire
+        </a>
+
+        <a href="{{ url_for('public_activities') }}">
+            Activités
+        </a>
+
+        <a href="{{ url_for('public_actions') }}">
+            Nos actions
+        </a>
+
+        <a href="{{ url_for('public_news') }}">
+            Actualités
+        </a>
+
+        <a href="{{ url_for('contact') }}">
+            Contact
+        </a>
+
+        <a href="{{ url_for('login') }}">
+            Espace membre
+        </a>
+
+    </nav>
+
+</header>
+
+
+
+<main>
+
+
+<!-- =========================================================
+     HERO ACTIVITÉS
+     ========================================================= -->
+
+<section class="history-page-hero">
+
+    <div class="history-page-hero-inner">
+
+        <p class="eyebrow">
+            Vie de la Loge
+        </p>
+
+        <h1>
+            Nos
+            <br>
+            <span>Activités</span>
+        </h1>
+
+        <p class="history-page-intro">
+            Découvrez les activités qui rythment la vie de la
+            Respectable Loge Mixte VIDELINA : travaux,
+            conférences, rencontres, transmission et moments
+            de fraternité.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     INTRODUCTION
+     ========================================================= -->
+
+<section class="history-introduction">
+
+    <div class="history-introduction-inner">
+
+        <div class="history-introduction-label">
+
+            <span>
+                01
+            </span>
+
+            <p>
+                LA VIE DE LA LOGE
+            </p>
+
+        </div>
+
+
+        <div class="history-introduction-text">
+
+            <h2>
+                Des travaux,
+                <br>
+                des rencontres,
+                <br>
+                une œuvre collective.
+            </h2>
+
+            <p>
+                La vie de la Respectable Loge Mixte VIDELINA
+                s'inscrit dans une démarche de réflexion,
+                de transmission et de fraternité.
+            </p>
+
+            <p>
+                Les activités de la Loge permettent aux membres
+                de se réunir autour de travaux, de conférences,
+                d'échanges et de moments consacrés à la
+                construction de soi et au partage.
+            </p>
+
+            <p>
+                Retrouvez ci-dessous les activités publiées
+                par l'administration de la Loge.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     ACTIVITÉS DYNAMIQUES
+     ========================================================= -->
+
+<section class="history-page-timeline">
+
+    <div class="history-page-heading">
+
+        <p class="eyebrow gold">
+            Programme & événements
+        </p>
+
+        <h2>
+            Les activités de VIDELINA
+        </h2>
+
+        <p>
+            Travaux, conférences, rencontres et moments de
+            fraternité : découvrez les activités actuellement
+            publiées par la Loge.
+        </p>
+
+    </div>
+
+
+    {% if activities %}
+
+    <div class="history-page-timeline-list">
+
+        {% for activity in activities %}
+
+        <article class="history-page-item">
+
+
+            <!-- =================================================
+                 DATE
+                 ================================================= -->
+
+            <div class="history-page-date">
+
+                {% if activity.activity_date %}
+
+                    <span>
+                        {{ activity.activity_date.strftime('%d') if activity.activity_date.strftime is defined else activity.activity_date }}
+                    </span>
+
+                    <strong>
+                        {% if activity.activity_date.strftime is defined %}
+                            {{ activity.activity_date.strftime('%m/%Y') }}
+                        {% else %}
+                            {{ activity.activity_date }}
+                        {% endif %}
+                    </strong>
+
+                {% else %}
+
+                    <span>
+                        {{ "%02d"|format(loop.index) }}
+                    </span>
+
+                    <strong>
+                        ACTIVITÉ
+                    </strong>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- =================================================
+                 LIGNE / POINT
+                 ================================================= -->
+
+            <div class="history-page-line">
+
+                <div
+                    class="history-page-dot"
+                    aria-hidden="true"
+                ></div>
+
+            </div>
+
+
+            <!-- =================================================
+                 CONTENU
+                 ================================================= -->
+
+            <div class="history-page-content">
+
+                <span class="history-page-number">
+
+                    {{ "%02d"|format(loop.index) }}
+
+                    {% if activity.category %}
+                        · {{ activity.category }}
+                    {% endif %}
+
+                </span>
+
+
+                <h3>
+                    {{ activity.title }}
+                </h3>
+
+
+                {% if activity.location %}
+
+                <p>
+
+                    <strong>
+                        Lieu :
+                    </strong>
+
+                    {{ activity.location }}
+
+                </p>
+
+                {% endif %}
+
+
+                {% if activity.excerpt %}
+
+                <p>
+                    {{ activity.excerpt }}
+                </p>
+
+                {% elif activity.content %}
+
+                <p>
+                    {{ activity.content
+                        |striptags
+                        |truncate(350) }}
+                </p>
+
+                {% endif %}
+
+
+                {% if activity.image_name %}
+
+                <div
+                    style="
+                        margin-top: 22px;
+                        max-width: 620px;
+                    "
+                >
+
+                    <img
+                        src="{{ url_for(
+                            'activity_image',
+                            filename=activity.image_name
+                        ) }}"
+                        alt="{{ activity.title }}"
+                        loading="lazy"
+                        style="
+                            width: 100%;
+                            display: block;
+                            object-fit: cover;
+                            max-height: 360px;
+                        "
+                    >
+
+                </div>
+
+                {% endif %}
+
+
+                <div
+                    style="
+                        margin-top: 25px;
+                    "
+                >
+
+                    <a
+                        href="{{ url_for(
+                            'activity_detail',
+                            activity_id=activity.id
+                        ) }}"
+                        class="button"
+                    >
+
+                        Découvrir l'activité
+
+                        <span aria-hidden="true">
+                            →
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+
+    {% else %}
+
+
+    <!-- =====================================================
+         AUCUNE ACTIVITÉ
+         ===================================================== -->
+
+    <div
+        style="
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 60px 25px;
+            border: 1px solid var(--line);
+        "
+    >
+
+        <p class="eyebrow gold">
+            Vie de la Loge
+        </p>
+
+        <h3
+            style="
+                font-family: var(--serif);
+                font-size: 38px;
+                margin: 0 0 18px;
+            "
+        >
+            Aucune activité publiée
+        </h3>
+
+        <p
+            style="
+                color: #62675f;
+                margin-bottom: 25px;
+            "
+        >
+            Les prochaines activités de la Respectable Loge
+            Mixte VIDELINA seront publiées ici.
+        </p>
+
+        <a
+            href="{{ url_for('home') }}"
+            class="button"
+        >
+
+            Retour à l'accueil
+
+            <span aria-hidden="true">
+                →
+            </span>
+
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+
+
+<!-- =========================================================
+     NOS ACTIONS
+     ========================================================= -->
+
+<section class="section activities">
+
+    <div class="section-number">
+        02
+    </div>
+
+
+    <div class="activities-copy">
+
+        <p class="eyebrow gold">
+            Engagement
+        </p>
+
+        <h2>
+            Nos actions
+            <br>
+            au service
+            <br>
+            de l'humain.
+        </h2>
+
+        <p>
+            Au-delà de ses travaux, VIDELINA inscrit également
+            son engagement dans des actions solidaires,
+            sociales, culturelles et humanistes.
+        </p>
+
+        <a
+            href="{{ url_for('public_actions') }}"
+            class="button"
+            style="margin-top: 25px;"
+        >
+
+            Découvrir nos actions
+
+            <span aria-hidden="true">
+                →
+            </span>
+
+        </a>
+
+    </div>
+
+
+    <ul class="activity-list">
+
+        <li>
+
+            <span>
+                01
+            </span>
+
+            Actions solidaires
+
+        </li>
+
+
+        <li>
+
+            <span>
+                02
+            </span>
+
+            Action sociale
+
+        </li>
+
+
+        <li>
+
+            <span>
+                03
+            </span>
+
+            Culture & éducation
+
+        </li>
+
+
+        <li>
+
+            <span>
+                04
+            </span>
+
+            Engagement humaniste
+
+        </li>
+
+    </ul>
+
+</section>
+
+
+
+<!-- =========================================================
+     ACTUALITÉS
+     ========================================================= -->
+
+<section class="home-news">
+
+    <div class="home-news-heading">
+
+        <div>
+
+            <p class="eyebrow gold">
+                Vie de la Loge
+            </p>
+
+            <h2>
+                Actualités
+            </h2>
+
+            <p>
+                Découvrez les nouvelles, événements et
+                publications de la Respectable Loge Mixte
+                VIDELINA.
+            </p>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('public_news') }}"
+            class="news-all"
+        >
+
+            Toutes les actualités
+
+            →
+
+        </a>
+
+    </div>
+
+
+    <div class="home-news-grid">
+
+
+        {% if news %}
+
+            {% for item in news %}
+
+            <article class="home-news-card">
+
+
+                {% if item.image_name %}
+
+                <div class="home-news-image">
+
+                    <img
+                        src="{{ url_for(
+                            'news_image',
+                            filename=item.image_name
+                        ) }}"
+                        alt="{{ item.title }}"
+                        loading="lazy"
+                    >
+
+                </div>
+
+                {% endif %}
+
+
+                <div class="home-news-body">
+
+
+                    {% if item.category %}
+
+                    <span class="badge">
+                        {{ item.category }}
+                    </span>
+
+                    {% endif %}
+
+
+                    <h3>
+                        {{ item.title }}
+                    </h3>
+
+
+                    {% if item.published_at %}
+
+                    <time
+                        datetime="{{ item.published_at.strftime('%Y-%m-%d') }}"
+                    >
+                        {{ item.published_at.strftime('%d/%m/%Y') }}
+                    </time>
+
+                    {% endif %}
+
+
+                    {% if item.excerpt %}
+
+                    <p>
+                        {{ item.excerpt }}
+                    </p>
+
+                    {% endif %}
+
+
+                    <a
+                        href="{{ url_for(
+                            'news_detail',
+                            news_id=item.id
+                        ) }}"
+                        class="home-news-link"
+                    >
+
+                        Lire l’article
+
+                        <span aria-hidden="true">
+                            →
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </article>
+
+            {% endfor %}
+
+
+        {% else %}
+
+            <div class="home-news-empty">
+
+                <p>
+                    Aucune actualité publiée pour le moment.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     DEVISE
+     ========================================================= -->
+
+<section class="quote">
+
+    <p>
+        « IN OMNIBUS ET PER OMNIA LUCEAMUS. »
+    </p>
+
+</section>
+
+
+</main>
+
+
+
+<!-- =========================================================
+     FOOTER
+     ========================================================= -->
+
+<footer>
+
+
+    <div class="footer-brand">
+
+        <a
+            href="{{ url_for('home') }}"
+            class="brand"
+        >
+
+            <div class="brand-mark">
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='Logo Videlina.png'
+                    ) }}"
+                    alt="Logo VIDELINA"
+                >
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    VIDELINA
+                </strong>
+
+                <small>
+                    Respectable Loge Mixte
+                </small>
+
+            </div>
+
+        </a>
+
+    </div>
+
+
+    <p>
+
+        © 2026 Respectable Loge Mixte VIDELINA
+
+        <br>
+
+        <em>
+            In omnibus et per omnia Luceamus
+        </em>
+
+    </p>
+
+
+    <a href="#top">
+        Retour en haut ↑
+    </a>
+
+</footer>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+     ========================================================= -->
+
+<script
+    src="{{ url_for('static', filename='script.js') }}"
+></script>
+
+
+</body>
+
+</html>

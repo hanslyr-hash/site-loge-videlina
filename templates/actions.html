@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Les actions de la Respectable Loge Mixte VIDELINA — Orient de Terrier-Rouge."
+    >
+
+    <meta
+        name="keywords"
+        content="VIDELINA, actions, solidarité, humanisme, Terrier-Rouge, franc-maçonnerie"
+    >
+
+    <meta
+        name="author"
+        content="Respectable Loge Mixte VIDELINA"
+    >
+
+    <meta
+        name="robots"
+        content="index, follow"
+    >
+
+    <meta
+        name="theme-color"
+        content="#121d1d"
+    >
+
+
+    <!-- =========================================
+         FAVICON / ICÔNES
+         ========================================= -->
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="{{ url_for('static', filename='Logo Videlina.png') }}"
+    >
+
+    <link
+        rel="apple-touch-icon"
+        href="{{ url_for('static', filename='Logo Videlina.png') }}"
+    >
+
+
+    <!-- =========================================
+         OPEN GRAPH
+         ========================================= -->
+
+    <meta
+        property="og:title"
+        content="Nos actions — Respectable Loge Mixte VIDELINA"
+    >
+
+    <meta
+        property="og:description"
+        content="Découvrez les actions et engagements de la Respectable Loge Mixte VIDELINA."
+    >
+
+    <meta
+        property="og:type"
+        content="website"
+    >
+
+    <meta
+        property="og:locale"
+        content="fr_FR"
+    >
+
+    <meta
+        property="og:image"
+        content="{{ url_for('static', filename='Logo Videlina.png', _external=True) }}"
+    >
+
+
+    <!-- =========================================
+         POLICES
+         ========================================= -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =========================================
+         CSS
+         ========================================= -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <title>
+        Nos actions — Respectable Loge Mixte VIDELINA
+    </title>
+
+</head>
+
+
+<body id="top">
+
+
+    <!-- =====================================================
+         BARRE DE NAVIGATION
+         ===================================================== -->
+
+    <header class="topbar">
+
+        <a
+            href="{{ url_for('home') }}"
+            class="brand"
+            aria-label="Accueil — Respectable Loge Mixte VIDELINA"
+        >
+
+            <div class="brand-mark">
+
+                <img
+                    src="{{ url_for('static', filename='Logo Videlina.png') }}"
+                    alt="Logo officiel de la Respectable Loge Mixte VIDELINA"
+                >
+
+            </div>
+
+            <div>
+
+                <strong>
+                    VIDELINA
+                </strong>
+
+                <small>
+                    Respectable Loge Mixte
+                </small>
+
+            </div>
+
+        </a>
+
+
+        <!-- =============================================
+             MENU MOBILE
+             ============================================= -->
+
+        <button
+            class="menu-toggle"
+            type="button"
+            aria-label="Ouvrir le menu"
+            aria-expanded="false"
+        >
+            ☰
+        </button>
+
+
+        <!-- =============================================
+             NAVIGATION PRINCIPALE
+             ============================================= -->
+
+        <nav aria-label="Navigation principale">
+
+            <a href="{{ url_for('home') }}#loge">
+                La Loge
+            </a>
+
+
+            <a href="{{ url_for('histoire') }}">
+                Histoire
+            </a>
+
+
+            <a href="{{ url_for('home') }}#valeurs">
+                Nos valeurs
+            </a>
+
+
+            <!-- =========================================
+                 ACTIVITÉS + SOUS-MENU
+                 ========================================= -->
+
+           <div class="nav-dropdown">
+
+    <a
+        href="{{ url_for('public_activities') }}"
+        class="nav-dropdown-toggle"
+        aria-haspopup="true"
+        aria-expanded="false"
+    >
+        Activités
+        <span class="dropdown-arrow" aria-hidden="true">▾</span>
+    </a>
+
+    <div class="nav-dropdown-menu">
+
+        <a href="{{ url_for('public_activities') }}">
+            Nos activités
+        </a>
+
+        <a href="{{ url_for('public_actions') }}">
+            Nos actions
+        </a>
+
+    </div>
+
+</div>
+
+
+            <a href="{{ url_for('public_news') }}">
+                Actualités
+            </a>
+
+
+            <a href="{{ url_for('home') }}#contact">
+                Contact
+            </a>
+
+
+            <a href="{{ url_for('login') }}">
+                Espace membre
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <main>
+
+
+        <!-- =================================================
+             HERO — NOS ACTIONS
+             ================================================= -->
+
+        <section class="actions-hero">
+
+            <div class="actions-container">
+
+                <p class="actions-eyebrow">
+                    Engagement &amp; solidarité
+                </p>
+
+                <h1>
+                    Nos actions
+                </h1>
+
+                <p class="actions-hero-text">
+
+                    Agir, soutenir et transmettre : découvrez les
+                    initiatives par lesquelles la Respectable Loge
+                    Mixte VIDELINA inscrit ses valeurs dans la vie
+                    de la communauté.
+
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             INTRODUCTION
+             ================================================= -->
+
+        <section class="actions-introduction">
+
+            <div class="actions-container">
+
+                <p class="eyebrow gold">
+                    Notre engagement
+                </p>
+
+                <h2>
+                    La fraternité
+                    <br>
+                    en action.
+                </h2>
+
+                <p>
+
+                    Les valeurs de fraternité, de solidarité et
+                    d'humanisme prennent également forme à travers
+                    des actions concrètes. Chaque initiative est
+                    une occasion de contribuer, de soutenir et de
+                    faire rayonner une vision fondée sur la dignité
+                    et le respect de l'être humain.
+
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             LISTE DES ACTIONS
+             ================================================= -->
+
+        <section class="actions-main">
+
+            <div class="actions-container">
+
+                {% if actions %}
+
+                <div class="actions-grid">
+
+                    {% for action in actions %}
+
+                    <article class="action-card">
+
+
+                        <!-- =================================
+                             IMAGE
+                             ================================= -->
+
+                        {% if action.image_name %}
+
+                        <div class="action-card-image">
+
+                            <img
+                                src="{{ url_for('action_image', filename=action.image_name) }}"
+                                alt="{{ action.title }}"
+                                loading="lazy"
+                            >
+
+                        </div>
+
+                        {% endif %}
+
+
+                        <!-- =================================
+                             CONTENU
+                             ================================= -->
+
+                        <div class="action-card-content">
+
+                            {% if action.category %}
+
+                            <span class="action-category">
+                                {{ action.category }}
+                            </span>
+
+                            {% endif %}
+
+
+                            <h3>
+                                {{ action.title }}
+                            </h3>
+
+
+                            {% if action.action_date %}
+
+                            <div class="action-meta">
+
+                                <strong>
+                                    Date :
+                                </strong>
+
+                                {{ action.action_date }}
+
+                            </div>
+
+                            {% endif %}
+
+
+                            {% if action.location %}
+
+                            <div class="action-location">
+
+                                <strong>
+                                    Lieu :
+                                </strong>
+
+                                {{ action.location }}
+
+                            </div>
+
+                            {% endif %}
+
+
+                            {% if action.excerpt %}
+
+                            <p>
+                                {{ action.excerpt }}
+                            </p>
+
+                            {% elif action.description %}
+
+                            <p>
+                                {{ action.description }}
+                            </p>
+
+                            {% endif %}
+
+
+                            <a
+                                href="{{ url_for('action_detail', action_id=action.id) }}"
+                                class="action-button"
+                            >
+
+                                Découvrir l'action
+
+                                <span aria-hidden="true">
+                                    →
+                                </span>
+
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                    {% endfor %}
+
+                </div>
+
+
+                {% else %}
+
+                <!-- =========================================
+                     AUCUNE ACTION
+                     ========================================= -->
+
+                <div class="actions-empty">
+
+                    <div
+                        class="actions-empty-symbol"
+                        aria-hidden="true"
+                    >
+                        ✦
+                    </div>
+
+                    <h3>
+                        Aucune action publiée
+                    </h3>
+
+                    <p>
+
+                        Les prochaines initiatives de la
+                        Respectable Loge Mixte VIDELINA
+                        seront présentées ici.
+
+                    </p>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             DEVISE
+             ================================================= -->
+
+        <section class="actions-quote">
+
+            <div class="actions-container">
+
+                <div
+                    class="actions-quote-symbol"
+                    aria-hidden="true"
+                >
+                    ✦
+                </div>
+
+                <blockquote>
+
+                    « La fraternité ne se proclame pas,
+                    elle se construit par les actes. »
+
+                </blockquote>
+
+                <p>
+                    IN OMNIBUS ET PER OMNIA LUCEAMUS
+                </p>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer>
+
+        <div class="footer-brand">
+
+            <a
+                href="{{ url_for('home') }}"
+                class="brand"
+            >
+
+                <div class="brand-mark">
+
+                    <img
+                        src="{{ url_for('static', filename='Logo Videlina.png') }}"
+                        alt="Logo VIDELINA"
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        VIDELINA
+                    </strong>
+
+                    <small>
+                        Respectable Loge Mixte
+                    </small>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <p>
+
+            © 2026 Respectable Loge Mixte VIDELINA
+
+            <br>
+
+            <em>
+                In omnibus et per omnia Luceamus
+            </em>
+
+        </p>
+
+
+        <a href="#top">
+            Retour en haut ↑
+        </a>
+
+    </footer>
+
+
+    <!-- =====================================================
+         JAVASCRIPT PRINCIPAL
+         ===================================================== -->
+
+    <script
+        src="{{ url_for('static', filename='script.js') }}"
+    ></script>
+
+</body>
+
+</html>

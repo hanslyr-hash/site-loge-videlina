@@ -1,0 +1,356 @@
+{% extends "base_member.html" %}
+
+{% block title %}
+Modifier l'activité | Videlina
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+
+        <span class="eyebrow">
+            ADMINISTRATION
+        </span>
+
+        <h1>
+            Modifier l'activité
+        </h1>
+
+        <p>
+            Modifiez les informations de cette activité.
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- FORMULAIRE DE MODIFICATION -->
+<!-- ========================================================= -->
+
+<section class="card">
+
+    <div class="card-header">
+
+        <div>
+
+            <h2>
+                Informations de l'activité
+            </h2>
+
+            <p>
+                Modifiez les informations puis enregistrez
+                les changements.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <form
+        method="POST"
+        enctype="multipart/form-data"
+        class="form-grid"
+    >
+
+        <!-- TITRE -->
+
+        <div class="form-group full">
+
+            <label for="title">
+                Titre *
+            </label>
+
+            <input
+                type="text"
+                id="title"
+                name="title"
+                value="{{ activity.title }}"
+                required
+            >
+
+        </div>
+
+
+        <!-- CATÉGORIE -->
+
+        <div class="form-group">
+
+            <label for="category">
+                Catégorie *
+            </label>
+
+            <select
+                id="category"
+                name="category"
+                required
+            >
+
+                <option value="">
+                    — Sélectionner —
+                </option>
+
+                <option
+                    value="Travaux et planches"
+                    {% if activity.category == "Travaux et planches" %}
+                        selected
+                    {% endif %}
+                >
+                    Travaux et planches
+                </option>
+
+                <option
+                    value="Conférences et rencontres"
+                    {% if activity.category == "Conférences et rencontres" %}
+                        selected
+                    {% endif %}
+                >
+                    Conférences et rencontres
+                </option>
+
+                <option
+                    value="Actions solidaires"
+                    {% if activity.category == "Actions solidaires" %}
+                        selected
+                    {% endif %}
+                >
+                    Actions solidaires
+                </option>
+
+                <option
+                    value="Temps de fraternité"
+                    {% if activity.category == "Temps de fraternité" %}
+                        selected
+                    {% endif %}
+                >
+                    Temps de fraternité
+                </option>
+
+                <option
+                    value="Culture et éducation"
+                    {% if activity.category == "Culture et éducation" %}
+                        selected
+                    {% endif %}
+                >
+                    Culture et éducation
+                </option>
+
+                <option
+                    value="Action sociale"
+                    {% if activity.category == "Action sociale" %}
+                        selected
+                    {% endif %}
+                >
+                    Action sociale
+                </option>
+
+                <option
+                    value="Autre"
+                    {% if activity.category == "Autre" %}
+                        selected
+                    {% endif %}
+                >
+                    Autre
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- STATUT -->
+
+        <div class="form-group">
+
+            <label for="status">
+                Statut *
+            </label>
+
+            <select
+                id="status"
+                name="status"
+                required
+            >
+
+                <option
+                    value="Brouillon"
+                    {% if activity.status == "Brouillon" %}
+                        selected
+                    {% endif %}
+                >
+                    Brouillon
+                </option>
+
+                <option
+                    value="Publié"
+                    {% if activity.status == "Publié" %}
+                        selected
+                    {% endif %}
+                >
+                    Publié
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- DATE -->
+
+        <div class="form-group">
+
+            <label for="activity_date">
+                Date
+            </label>
+
+            <input
+                type="date"
+                id="activity_date"
+                name="activity_date"
+                value="{% if activity.activity_date %}{{ activity.activity_date.strftime('%Y-%m-%d') }}{% endif %}"
+            >
+
+        </div>
+
+
+        <!-- LIEU -->
+
+        <div class="form-group">
+
+            <label for="location">
+                Lieu
+            </label>
+
+            <input
+                type="text"
+                id="location"
+                name="location"
+                value="{{ activity.location or '' }}"
+                placeholder="Ex. Orient de Terrier-Rouge"
+            >
+
+        </div>
+
+
+        <!-- RÉSUMÉ -->
+
+        <div class="form-group full">
+
+            <label for="excerpt">
+                Résumé
+            </label>
+
+            <textarea
+                id="excerpt"
+                name="excerpt"
+                rows="4"
+                placeholder="Courte présentation de l'activité..."
+            >{{ activity.excerpt or '' }}</textarea>
+
+        </div>
+
+
+        <!-- CONTENU -->
+
+        <div class="form-group full">
+
+            <label for="content">
+                Contenu *
+            </label>
+
+            <textarea
+                id="content"
+                name="content"
+                rows="12"
+                required
+                placeholder="Contenu détaillé de l'activité..."
+            >{{ activity.content or '' }}</textarea>
+
+        </div>
+
+
+        <!-- IMAGE ACTUELLE -->
+
+        {% if activity.image_name %}
+
+            <div class="form-group full">
+
+                <label>
+                    Image actuelle
+                </label>
+
+                <div style="margin-top: 10px;">
+
+                    <img
+                        src="{{ url_for(
+                            'activity_image',
+                            filename=activity.image_name
+                        ) }}"
+                        alt="{{ activity.title }}"
+                        style="
+                            max-width: 320px;
+                            width: 100%;
+                            height: auto;
+                            border-radius: 8px;
+                            display: block;
+                        "
+                    >
+
+                </div>
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- NOUVELLE IMAGE -->
+
+        <div class="form-group full">
+
+            <label for="image">
+                Remplacer l'image
+            </label>
+
+            <input
+                type="file"
+                id="image"
+                name="image"
+                accept=".jpg,.jpeg,.png,.webp"
+            >
+
+            <small>
+                Laissez vide pour conserver l'image actuelle.
+            </small>
+
+        </div>
+
+
+        <!-- BOUTONS -->
+
+        <div class="form-actions full">
+
+            <button
+                type="submit"
+                class="btn-primary"
+            >
+                Enregistrer les modifications
+            </button>
+
+            <a
+                href="{{ url_for('manage_activities') }}"
+                class="btn-small"
+            >
+                Annuler
+            </a>
+
+        </div>
+
+    </form>
+
+</section>
+
+{% endblock %}

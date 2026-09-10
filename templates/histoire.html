@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+        content="Histoire de la Respectable Loge Mixte VIDELINA — Orient de Terrier-Rouge.">
+    <meta name="author" content="Respectable Loge Mixte VIDELINA">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#121d1d">
+
+    <link rel="icon"
+        type="image/png"
+        href="{{ url_for('static', filename='Logo Videlina.png') }}">
+
+    <link rel="apple-touch-icon"
+        href="{{ url_for('static', filename='Logo Videlina.png') }}">
+
+    <meta property="og:title"
+        content="Histoire de VIDELINA | Respectable Loge Mixte VIDELINA">
+
+    <meta property="og:description"
+        content="Découvrez les principales étapes historiques de la Respectable Loge Mixte VIDELINA.">
+
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="fr_FR">
+
+    <meta property="og:image"
+        content="{{ url_for('static', filename='Logo Videlina.png', _external=True) }}">
+
+    <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}">
+
+    <title>Histoire de VIDELINA | Respectable Loge Mixte VIDELINA</title>
+</head>
+
+
+<body>
+
+<!-- =========================================================
+     NAVIGATION
+     ========================================================= -->
+
+<header class="topbar">
+
+    <a href="{{ url_for('home') }}"
+       class="brand"
+       aria-label="Accueil — Respectable Loge Mixte VIDELINA">
+
+        <div class="brand-mark">
+
+            <img
+                src="{{ url_for('static', filename='Logo Videlina.png') }}"
+                alt="Logo officiel de la Respectable Loge Mixte VIDELINA">
+
+        </div>
+
+        <div>
+
+            <strong>VIDELINA</strong>
+
+            <small>
+                Respectable Loge Mixte
+            </small>
+
+        </div>
+
+    </a>
+
+
+    <button
+        class="menu-toggle"
+        type="button"
+        aria-label="Ouvrir le menu"
+        aria-expanded="false">
+
+        ☰
+
+    </button>
+
+
+    <nav aria-label="Navigation principale">
+
+        <a href="{{ url_for('home') }}#loge">
+            La Loge
+        </a>
+
+        <a href="{{ url_for('histoire') }}"
+           aria-current="page">
+
+            Histoire
+
+        </a>
+
+        <a href="{{ url_for('home') }}#valeurs">
+            Nos valeurs
+        </a>
+
+        <a href="{{ url_for('home') }}#activites">
+            Activités
+        </a>
+
+        <a href="{{ url_for('public_news') }}">
+            Actualités
+        </a>
+
+        <a href="{{ url_for('home') }}#contact">
+            Contact
+        </a>
+
+        <a href="{{ url_for('login') }}">
+            Espace membre
+        </a>
+
+    </nav>
+
+</header>
+
+
+<!-- =========================================================
+     CONTENU PRINCIPAL
+     ========================================================= -->
+
+<main>
+
+
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
+
+    <section class="history-page-hero">
+
+        <div class="history-page-hero-inner">
+
+            <p class="eyebrow gold">
+                Mémoire de la Loge
+            </p>
+
+            <h1>
+                Histoire de<br>
+                <span>VIDELINA</span>
+            </h1>
+
+            <p class="history-page-intro">
+
+                Une histoire qui commence par une première pierre,
+                se poursuit par un engagement institutionnel et
+                s'inscrit dans le travail initiatique.
+
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         INTRODUCTION
+         ===================================================== -->
+
+    <section class="history-introduction">
+
+        <div class="history-introduction-inner">
+
+            <div class="history-introduction-label">
+
+                <span>
+                    01
+                </span>
+
+                <p>
+                    NOS ORIGINES
+                </p>
+
+            </div>
+
+
+            <div class="history-introduction-text">
+
+                <h2>
+                    Une œuvre appelée à s'inscrire dans le temps
+                </h2>
+
+                <p>
+
+                    La Respectable Loge Mixte VIDELINA s'inscrit
+                    dans une démarche de travail, de fraternité,
+                    de recherche et de construction.
+
+                </p>
+
+                <p>
+
+                    Son histoire est jalonnée d'étapes fondatrices
+                    qui témoignent de son cheminement depuis la pose
+                    de sa première pierre jusqu'à l'ouverture de ses
+                    premiers travaux initiatiques.
+
+                </p>
+
+                <p>
+
+                    Ces dates constituent les premiers repères de
+                    la mémoire de VIDELINA et ont vocation à être
+                    enrichis au fil des années par les événements
+                    qui marqueront la vie de la Loge.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CHRONOLOGIE
+         ===================================================== -->
+
+    <section class="history-page-timeline">
+
+        <div class="history-page-heading">
+
+            <p class="eyebrow gold">
+                Chronologie
+            </p>
+
+            <h2>
+                Les étapes fondatrices
+            </h2>
+
+            <p>
+                Les principales étapes qui ont marqué
+                la naissance de la Respectable Loge
+                Mixte VIDELINA.
+            </p>
+
+        </div>
+
+
+        <div class="history-page-timeline-list">
+
+
+            <!-- =================================================
+                 01 MAI 2025
+                 ================================================= -->
+
+            <article class="history-page-item">
+
+                <div class="history-page-date">
+
+                    <span>
+                        01
+                    </span>
+
+                    <strong>
+                        MAI 2025
+                    </strong>
+
+                </div>
+
+
+                <div class="history-page-line">
+
+                    <span
+                        class="history-page-dot"
+                        aria-hidden="true">
+                    </span>
+
+                </div>
+
+
+                <div class="history-page-content">
+
+                    <span class="history-page-number">
+                        ÉTAPE 01
+                    </span>
+
+                    <h3>
+                        Pose de la première pierre
+                    </h3>
+
+                    <p>
+
+                        Le 1er mai 2025 marque la pose de la
+                        première pierre de la Respectable Loge
+                        Mixte VIDELINA.
+
+                    </p>
+
+                    <p>
+
+                        Cette étape symbolique constitue le premier
+                        repère de l'histoire de la Loge et le
+                        commencement de son œuvre.
+
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <!-- =================================================
+                 25 AOÛT 2025
+                 ================================================= -->
+
+            <article class="history-page-item">
+
+                <div class="history-page-date">
+
+                    <span>
+                        25
+                    </span>
+
+                    <strong>
+                        AOÛT 2025
+                    </strong>
+
+                </div>
+
+
+                <div class="history-page-line">
+
+                    <span
+                        class="history-page-dot"
+                        aria-hidden="true">
+                    </span>
+
+                </div>
+
+
+                <div class="history-page-content">
+
+                    <span class="history-page-number">
+                        ÉTAPE 02
+                    </span>
+
+                    <h3>
+                        Lettre de dispense de la GLTFA
+                    </h3>
+
+                    <p>
+
+                        Le 25 août 2025 constitue une étape
+                        institutionnelle majeure dans la naissance
+                        de VIDELINA.
+
+                    </p>
+
+                    <p>
+
+                        La Grande Loge Traditionnelle Française
+                        et des Amériques (GLTFA) lui décerne
+                        sa lettre de dispense.
+
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <!-- =================================================
+                 21 DÉCEMBRE 2025
+                 ================================================= -->
+
+            <article class="history-page-item">
+
+                <div class="history-page-date">
+
+                    <span>
+                        21
+                    </span>
+
+                    <strong>
+                        DÉCEMBRE 2025
+                    </strong>
+
+                </div>
+
+
+                <div class="history-page-line">
+
+                    <span
+                        class="history-page-dot"
+                        aria-hidden="true">
+                    </span>
+
+                </div>
+
+
+                <div class="history-page-content">
+
+                    <span class="history-page-number">
+                        ÉTAPE 03
+                    </span>
+
+                    <h3>
+                        Inauguration de la Loge
+                    </h3>
+
+                    <p>
+
+                        Le 21 décembre 2025 marque l'inauguration
+                        officielle de la Respectable Loge Mixte
+                        VIDELINA.
+
+                    </p>
+
+                    <p>
+
+                        Cette nouvelle étape inscrit la Loge dans
+                        son Orient de Terrier-Rouge et ouvre une
+                        nouvelle page de son histoire.
+
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <!-- =================================================
+                 23 DÉCEMBRE 2025
+                 ================================================= -->
+
+            <article class="history-page-item">
+
+                <div class="history-page-date">
+
+                    <span>
+                        23
+                    </span>
+
+                    <strong>
+                        DÉCEMBRE 2025
+                    </strong>
+
+                </div>
+
+
+                <div class="history-page-line">
+
+                    <span
+                        class="history-page-dot"
+                        aria-hidden="true">
+                    </span>
+
+                </div>
+
+
+                <div class="history-page-content">
+
+                    <span class="history-page-number">
+                        ÉTAPE 04
+                    </span>
+
+                    <h3>
+                        Premières initiations
+                    </h3>
+
+                    <p>
+
+                        Le 23 décembre 2025 marque les premières
+                        initiations de la Respectable Loge Mixte
+                        VIDELINA.
+
+                    </p>
+
+                    <p>
+
+                        Cette étape ouvre une nouvelle dimension
+                        dans la vie de la Loge et marque le début
+                        de son parcours initiatique.
+
+                    </p>
+
+                </div>
+
+            </article>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         IDENTITÉ
+         ===================================================== -->
+
+    <section class="history-identity">
+
+        <div class="history-identity-inner">
+
+            <div class="history-identity-text">
+
+                <p class="eyebrow gold">
+                    Notre identité
+                </p>
+
+                <h2>
+                    Une lumière appelée à grandir
+                </h2>
+
+                <p>
+
+                    Depuis ses premières étapes, VIDELINA poursuit
+                    son chemin dans l'esprit du travail, de la
+                    fraternité, de la connaissance et de la
+                    recherche de la Lumière.
+
+                </p>
+
+            </div>
+
+
+            <div class="history-identity-card">
+
+                <div class="history-identity-symbol">
+                    ✦
+                </div>
+
+                <p class="history-identity-motto">
+                    « IN OMNIBUS ET PER OMNIA LUCEAMUS. »
+                </p>
+
+                <span>
+                    Brillons en tout et par tout
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CITATION FINALE
+         ===================================================== -->
+
+    <section class="quote">
+
+        <p>
+            « De la première pierre à la Lumière,
+            chaque étape demeure une trace de l'œuvre accomplie. »
+        </p>
+
+    </section>
+
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+     ========================================================= -->
+
+<footer>
+
+    <div class="footer-brand">
+
+        <a href="{{ url_for('home') }}"
+           class="brand">
+
+            <div class="brand-mark">
+
+                <img
+                    src="{{ url_for('static', filename='Logo Videlina.png') }}"
+                    alt="Logo VIDELINA">
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    VIDELINA
+                </strong>
+
+                <small>
+                    Respectable Loge Mixte
+                </small>
+
+            </div>
+
+        </a>
+
+    </div>
+
+
+    <p>
+
+        © 2026 Respectable Loge Mixte VIDELINA
+
+        <br>
+
+        <em>
+            In omnibus et per omnia Luceamus
+        </em>
+
+    </p>
+
+
+    <a href="{{ url_for('home') }}">
+        Accueil
+    </a>
+
+</footer>
+
+
+<!-- =========================================================
+     MENU MOBILE
+     ========================================================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const toggle = document.querySelector(".menu-toggle");
+    const nav = document.querySelector("nav");
+
+    if (!toggle || !nav) {
+        return;
+    }
+
+
+    toggle.addEventListener("click", function () {
+
+        const open =
+            nav.classList.toggle("open");
+
+        toggle.setAttribute(
+            "aria-expanded",
+            open ? "true" : "false"
+        );
+
+    });
+
+
+    document
+        .querySelectorAll("nav a")
+        .forEach(function (link) {
+
+            link.addEventListener(
+                "click",
+                function () {
+
+                    nav.classList.remove("open");
+
+                    toggle.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                }
+            );
+
+        });
+
+});
+
+</script>
+
+
+</body>
+</html>

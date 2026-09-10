@@ -1,209 +1,1383 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
-  
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Site officiel de la Respectable Loge Mixte Videlina.">
-    <title>Respectable Loge Mixte Videlina</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  </head>
-  <body>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Respectable Loge Mixte VIDELINA — Orient de Terrier-Rouge. Un espace consacré à la réflexion, à la fraternité, à la transmission et à l'engagement humaniste."
+    >
+
+    <meta
+        name="keywords"
+        content="VIDELINA, loge mixte, franc-maçonnerie, Terrier-Rouge, fraternité, humanisme"
+    >
+
+    <meta
+        name="author"
+        content="Respectable Loge Mixte VIDELINA"
+    >
+
+    <meta
+        name="robots"
+        content="index, follow"
+    >
+
+    <meta
+        name="theme-color"
+        content="#121d1d"
+    >
+
+
+    <!-- =========================================
+         FAVICON / ICÔNES
+         ========================================= -->
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="{{ url_for('static', filename='Logo Videlina.png') }}"
+    >
+
+    <link
+        rel="apple-touch-icon"
+        href="{{ url_for('static', filename='Logo Videlina.png') }}"
+    >
+
+
+    <!-- =========================================
+         OPEN GRAPH
+         ========================================= -->
+
+    <meta
+        property="og:title"
+        content="Respectable Loge Mixte VIDELINA"
+    >
+
+    <meta
+        property="og:description"
+        content="Respectable Loge Mixte VIDELINA — Orient de Terrier-Rouge."
+    >
+
+    <meta
+        property="og:type"
+        content="website"
+    >
+
+    <meta
+        property="og:locale"
+        content="fr_FR"
+    >
+
+    <meta
+        property="og:image"
+        content="{{ url_for('static', filename='Logo Videlina.png', _external=True) }}"
+    >
+
+
+    <!-- =========================================
+         POLICES
+         ========================================= -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =========================================
+         CSS
+         ========================================= -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <title>
+        Respectable Loge Mixte VIDELINA
+    </title>
+
+</head>
+
+
+<body id="top">
+
+
+    <!-- =====================================================
+         BARRE DE NAVIGATION
+         ===================================================== -->
+
     <header class="topbar">
-      <a class="brand" href="#accueil" aria-label="Accueil Videlina">
-        <span class="brand-mark">V</span>
-        <span><strong>VIDELINA</strong><small>Respectable Loge Mixte</small></span>
-      </a>
-      <button class="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
-      <nav aria-label="Navigation principale">
-       <a href="#loge">La Loge</a>
-<a href="#valeurs">Nos valeurs</a>
-<a href="#activites">Activités</a>
-<a href="{{ url_for('public_news') }}">Actualités</a>
-<a href="#contact">Contact</a>
-<a href="{{ url_for('login') }}">Espace membre</a>
-      </nav>
+
+        <a
+            href="{{ url_for('home') }}"
+            class="brand"
+            aria-label="Accueil — Respectable Loge Mixte VIDELINA"
+        >
+
+            <div class="brand-mark">
+
+                <img
+                    src="{{ url_for('static', filename='Logo Videlina.png') }}"
+                    alt="Logo officiel de la Respectable Loge Mixte VIDELINA"
+                >
+
+            </div>
+
+            <div>
+
+                <strong>
+                    VIDELINA
+                </strong>
+
+                <small>
+                    Respectable Loge Mixte
+                </small>
+
+            </div>
+
+        </a>
+
+
+        <!-- =============================================
+             MENU MOBILE
+             ============================================= -->
+
+        <button
+            class="menu-toggle"
+            type="button"
+            aria-label="Ouvrir le menu"
+            aria-expanded="false"
+        >
+            ☰
+        </button>
+
+
+        <!-- =============================================
+             NAVIGATION PRINCIPALE
+             ============================================= -->
+
+        <nav aria-label="Navigation principale">
+
+            <a href="#loge">
+                La Loge
+            </a>
+
+
+            <a href="{{ url_for('histoire') }}">
+                Histoire
+            </a>
+
+
+            <a href="#valeurs">
+                Nos valeurs
+            </a>
+
+
+            <!-- =========================================
+                 ACTIVITÉS + SOUS-MENU
+                 ========================================= -->
+
+            <div class="nav-dropdown">
+
+                <a
+                  href="{{ url_for('public_activities') }}"
+                  class="nav-dropdown-toggle"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+
+                    Activités
+                    <span
+                        class="dropdown-arrow"
+                        aria-hidden="true"
+                    >
+                        ▾
+                    </span>
+                </a>
+
+
+                <div class="nav-dropdown-menu">
+
+                    <a href="{{ url_for('public_activities') }}">
+                        Nos activités
+                    </a>
+
+                    <a href="{{ url_for('public_actions') }}">
+                        Nos actions
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <a href="{{ url_for('public_news') }}">
+                Actualités
+            </a>
+
+
+            <a href="#contact">
+                Contact
+            </a>
+
+
+            <a href="{{ url_for('login') }}">
+                Espace membre
+            </a>
+
+        </nav>
+
     </header>
 
+
     <main>
-      <section class="hero" id="accueil">
-        <div class="hero-pattern" aria-hidden="true"></div>
-        <div class="hero-copy">
-          <p class="eyebrow">Liberté · Égalité · Fraternité</p>
-          <h1>Respectable<br><em>Loge Mixte</em><br>Videlina</h1>
-          <p class="lead">Un espace de réflexion, de partage et de perfectionnement au service de l’humanisme.</p>
-          <a class="button" href="#loge">Découvrir notre démarche <span>→</span></a>
-        </div>
-        <div class="hero-emblem" aria-label="Emblème décoratif Videlina">
-          <div class="sun"></div>
-          <div class="compass"><i></i><b></b></div>
-          <div class="emblem-name">V</div>
-          <p>Connaître<br>Comprendre<br>Agir</p>
-        </div>
-      </section>
-
-      <section class="intro section" id="loge">
-        <div class="section-number">01</div>
-        <div>
-          <p class="eyebrow gold">Notre démarche</p>
-          <h2>Éclairer la pensée,<br>élever l’action.</h2>
-        </div>
-        <div class="intro-text">
-          <p>La Respectable Loge Mixte Videlina réunit des femmes et des hommes animés par un idéal de progrès humain. Dans le respect de chaque conscience, nous cultivons l’écoute, l’étude et le dialogue.</p>
-          <p>Notre travail s’inscrit dans une tradition initiatique tournée vers la connaissance de soi et la construction d’une société plus juste, fraternelle et éclairée.</p>
-        </div>
-      </section>
-
-      <section class="values" id="valeurs">
-        <div class="values-heading">
-          <p class="eyebrow">Nos valeurs</p>
-          <h2>Les principes qui nous rassemblent</h2>
-        </div>
-        <div class="value-grid">
-          <article><span>Ⅰ</span><h3>Liberté de conscience</h3><p>Accueillir les convictions de chacun dans un esprit de respect et de tolérance.</p></article>
-          <article><span>Ⅱ</span><h3>Mixité & égalité</h3><p>Faire vivre une fraternité active, sans distinction de genre, d’origine ou de condition.</p></article>
-          <article><span>Ⅲ</span><h3>Humanisme</h3><p>Mettre la dignité humaine, la solidarité et la recherche du bien commun au premier plan.</p></article>
-        </div>
-      </section>
-
-      <section class="activities section" id="activites">
-        <div class="section-number">02</div>
-        <div class="activities-copy">
-          <p class="eyebrow gold">Vie de la Loge</p>
-          <h2>Étudier, échanger,<br>transmettre.</h2>
-          <p>Nos rencontres réunissent les membres autour de travaux symboliques, de conférences et de moments de fraternité. Elles sont guidées par la discrétion, l’exigence intellectuelle et la bienveillance.</p>
-        </div>
-        <ul class="activity-list">
-          <li><span>01</span>Travaux et planches</li>
-          <li><span>02</span>Conférences & rencontres</li>
-          <li><span>03</span>Actions solidaires</li>
-          <li><span>04</span>Temps de fraternité</li>
-        </ul>
-      </section>
-
-      <section class="home-news">
-
-  <div class="home-news-heading">
-
-    <div>
-      <p class="eyebrow gold">Vie de la Loge</p>
-
-      <h2>Actualités VIDELINA</h2>
-
-      <p>
-        Découvrez les dernières nouvelles, événements,
-        travaux et publications de la Respectable Loge Mixte VIDELINA.
-      </p>
-    </div>
-
-    <a href="{{ url_for('public_news') }}" class="news-all">
-      Toutes les actualités →
-    </a>
-
-  </div>
 
 
-  <div class="home-news-grid">
+        <!-- =====================================================
+             HERO
+             ===================================================== -->
 
-    {% for item in news %}
+        <section class="hero">
 
-      <article class="home-news-card">
+            <div class="hero-pattern"></div>
 
-        {% if item.image_name %}
 
-          <div class="home-news-image">
+            <div class="hero-copy">
 
-            <img
-              src="{{ url_for('news_image', filename=item.image_name) }}"
-              alt="{{ item.title }}"
+                <p class="eyebrow">
+                    Orient de Terrier-Rouge
+                </p>
+
+
+                <h1>
+
+                    Respectable
+
+                    <br>
+
+                    Loge Mixte
+
+                    <br>
+
+                    <em>VIDELINA</em>
+
+                </h1>
+
+
+                <p class="lead">
+
+                    Un espace de réflexion, de transmission,
+                    de fraternité et d'engagement humaniste.
+
+                </p>
+
+
+                <a
+                    href="#loge"
+                    class="button"
+                >
+
+                    Découvrir la Loge
+
+                    <span aria-hidden="true">
+                        →
+                    </span>
+
+                </a>
+
+            </div>
+
+
+            <!-- =============================================
+                 EMBLÈME DÉCORATIF
+                 ============================================= -->
+
+            <div
+                class="hero-emblem"
+                aria-hidden="true"
             >
 
-          </div>
-
-        {% endif %}
+                <div class="sun"></div>
 
 
-        <div class="home-news-body">
+                <div class="compass">
 
-          <span class="badge">
-            {{ item.category }}
-          </span>
+                    <i></i>
 
-          <h3>
-            {{ item.title }}
-          </h3>
+                    <b></b>
 
-          {% if item.published_at %}
+                </div>
 
-            <small>
-              {{ item.published_at.strftime('%d/%m/%Y') }}
-            </small>
 
-          {% endif %}
+                <div class="emblem-name">
+                    V
+                </div>
 
-          {% if item.excerpt %}
+
+                <p>
+
+                    In omnibus et per omnia
+                    <br>
+                    Luceamus
+
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             PRÉSENTATION DE LA LOGE
+             ===================================================== -->
+
+        <section
+            class="section"
+            id="loge"
+        >
+
+            <div class="section-number">
+                01
+            </div>
+
+
+            <div>
+
+                <p class="eyebrow gold">
+                    Notre démarche
+                </p>
+
+
+                <h2>
+
+                    Construire,
+                    <br>
+
+                    transmettre,
+                    <br>
+
+                    éclairer.
+
+                </h2>
+
+            </div>
+
+
+            <div class="intro-text">
+
+                <p>
+
+                    La Respectable Loge Mixte VIDELINA est
+                    un espace où la recherche de la connaissance
+                    rencontre la fraternité et le travail sur soi.
+
+                </p>
+
+
+                <p>
+
+                    À travers les travaux, les échanges et
+                    les rencontres, chaque membre est invité
+                    à approfondir sa réflexion, à développer
+                    son discernement et à contribuer à une
+                    œuvre collective fondée sur le respect.
+
+                </p>
+
+
+                <p>
+
+                    Notre démarche s'inscrit dans une volonté
+                    de faire vivre une tradition initiatique
+                    ouverte, humaniste et tournée vers
+                    l'amélioration de l'être humain et de la société.
+
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             HISTOIRE DE LA LOGE
+             ===================================================== -->
+
+        <section
+            class="history-section"
+            aria-labelledby="history-title"
+        >
+
+            <div class="history-heading">
+
+                <p class="eyebrow gold">
+                    Notre histoire
+                </p>
+
+
+                <h2 id="history-title">
+
+                    Les étapes fondatrices de VIDELINA
+
+                </h2>
+
+
+                <p>
+
+                    De la pose de la première pierre aux premières initiations,
+                    chaque étape a marqué la naissance et le développement
+                    de la Respectable Loge Mixte VIDELINA.
+
+                </p>
+
+            </div>
+
+
+            <div class="history-timeline">
+
+
+                <!-- 01 MAI 2025 -->
+
+                <article class="history-item">
+
+                    <div class="history-date">
+
+                        <span>
+                            01
+                        </span>
+
+                        <strong>
+                            MAI 2025
+                        </strong>
+
+                    </div>
+
+
+                    <div
+                        class="history-marker"
+                        aria-hidden="true"
+                    ></div>
+
+
+                    <div class="history-content">
+
+                        <span class="history-number">
+                            01
+                        </span>
+
+
+                        <h3>
+                            Pose de la première pierre
+                        </h3>
+
+
+                        <p>
+
+                            Première étape symbolique de l'œuvre de la
+                            Respectable Loge Mixte VIDELINA et commencement
+                            de son cheminement.
+
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- 25 AOÛT 2025 -->
+
+                <article class="history-item">
+
+                    <div class="history-date">
+
+                        <span>
+                            25
+                        </span>
+
+                        <strong>
+                            AOÛT 2025
+                        </strong>
+
+                    </div>
+
+
+                    <div
+                        class="history-marker"
+                        aria-hidden="true"
+                    ></div>
+
+
+                    <div class="history-content">
+
+                        <span class="history-number">
+                            02
+                        </span>
+
+
+                        <h3>
+                            Lettre de dispense de la GLTFA
+                        </h3>
+
+
+                        <p>
+
+                            La Grande Loge Traditionnelle Française et des
+                            Amériques (GLTFA) décerne à VIDELINA sa lettre
+                            de dispense, marquant une étape institutionnelle
+                            majeure dans la vie de la Loge.
+
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- 21 DÉCEMBRE 2025 -->
+
+                <article class="history-item">
+
+                    <div class="history-date">
+
+                        <span>
+                            21
+                        </span>
+
+                        <strong>
+                            DÉCEMBRE 2025
+                        </strong>
+
+                    </div>
+
+
+                    <div
+                        class="history-marker"
+                        aria-hidden="true"
+                    ></div>
+
+
+                    <div class="history-content">
+
+                        <span class="history-number">
+                            03
+                        </span>
+
+
+                        <h3>
+                            Inauguration de la Loge
+                        </h3>
+
+
+                        <p>
+
+                            Inauguration officielle de la Respectable Loge
+                            Mixte VIDELINA, Orient de Terrier-Rouge.
+
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- 23 DÉCEMBRE 2025 -->
+
+                <article class="history-item">
+
+                    <div class="history-date">
+
+                        <span>
+                            23
+                        </span>
+
+                        <strong>
+                            DÉCEMBRE 2025
+                        </strong>
+
+                    </div>
+
+
+                    <div
+                        class="history-marker"
+                        aria-hidden="true"
+                    ></div>
+
+
+                    <div class="history-content">
+
+                        <span class="history-number">
+                            04
+                        </span>
+
+
+                        <h3>
+                            Premières initiations
+                        </h3>
+
+
+                        <p>
+
+                            Les premières initiations marquent l'ouverture
+                            des travaux initiatiques de la Respectable Loge
+                            Mixte VIDELINA.
+
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             VALEURS
+             ===================================================== -->
+
+        <section
+            class="values"
+            id="valeurs"
+        >
+
+            <div class="values-heading">
+
+                <div>
+
+                    <p class="eyebrow gold">
+                        Nos principes
+                    </p>
+
+
+                    <h2>
+
+                        Trois piliers,
+                        <br>
+                        une même lumière.
+
+                    </h2>
+
+                </div>
+
+
+                <p>
+
+                    Des valeurs qui orientent notre travail
+                    collectif et notre cheminement personnel.
+
+                </p>
+
+            </div>
+
+
+            <div class="value-grid">
+
+
+                <article>
+
+                    <span>
+                        I
+                    </span>
+
+
+                    <h3>
+                        Liberté de conscience
+                    </h3>
+
+
+                    <p>
+
+                        Respecter la liberté de pensée,
+                        de conscience et de recherche de
+                        chaque membre.
+
+                    </p>
+
+                </article>
+
+
+                <article>
+
+                    <span>
+                        II
+                    </span>
+
+
+                    <h3>
+                        Mixité & égalité
+                    </h3>
+
+
+                    <p>
+
+                        Reconnaître la dignité de chaque
+                        personne et favoriser une fraternité
+                        fondée sur l'égalité.
+
+                    </p>
+
+                </article>
+
+
+                <article>
+
+                    <span>
+                        III
+                    </span>
+
+
+                    <h3>
+                        Humanisme
+                    </h3>
+
+
+                    <p>
+
+                        Cultiver la connaissance, la solidarité,
+                        le respect et la recherche constante
+                        du progrès humain.
+
+                    </p>
+
+                </article>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             ACTIVITÉS
+             ===================================================== -->
+
+        <section
+            class="section activities"
+            id="activites"
+        >
+
+            <div class="section-number">
+                02
+            </div>
+
+
+            <div class="activities-copy">
+
+                <p class="eyebrow gold">
+                    La vie de la Loge
+                </p>
+
+
+                <h2>
+
+                    Des travaux
+                    <br>
+
+                    qui donnent
+                    <br>
+
+                    du sens.
+
+                </h2>
+
+
+                <p>
+
+                    La vie de la Loge se construit autour
+                    de moments de travail, de réflexion,
+                    de partage et de fraternité.
+
+                </p>
+
+            </div>
+
+
+            <ul class="activity-list">
+
+
+                <li>
+
+                    <span>
+                        01
+                    </span>
+
+                    Travaux et planches
+
+                </li>
+
+
+                <li>
+
+                    <span>
+                        02
+                    </span>
+
+                    Conférences & rencontres
+
+                </li>
+
+
+                <li>
+
+                    <span>
+                        03
+                    </span>
+
+                    Actions solidaires
+
+                </li>
+
+
+                <li>
+
+                    <span>
+                        04
+                    </span>
+
+                    Temps de fraternité
+
+                </li>
+
+
+            </ul>
+
+        </section>
+
+
+        <!-- =====================================================
+             ACTUALITÉS
+             ===================================================== -->
+
+        <section class="home-news">
+
+            <div class="home-news-heading">
+
+                <div>
+
+                    <p class="eyebrow gold">
+                        Vie de la Loge
+                    </p>
+
+
+                    <h2>
+                        Actualités
+                    </h2>
+
+
+                    <p>
+
+                        Découvrez les nouvelles, événements
+                        et publications de la Respectable Loge
+                        Mixte VIDELINA.
+
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="{{ url_for('public_news') }}"
+                    class="news-all"
+                >
+
+                    Toutes les actualités
+
+                    →
+
+                </a>
+
+            </div>
+
+
+            <div class="home-news-grid">
+
+
+                {% for item in news %}
+
+                <article class="home-news-card">
+
+
+                    {% if item.image_name %}
+
+                    <div class="home-news-image">
+
+                        <img
+                            src="{{ url_for('news_image', filename=item.image_name) }}"
+                            alt="{{ item.title }}"
+                            loading="lazy"
+                        >
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <div class="home-news-body">
+
+
+                        {% if item.category %}
+
+                        <span class="badge">
+                            {{ item.category }}
+                        </span>
+
+                        {% endif %}
+
+
+                        <h3>
+                            {{ item.title }}
+                        </h3>
+
+
+                        {% if item.published_at %}
+
+                        <time
+                            datetime="{{ item.published_at.strftime('%Y-%m-%d') }}"
+                        >
+
+                            {{ item.published_at.strftime('%d/%m/%Y') }}
+
+                        </time>
+
+                        {% endif %}
+
+
+                        {% if item.excerpt %}
+
+                        <p>
+                            {{ item.excerpt }}
+                        </p>
+
+                        {% endif %}
+
+
+                        <a
+                            href="{{ url_for('news_detail', news_id=item.id) }}"
+                            class="home-news-link"
+                            aria-label="Lire l'article : {{ item.title }}"
+                        >
+
+                            Lire l’article
+
+                            <span aria-hidden="true">
+                                →
+                            </span>
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+                {% else %}
+
+
+                <div class="home-news-empty">
+
+                    <p>
+                        Aucune actualité publiée pour le moment.
+                    </p>
+
+                </div>
+
+
+                {% endfor %}
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             DEVISE
+             ===================================================== -->
+
+        <section class="quote">
 
             <p>
-              {{ item.excerpt }}
+
+                « IN OMNIBUS ET PER OMNIA LUCEAMUS. »
+
             </p>
 
-          {% endif %}
+        </section>
 
-          <a
-            href="{{ url_for('news_detail', news_id=item.id) }}"
-            class="home-news-link"
-          >
-            Lire l'article →
-          </a>
 
-        </div>
+        <!-- =====================================================
+             CONTACT
+             ===================================================== -->
 
-      </article>
+        <section
+            class="section contact"
+            id="contact"
+        >
 
-    {% else %}
+            <div class="section-number">
+                03
+            </div>
 
-      <div class="home-news-empty">
-        <p>
-          Aucune actualité publiée pour le moment.
-        </p>
-      </div>
 
-    {% endfor %}
+            <div class="contact-copy">
 
-  </div>
+                <p class="eyebrow gold">
+                    Nous contacter
+                </p>
 
-</section>
 
-      <section class="quote">
-        <p>« IN OMNIBUS ET PER OMNIA LUCEAMUS. »</p>
-      </section>
+                <h2>
+                    Échangeons.
+                </h2>
 
-      <section class="contact section" id="contact">
-        <div class="contact-copy">
-          <p class="eyebrow gold">Nous écrire</p>
-          <h2>Entrons en<br>conversation.</h2>
-          <p>Pour une demande d’information ou pour entrer en relation avec la Loge, utilisez ce formulaire. Votre message sera traité avec la plus grande discrétion.</p>
-          <p class="contact-note">Les champs marqués d’un astérisque sont requis.</p>
-        </div>
-        <form action="{{ url_for('contact') }}" method="post">
-          {% if sent %}<div class="notice">Merci. Votre demande a bien été préparée.</div>{% endif %}
-          <label>Nom complet *<input required name="name" value="{{ form.get('name', '') if form else '' }}"></label>
-          <label>Adresse e-mail *<input required type="email" name="email" value="{{ form.get('email', '') if form else '' }}"></label>
-          <label>Objet *<input required name="subject" value="{{ form.get('subject', '') if form else '' }}"></label>
-          <label>Message *<textarea required name="message" rows="4">{{ form.get('message', '') if form else '' }}</textarea></label>
-          <button class="button" type="submit">Envoyer le message <span>→</span></button>
-        </form>
-      </section>
+
+                <p>
+
+                    Une question, une demande d'information
+                    ou une démarche particulière ?
+
+                </p>
+
+
+                <p class="contact-note">
+
+                    Les messages envoyés depuis ce formulaire
+                    sont transmis à l'administration de la Loge.
+
+                </p>
+
+            </div>
+
+
+            <form
+                id="contact-form"
+                action="{{ url_for('contact') }}"
+                method="POST"
+                autocomplete="off"
+                novalidate
+            >
+
+
+                <!-- =============================================
+                     MESSAGE DE SUCCÈS
+                     ============================================= -->
+
+                {% if request.args.get('contact_sent') == '1' %}
+
+                <div
+                    class="notice"
+                    role="status"
+                >
+
+                    Merci. Votre message a bien été envoyé.
+
+                </div>
+
+                {% endif %}
+
+
+                <!-- =============================================
+                     ERREUR GÉNÉRALE
+                     ============================================= -->
+
+                {% if request.args.get('contact_error') == '1' %}
+
+                <div
+                    class="notice"
+                    role="alert"
+                >
+
+                    Une erreur est survenue.
+                    Veuillez réessayer.
+
+                </div>
+
+                {% endif %}
+
+
+                <!-- =============================================
+                     FORMULAIRE INCOMPLET
+                     ============================================= -->
+
+                {% if request.args.get('contact_error') == '2' %}
+
+                <div
+                    class="notice"
+                    role="alert"
+                >
+
+                    Veuillez remplir tous les champs.
+
+                </div>
+
+                {% endif %}
+
+
+                <!-- =============================================
+                     NOM
+                     ============================================= -->
+
+                <label for="contact-name">
+
+                    Nom complet *
+
+                    <input
+                        type="text"
+                        id="contact-name"
+                        name="name"
+                        required
+                        maxlength="150"
+                        autocomplete="name"
+                        placeholder="Votre nom complet"
+                    >
+
+                </label>
+
+
+                <!-- =============================================
+                     EMAIL
+                     ============================================= -->
+
+                <label for="contact-email">
+
+                    Adresse e-mail *
+
+                    <input
+                        type="email"
+                        id="contact-email"
+                        name="email"
+                        required
+                        maxlength="254"
+                        autocomplete="email"
+                        inputmode="email"
+                        placeholder="votre@email.com"
+                    >
+
+                </label>
+
+
+                <!-- =============================================
+                     OBJET
+                     ============================================= -->
+
+                <label for="contact-subject">
+
+                    Objet *
+
+                    <input
+                        type="text"
+                        id="contact-subject"
+                        name="subject"
+                        required
+                        maxlength="200"
+                        placeholder="Objet de votre message"
+                    >
+
+                </label>
+
+
+                <!-- =============================================
+                     MESSAGE
+                     ============================================= -->
+
+                <label for="contact-message">
+
+                    Message *
+
+                    <textarea
+                        id="contact-message"
+                        name="message"
+                        rows="6"
+                        required
+                        maxlength="5000"
+                        placeholder="Écrivez votre message..."
+                    ></textarea>
+
+                </label>
+
+
+                <!-- =============================================
+                     BOUTON ENVOI
+                     ============================================= -->
+
+                <button
+                    type="submit"
+                    class="button"
+                    id="contact-submit"
+                >
+
+                    <span class="button-label">
+                        Envoyer le message
+                    </span>
+
+                    <span aria-hidden="true">
+                        →
+                    </span>
+
+                </button>
+
+
+                <p class="form-security-note">
+
+                    Vos informations sont utilisées uniquement
+                    pour répondre à votre demande.
+
+                </p>
+
+            </form>
+
+        </section>
+
     </main>
 
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
     <footer>
-      <div class="brand footer-brand"><span class="brand-mark">V</span><span><strong>VIDELINA</strong><small>Respectable Loge Mixte</small></span></div>
-      <p>© 2026 Respectable Loge Mixte Videlina. Tous droits réservés.</p>
-      <a href="#accueil">Retour en haut ↑</a>
+
+
+        <div class="footer-brand">
+
+            <a
+                href="{{ url_for('home') }}"
+                class="brand"
+            >
+
+                <div class="brand-mark">
+
+                    <img
+                        src="{{ url_for('static', filename='Logo Videlina.png') }}"
+                        alt="Logo VIDELINA"
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        VIDELINA
+                    </strong>
+
+                    <small>
+                        Respectable Loge Mixte
+                    </small>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <p>
+
+            © 2026 Respectable Loge Mixte VIDELINA
+
+            <br>
+
+            <em>
+                In omnibus et per omnia Luceamus
+            </em>
+
+        </p>
+
+
+        <a href="#top">
+            Retour en haut ↑
+        </a>
+
+
     </footer>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-  </body>
+
+
+    <!-- =====================================================
+         JAVASCRIPT PRINCIPAL
+         ===================================================== -->
+
+    <script
+        src="{{ url_for('static', filename='script.js') }}"
+    ></script>
+
+
+    <!-- =====================================================
+         PROTECTION CONTRE DOUBLE ENVOI DU FORMULAIRE
+         ===================================================== -->
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const form =
+                document.getElementById("contact-form");
+
+            const submitButton =
+                document.getElementById("contact-submit");
+
+            const buttonLabel =
+                submitButton
+                    ? submitButton.querySelector(".button-label")
+                    : null;
+
+
+            if (!form || !submitButton) {
+                return;
+            }
+
+
+            form.addEventListener("submit", function (event) {
+
+                if (!form.checkValidity()) {
+                    return;
+                }
+
+
+                submitButton.disabled = true;
+
+                submitButton.setAttribute(
+                    "aria-disabled",
+                    "true"
+                );
+
+
+                if (buttonLabel) {
+
+                    buttonLabel.textContent =
+                        "Envoi en cours…";
+
+                }
+
+            });
+
+        });
+
+    </script>
+
+
+</body>
+
 </html>
