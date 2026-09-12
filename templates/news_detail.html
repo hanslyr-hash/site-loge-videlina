@@ -1,68 +1,495 @@
-{% extends "base_member.html" %}
 
-{% block title %}
-{{ item.title }} | VIDELINA
-{% endblock %}
+<!DOCTYPE html>
+<html lang="fr">
 
-{% block heading %}
-{{ item.title }}
-{% endblock %}
+<head>
 
-{% block content %}
+    <meta charset="UTF-8">
 
-<article class="panel news-detail">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <div class="panel-title">
+    <meta
+        name="description"
+        content="Actualité de la Respectable Loge Mixte VIDELINA — Orient de Terrier-Rouge."
+    >
 
-        <div>
+    <meta
+        name="author"
+        content="Respectable Loge Mixte VIDELINA"
+    >
 
-            <span class="badge">
-                {{ item.category }}
-            </span>
+    <meta
+        name="robots"
+        content="index, follow"
+    >
 
-            {% if item.published_at %}
+    <meta
+        name="theme-color"
+        content="#121d1d"
+    >
 
-                <p class="news-date">
-                    Publié le
-                    {{ item.published_at.strftime('%d/%m/%Y') }}
-                </p>
+    <!-- =====================================================
+         FAVICON
+         ===================================================== -->
 
-            {% endif %}
+    <link
+        rel="icon"
+        type="image/png"
+        href="{{ url_for('static', filename='Logo Videlina.png') }}"
+    >
+
+    <link
+        rel="apple-touch-icon"
+        href="{{ url_for('static', filename='Logo Videlina.png') }}"
+    >
+
+
+    <!-- =====================================================
+         OPEN GRAPH
+         ===================================================== -->
+
+    <meta
+        property="og:title"
+        content="{{ item.title }} | VIDELINA"
+    >
+
+    <meta
+        property="og:description"
+        content="{{ item.excerpt or 'Actualité de la Respectable Loge Mixte VIDELINA.' }}"
+    >
+
+    <meta
+        property="og:type"
+        content="article"
+    >
+
+    <meta
+        property="og:locale"
+        content="fr_FR"
+    >
+
+    {% if item.image_name %}
+
+    <meta
+        property="og:image"
+        content="{{ url_for('news_image', filename=item.image_name, _external=True) }}"
+    >
+
+    {% else %}
+
+    <meta
+        property="og:image"
+        content="{{ url_for('static', filename='Logo Videlina.png', _external=True) }}"
+    >
+
+    {% endif %}
+
+
+    <!-- =====================================================
+         POLICES
+         ===================================================== -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         CSS PRINCIPAL
+         ===================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+
+    <title>
+        {{ item.title }} | VIDELINA
+    </title>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVIGATION PUBLIQUE
+     ===================================================== -->
+
+<header class="topbar">
+
+    <a
+        href="{{ url_for('home') }}"
+        class="brand"
+        aria-label="Accueil — Respectable Loge Mixte VIDELINA"
+    >
+
+        <div class="brand-mark">
+
+            <img
+                src="{{ url_for('static', filename='Logo Videlina.png') }}"
+                alt="Logo officiel de la Respectable Loge Mixte VIDELINA"
+            >
 
         </div>
 
+        <div>
+
+            <strong>
+                VIDELINA
+            </strong>
+
+            <small>
+                Respectable Loge Mixte
+            </small>
+
+        </div>
+
+    </a>
+
+
+    <button
+        class="menu-toggle"
+        type="button"
+        aria-label="Ouvrir le menu"
+        aria-expanded="false"
+    >
+        ☰
+    </button>
+
+
+    <nav aria-label="Navigation principale">
+
+        <a href="{{ url_for('home') }}#loge">
+            La Loge
+        </a>
+
+        <a href="{{ url_for('home') }}#valeurs">
+            Nos valeurs
+        </a>
+
+        <a href="{{ url_for('home') }}#activites">
+            Activités
+        </a>
+
         <a
             href="{{ url_for('public_news') }}"
-            class="button"
+            aria-current="page"
         >
-            ← Toutes les actualités
+            Actualités
+        </a>
+
+        <a href="{{ url_for('home') }}#contact">
+            Contact
+        </a>
+
+        <a href="{{ url_for('login') }}">
+            Espace membre
+        </a>
+
+    </nav>
+
+</header>
+
+
+<!-- =====================================================
+     CONTENU PRINCIPAL
+     ===================================================== -->
+
+<main>
+
+
+    <!-- =================================================
+         EN-TÊTE
+         ================================================= -->
+
+    <section class="public-news-hero">
+
+        <div class="public-news-hero-inner">
+
+            <p class="eyebrow gold">
+                Vie de la Loge
+            </p>
+
+            <h1>
+                Actualités
+            </h1>
+
+            <p class="public-news-intro">
+                Découvrez les événements, travaux,
+                publications et nouvelles de la
+                Respectable Loge Mixte VIDELINA.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         ARTICLE
+         ================================================= -->
+
+    <section class="public-news-section">
+
+        <div class="public-news-heading">
+
+            <div>
+
+                {% if item.category %}
+
+                <span class="badge">
+                    {{ item.category }}
+                </span>
+
+                {% endif %}
+
+                <h2>
+                    {{ item.title }}
+                </h2>
+
+                {% if item.published_at %}
+
+                <time
+                    datetime="{{ item.published_at.strftime('%Y-%m-%d') }}"
+                >
+
+                    Publié le
+                    {{ item.published_at.strftime('%d/%m/%Y') }}
+
+                </time>
+
+                {% endif %}
+
+            </div>
+
+
+            <a
+                href="{{ url_for('public_news') }}"
+                class="button"
+            >
+                ← Toutes les actualités
+            </a>
+
+        </div>
+
+
+        <article class="public-news-card news-detail">
+
+
+            <!-- =============================================
+                 IMAGE
+                 ============================================= -->
+
+            {% if item.image_name %}
+
+            <div class="public-news-image">
+
+                <img
+                    src="{{ url_for('news_image', filename=item.image_name) }}"
+                    alt="{{ item.title }}"
+                >
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- =============================================
+                 CONTENU
+                 ============================================= -->
+
+            <div class="public-news-body">
+
+
+                {% if item.excerpt %}
+
+                <p class="news-excerpt">
+
+                    <strong>
+                        {{ item.excerpt }}
+                    </strong>
+
+                </p>
+
+                {% endif %}
+
+
+                <div class="news-content">
+
+                    {{ item.content|replace('\n', '<br>')|safe }}
+
+                </div>
+
+
+                <!-- =========================================
+                     RETOUR AUX ACTUALITÉS
+                     ========================================= -->
+
+                <div class="news-detail-actions">
+
+                    <a
+                        href="{{ url_for('public_news') }}"
+                        class="button"
+                    >
+                        ← Toutes les actualités
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </section>
+
+
+    <!-- =================================================
+         DEVISE
+         ================================================= -->
+
+    <section class="quote">
+
+        <p>
+            « IN OMNIBUS ET PER OMNIA LUCEAMUS. »
+        </p>
+
+    </section>
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+
+<footer>
+
+    <div class="footer-brand">
+
+        <a
+            href="{{ url_for('home') }}"
+            class="brand"
+        >
+
+            <div class="brand-mark">
+
+                <img
+                    src="{{ url_for('static', filename='Logo Videlina.png') }}"
+                    alt="Logo VIDELINA"
+                >
+
+            </div>
+
+            <div>
+
+                <strong>
+                    VIDELINA
+                </strong>
+
+                <small>
+                    Respectable Loge Mixte
+                </small>
+
+            </div>
+
         </a>
 
     </div>
 
 
-    <h2>
-        {{ item.title }}
-    </h2>
+    <p>
+
+        © 2026 Respectable Loge Mixte VIDELINA
+
+        <br>
+
+        <em>
+            In omnibus et per omnia Luceamus
+        </em>
+
+    </p>
 
 
-    {% if item.excerpt %}
+    <a href="{{ url_for('home') }}">
+        Accueil
+    </a>
 
-        <p>
-            <strong>
-                {{ item.excerpt }}
-            </strong>
-        </p>
-
-    {% endif %}
+</footer>
 
 
-    <div class="news-content">
+<!-- =====================================================
+     JAVASCRIPT MENU MOBILE
+     ===================================================== -->
 
-        {{ item.content|replace('\n', '<br>')|safe }}
+<script>
 
-    </div>
+document.addEventListener("DOMContentLoaded", function () {
 
-</article>
+    const toggle =
+        document.querySelector(".menu-toggle");
 
-{% endblock %}
+    const nav =
+        document.querySelector("nav");
+
+
+    if (!toggle || !nav) {
+        return;
+    }
+
+
+    toggle.addEventListener("click", function () {
+
+        const open =
+            nav.classList.toggle("open");
+
+        toggle.setAttribute(
+            "aria-expanded",
+            open ? "true" : "false"
+        );
+
+    });
+
+
+    document
+        .querySelectorAll("nav a")
+        .forEach(function (link) {
+
+            link.addEventListener("click", function () {
+
+                nav.classList.remove("open");
+
+                toggle.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+            });
+
+        });
+
+});
+
+</script>
+
+
+</body>
+
+</html>
