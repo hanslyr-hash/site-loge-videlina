@@ -1,0 +1,514 @@
+{% extends "base_member.html" %}
+
+{% block title %}Actions | Videlina{% endblock %}
+
+{% block heading %}
+    Actions
+{% endblock %}
+
+{% block content %}
+
+<div class="admin-page">
+
+    <!-- =====================================================
+         EN-TÊTE
+         ===================================================== -->
+
+    <div class="admin-header">
+
+        <div>
+            <h2>Actions de la Loge</h2>
+
+            <p>
+                Créer et gérer les actions menées par la
+                Respectable Loge Mixte VIDELINA.
+            </p>
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         FORMULAIRE — NOUVELLE ACTION
+         ===================================================== -->
+
+    <div class="admin-card">
+
+        <h3>Ajouter une action</h3>
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+            class="admin-form"
+        >
+
+            <!-- TITRE -->
+
+            <div class="form-group">
+
+                <label for="title">
+                    Titre *
+                </label>
+
+                <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    placeholder="Titre de l'action"
+                    required
+                >
+
+            </div>
+
+
+            <!-- CATÉGORIE -->
+
+            <div class="form-group">
+
+                <label for="category">
+                    Catégorie *
+                </label>
+
+                <select
+                    id="category"
+                    name="category"
+                    required
+                >
+
+                    <option value="">
+                        Sélectionner une catégorie
+                    </option>
+
+                    <option value="Action sociale">
+                        Action sociale
+                    </option>
+
+                    <option value="Actions solidaires">
+                        Actions solidaires
+                    </option>
+
+                    <option value="Éducation">
+                        Éducation
+                    </option>
+
+                    <option value="Culture">
+                        Culture
+                    </option>
+
+                    <option value="Environnement">
+                        Environnement
+                    </option>
+
+                    <option value="Santé">
+                        Santé
+                    </option>
+
+                    <option value="Fraternité">
+                        Fraternité
+                    </option>
+
+                    <option value="Autre">
+                        Autre
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- STATUT -->
+
+            <div class="form-group">
+
+                <label for="status">
+                    Statut
+                </label>
+
+                <select
+                    id="status"
+                    name="status"
+                >
+
+                    <option value="Brouillon">
+                        Brouillon
+                    </option>
+
+                    <option value="Publié">
+                        Publié
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- DATE -->
+
+            <div class="form-group">
+
+                <label for="action_date">
+                    Date de l'action
+                </label>
+
+                <input
+                    type="date"
+                    id="action_date"
+                    name="action_date"
+                >
+
+            </div>
+
+
+            <!-- LIEU -->
+
+            <div class="form-group">
+
+                <label for="location">
+                    Lieu
+                </label>
+
+                <input
+                    type="text"
+                    id="location"
+                    name="location"
+                    placeholder="Lieu de l'action"
+                >
+
+            </div>
+
+
+            <!-- EXTRAIT -->
+
+            <div class="form-group">
+
+                <label for="excerpt">
+                    Extrait
+                </label>
+
+                <textarea
+                    id="excerpt"
+                    name="excerpt"
+                    rows="3"
+                    placeholder="Courte présentation de l'action..."
+                ></textarea>
+
+            </div>
+
+
+            <!-- CONTENU -->
+
+            <div class="form-group">
+
+                <label for="content">
+                    Contenu *
+                </label>
+
+                <textarea
+                    id="content"
+                    name="content"
+                    rows="10"
+                    placeholder="Décrivez l'action..."
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <!-- IMAGE -->
+
+            <div class="form-group">
+
+                <label for="image">
+                    Image
+                </label>
+
+                <input
+                    type="file"
+                    id="image"
+                    name="image"
+                    accept=".jpg,.jpeg,.png,.webp"
+                >
+
+                <small>
+                    Formats acceptés :
+                    JPG, JPEG, PNG et WEBP.
+                </small>
+
+            </div>
+
+
+            <!-- BOUTON -->
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="btn-primary"
+                >
+                    Enregistrer l'action
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- =====================================================
+         LISTE DES ACTIONS
+         ===================================================== -->
+
+    <div class="admin-card">
+
+        <div class="admin-header">
+
+            <div>
+
+                <h3>
+                    Actions enregistrées
+                </h3>
+
+                <p>
+                    Liste des actions de la Loge.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        {% if actions %}
+
+        <div class="admin-table-wrapper">
+
+            <table class="admin-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Image
+                        </th>
+
+                        <th>
+                            Titre
+                        </th>
+
+                        <th>
+                            Catégorie
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Lieu
+                        </th>
+
+                        <th>
+                            Statut
+                        </th>
+
+                        <th>
+                            Actions
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                {% for action in actions %}
+
+                    <tr>
+
+                        <!-- IMAGE -->
+
+                        <td>
+
+                            {% if action.image_name %}
+
+                                <img
+                                    src="{{ url_for(
+                                        'action_image',
+                                        filename=action.image_name
+                                    ) }}"
+                                    alt="{{ action.title }}"
+                                    style="
+                                        width: 90px;
+                                        height: 65px;
+                                        object-fit: cover;
+                                        border-radius: 8px;
+                                        display: block;
+                                    "
+                                >
+
+                            {% else %}
+
+                                <span>
+                                    —
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- TITRE -->
+
+                        <td>
+
+                            <strong>
+                                {{ action.title }}
+                            </strong>
+
+                            {% if action.excerpt %}
+
+                                <div class="table-excerpt">
+                                    {{ action.excerpt }}
+                                </div>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- CATÉGORIE -->
+
+                        <td>
+                            {{ action.category }}
+                        </td>
+
+
+                        <!-- DATE -->
+
+                        <td>
+
+                            {% if action.action_date %}
+
+                                {{ action.action_date.strftime("%d/%m/%Y") }}
+
+                            {% else %}
+
+                                —
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- LIEU -->
+
+                        <td>
+
+                            {% if action.location %}
+
+                                {{ action.location }}
+
+                            {% else %}
+
+                                —
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- STATUT -->
+
+                        <td>
+
+                            {% if action.status == "Publié" %}
+
+                                <span class="badge badge-published">
+                                    Publié
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge badge-draft">
+                                    Brouillon
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- ACTIONS -->
+
+                        <td>
+
+                            <div class="table-actions">
+
+                                <a
+                                    href="{{ url_for(
+                                        'edit_action',
+                                        action_id=action.id
+                                    ) }}"
+                                    class="btn-small"
+                                >
+                                    Modifier
+                                </a>
+
+
+                                <form
+                                    method="POST"
+                                    action="{{ url_for(
+                                        'delete_action',
+                                        action_id=action.id
+                                    ) }}"
+                                    onsubmit="return confirm(
+                                        'Voulez-vous vraiment supprimer cette action ?'
+                                    );"
+                                >
+
+                                    <button
+                                        type="submit"
+                                        class="btn-small btn-danger"
+                                    >
+                                        Supprimer
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+            <div class="empty-state">
+
+                <h3>
+                    Aucune action
+                </h3>
+
+                <p>
+                    Aucune action n'a encore été enregistrée.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

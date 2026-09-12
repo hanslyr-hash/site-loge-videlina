@@ -14,13 +14,283 @@ Gestion des activités | Videlina
             ADMINISTRATION
         </span>
 
-        <h1>
-            Activités & Actions
-        </h1>
+    <h1>
+        Activités
+    </h1>
+
+    <p>
+        Gérez les activités et les actions de la
+        Respectable Loge Mixte VIDELINA.
+    </p>
+</div>
+
+</div>
+
+
+<!-- ========================================================= -->
+
+<!-- FORMULAIRE -->
+
+<!-- ========================================================= -->
+
+<section class="card">
+
+```
+<div class="card-header">
+    <div>
+
+        <h2>
+            Ajouter une activité
+        </h2>
 
         <p>
-            Gérez les activités et les actions de la
-            Respectable Loge Mixte VIDELINA.
+            Publiez une activité, une conférence,
+            une action solidaire ou un événement de la Loge.
+        </p>
+
+    </div>
+</div>
+
+
+<form
+    method="POST"
+    enctype="multipart/form-data"
+    class="form-grid"
+>
+
+    <!-- TITRE -->
+
+    <div class="form-group full">
+
+        <label for="title">
+            Titre *
+        </label>
+
+        <input
+            type="text"
+            id="title"
+            name="title"
+            required
+            placeholder="Titre de l'activité ou de l'action"
+        >
+
+    </div>
+
+
+    <!-- CATÉGORIE -->
+
+    <div class="form-group">
+
+        <label for="category">
+            Catégorie *
+        </label>
+
+        <select
+            id="category"
+            name="category"
+            required
+        >
+
+            <option value="">
+                — Sélectionner —
+            </option>
+
+            <option value="Travaux et planches">
+                Travaux et planches
+            </option>
+
+            <option value="Conférences et rencontres">
+                Conférences et rencontres
+            </option>
+
+            <option value="Actions solidaires">
+                Actions solidaires
+            </option>
+
+            <option value="Temps de fraternité">
+                Temps de fraternité
+            </option>
+
+            <option value="Culture et éducation">
+                Culture et éducation
+            </option>
+
+            <option value="Action sociale">
+                Action sociale
+            </option>
+
+            <option value="Autre">
+                Autre
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- STATUT -->
+
+    <div class="form-group">
+
+        <label for="status">
+            Statut *
+        </label>
+
+        <select
+            id="status"
+            name="status"
+            required
+        >
+
+            <option value="Brouillon">
+                Brouillon
+            </option>
+
+            <option value="Publié">
+                Publié
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- DATE -->
+
+    <div class="form-group">
+
+        <label for="activity_date">
+            Date
+        </label>
+
+        <input
+            type="date"
+            id="activity_date"
+            name="activity_date"
+        >
+
+    </div>
+
+
+    <!-- LIEU -->
+
+    <div class="form-group">
+
+        <label for="location">
+            Lieu
+        </label>
+
+        <input
+            type="text"
+            id="location"
+            name="location"
+            placeholder="Ex. Orient de Terrier-Rouge"
+        >
+
+    </div>
+
+
+    <!-- RÉSUMÉ -->
+
+    <div class="form-group full">
+
+        <label for="excerpt">
+            Résumé
+        </label>
+
+        <textarea
+            id="excerpt"
+            name="excerpt"
+            rows="3"
+            placeholder="Courte présentation de l'activité..."
+        ></textarea>
+
+        <small>
+            Ce résumé pourra être utilisé sur la page d'accueil.
+        </small>
+
+    </div>
+
+
+    <!-- CONTENU -->
+
+    <div class="form-group full">
+
+        <label for="content">
+            Contenu *
+        </label>
+
+        <textarea
+            id="content"
+            name="content"
+            rows="10"
+            required
+            placeholder="Décrivez en détail l'activité ou l'action..."
+        ></textarea>
+
+    </div>
+
+
+    <!-- IMAGE -->
+
+    <div class="form-group full">
+
+        <label for="image">
+            Image
+        </label>
+
+        <input
+            type="file"
+            id="image"
+            name="image"
+            accept=".jpg,.jpeg,.png,.webp"
+        >
+
+        <small>
+            Formats acceptés : JPG, JPEG, PNG et WEBP.
+        </small>
+
+    </div>
+
+
+    <!-- BOUTON -->
+
+    <div class="form-actions full">
+
+        <button
+            type="submit"
+            class="btn-primary"
+        >
+            Enregistrer l'activité
+        </button>
+
+    </div>
+
+</form>
+
+</section>
+
+
+
+<!-- ========================================================= -->
+
+<!-- LISTE DES ACTIVITÉS -->
+
+<!-- ========================================================= -->
+
+<section class="card">
+
+<div class="card-header">
+
+    <div>
+
+        <h2>
+            Activités enregistrées
+        </h2>
+
+        <p>
+            Toutes les activités actuellement enregistrées
+            dans la base de données.
         </p>
 
     </div>
@@ -28,468 +298,234 @@ Gestion des activités | Videlina
 </div>
 
 
-<!-- ========================================================= -->
-<!-- FORMULAIRE -->
-<!-- ========================================================= -->
+{% if activities %}
 
-<section class="card">
+    <div class="admin-table-wrapper">
 
-    <div class="card-header">
+        <table class="admin-table">
 
-        <div>
+            <thead>
 
-            <h2>
-                Ajouter une activité
-            </h2>
+                <tr>
 
-            <p>
-                Publiez une activité, une conférence,
-                une action solidaire ou un événement de la Loge.
-            </p>
+                    <th>
+                        Image
+                    </th>
 
-        </div>
+                    <th>
+                        Titre
+                    </th>
 
-    </div>
+                    <th>
+                        Catégorie
+                    </th>
 
+                    <th>
+                        Date
+                    </th>
 
-    <form
-        method="POST"
-        enctype="multipart/form-data"
-        class="form-grid"
-    >
+                    <th>
+                        Lieu
+                    </th>
 
-        <!-- TITRE -->
+                    <th>
+                        Statut
+                    </th>
 
-        <div class="form-group full">
+                    <th>
+                        Actions
+                    </th>
 
-            <label for="title">
-                Titre *
-            </label>
+                </tr>
 
-            <input
-                type="text"
-                id="title"
-                name="title"
-                required
-                placeholder="Titre de l'activité ou de l'action"
-            >
+            </thead>
 
-        </div>
 
+            <tbody>
 
-        <!-- CATÉGORIE -->
-
-        <div class="form-group">
-
-            <label for="category">
-                Catégorie *
-            </label>
-
-            <select
-                id="category"
-                name="category"
-                required
-            >
-
-                <option value="">
-                    — Sélectionner —
-                </option>
-
-                <option value="Travaux et planches">
-                    Travaux et planches
-                </option>
-
-                <option value="Conférences et rencontres">
-                    Conférences et rencontres
-                </option>
-
-                <option value="Actions solidaires">
-                    Actions solidaires
-                </option>
-
-                <option value="Temps de fraternité">
-                    Temps de fraternité
-                </option>
-
-                <option value="Culture et éducation">
-                    Culture et éducation
-                </option>
-
-                <option value="Action sociale">
-                    Action sociale
-                </option>
-
-                <option value="Autre">
-                    Autre
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <!-- STATUT -->
-
-        <div class="form-group">
-
-            <label for="status">
-                Statut *
-            </label>
-
-            <select
-                id="status"
-                name="status"
-                required
-            >
-
-                <option value="Brouillon">
-                    Brouillon
-                </option>
-
-                <option value="Publié">
-                    Publié
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <!-- DATE -->
-
-        <div class="form-group">
-
-            <label for="activity_date">
-                Date
-            </label>
-
-            <input
-                type="date"
-                id="activity_date"
-                name="activity_date"
-            >
-
-        </div>
-
-
-        <!-- LIEU -->
-
-        <div class="form-group">
-
-            <label for="location">
-                Lieu
-            </label>
-
-            <input
-                type="text"
-                id="location"
-                name="location"
-                placeholder="Ex. Orient de Terrier-Rouge"
-            >
-
-        </div>
-
-
-        <!-- RÉSUMÉ -->
-
-        <div class="form-group full">
-
-            <label for="excerpt">
-                Résumé
-            </label>
-
-            <textarea
-                id="excerpt"
-                name="excerpt"
-                rows="3"
-                placeholder="Courte présentation de l'activité..."
-            ></textarea>
-
-            <small>
-                Ce résumé pourra être utilisé sur la page d'accueil.
-            </small>
-
-        </div>
-
-
-        <!-- CONTENU -->
-
-        <div class="form-group full">
-
-            <label for="content">
-                Contenu *
-            </label>
-
-            <textarea
-                id="content"
-                name="content"
-                rows="10"
-                required
-                placeholder="Décrivez en détail l'activité ou l'action..."
-            ></textarea>
-
-        </div>
-
-
-        <!-- IMAGE -->
-
-        <div class="form-group full">
-
-            <label for="image">
-                Image
-            </label>
-
-            <input
-                type="file"
-                id="image"
-                name="image"
-                accept=".jpg,.jpeg,.png,.webp"
-            >
-
-            <small>
-                Formats acceptés : JPG, JPEG, PNG et WEBP.
-            </small>
-
-        </div>
-
-
-        <!-- BOUTON -->
-
-        <div class="form-actions full">
-
-            <button
-                type="submit"
-                class="btn-primary"
-            >
-                Enregistrer l'activité
-            </button>
-
-        </div>
-
-    </form>
-
-</section>
-
-
-
-<!-- ========================================================= -->
-<!-- LISTE DES ACTIVITÉS -->
-<!-- ========================================================= -->
-
-<section class="card">
-
-    <div class="card-header">
-
-        <div>
-
-            <h2>
-                Activités enregistrées
-            </h2>
-
-            <p>
-                Toutes les activités actuellement enregistrées
-                dans la base de données.
-            </p>
-
-        </div>
-
-    </div>
-
-
-    {% if activities %}
-
-        <div class="admin-table-wrapper">
-
-            <table class="admin-table">
-
-                <thead>
+                {% for activity in activities %}
 
                     <tr>
 
-                        <th>
-                            Titre
-                        </th>
+                        <!-- IMAGE -->
 
-                        <th>
-                            Catégorie
-                        </th>
+                        <td>
 
-                        <th>
-                            Date
-                        </th>
+                            {% if activity.image_name %}
 
-                        <th>
-                            Lieu
-                        </th>
+                                <img
+                                    src="{{ url_for(
+                                        'activity_image',
+                                        filename=activity.image_name
+                                    ) }}"
+                                    alt="{{ activity.title }}"
+                                    style="
+                                        width: 90px;
+                                        height: 65px;
+                                        object-fit: cover;
+                                        border-radius: 8px;
+                                        display: block;
+                                    "
+                                >
 
-                        <th>
-                            Statut
-                        </th>
+                            {% else %}
 
-                        <th>
-                            Actions
-                        </th>
+                                <span>
+                                    —
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- TITRE -->
+
+                        <td>
+
+                            <strong>
+                                {{ activity.title }}
+                            </strong>
+
+                            {% if activity.excerpt %}
+
+                                <div class="table-excerpt">
+                                    {{ activity.excerpt }}
+                                </div>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- CATÉGORIE -->
+
+                        <td>
+                            {{ activity.category }}
+                        </td>
+
+
+                        <!-- DATE -->
+
+                        <td>
+
+                            {% if activity.activity_date %}
+
+                                {{ activity.activity_date.strftime("%d/%m/%Y") }}
+
+                            {% else %}
+
+                                —
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- LIEU -->
+
+                        <td>
+
+                            {% if activity.location %}
+
+                                {{ activity.location }}
+
+                            {% else %}
+
+                                —
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- STATUT -->
+
+                        <td>
+
+                            {% if activity.status == "Publié" %}
+
+                                <span class="badge badge-published">
+                                    Publié
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge badge-draft">
+                                    Brouillon
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- ACTIONS -->
+
+                        <td>
+
+                            <div class="table-actions">
+
+                                <a
+                                    href="{{ url_for(
+                                        'edit_activity',
+                                        activity_id=activity.id
+                                    ) }}"
+                                    class="btn-small"
+                                >
+                                    Modifier
+                                </a>
+
+
+                                <form
+                                    method="POST"
+                                    action="{{ url_for(
+                                        'delete_activity',
+                                        activity_id=activity.id
+                                    ) }}"
+                                    onsubmit="return confirm(
+                                        'Voulez-vous vraiment supprimer cette activité ?'
+                                    );"
+                                >
+
+                                    <button
+                                        type="submit"
+                                        class="btn-small btn-danger"
+                                    >
+                                        Supprimer
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </td>
 
                     </tr>
 
-                </thead>
+                {% endfor %}
 
+            </tbody>
 
-                <tbody>
+        </table>
 
-                    {% for activity in activities %}
+    </div>
 
-                        <tr>
+{% else %}
 
-                            <!-- TITRE -->
+    <div class="empty-state">
 
-                            <td>
+        <h3>
+            Aucune activité
+        </h3>
 
-                                <strong>
-                                    {{ activity.title }}
-                                </strong>
+        <p>
+            Aucune activité ou action n'a encore été enregistrée.
+        </p>
 
-                                {% if activity.excerpt %}
+    </div>
 
-                                    <div class="table-excerpt">
-                                        {{ activity.excerpt }}
-                                    </div>
-
-                                {% endif %}
-
-                            </td>
-
-
-                            <!-- CATÉGORIE -->
-
-                            <td>
-
-                                {{ activity.category }}
-
-                            </td>
-
-
-                            <!-- DATE -->
-
-                            <td>
-
-                                {% if activity.activity_date %}
-
-                                    {{ activity.activity_date.strftime("%d/%m/%Y") }}
-
-                                {% else %}
-
-                                    —
-
-                                {% endif %}
-
-                            </td>
-
-
-                            <!-- LIEU -->
-
-                            <td>
-
-                                {% if activity.location %}
-
-                                    {{ activity.location }}
-
-                                {% else %}
-
-                                    —
-
-                                {% endif %}
-
-                            </td>
-
-
-                            <!-- STATUT -->
-
-                            <td>
-
-                                {% if activity.status == "Publié" %}
-
-                                    <span class="badge badge-published">
-                                        Publié
-                                    </span>
-
-                                {% else %}
-
-                                    <span class="badge badge-draft">
-                                        Brouillon
-                                    </span>
-
-                                {% endif %}
-
-                            </td>
-
-
-                            <!-- ACTIONS -->
-
-                            <td>
-
-                                <div class="table-actions">
-
-                                    <a
-                                        href="{{ url_for(
-                                            'edit_activity',
-                                            activity_id=activity.id
-                                        ) }}"
-                                        class="btn-small"
-                                    >
-                                        Modifier
-                                    </a>
-
-
-                                    <form
-                                        method="POST"
-                                        action="{{ url_for(
-                                            'delete_activity',
-                                            activity_id=activity.id
-                                        ) }}"
-                                        onsubmit="return confirm(
-                                            'Voulez-vous vraiment supprimer cette activité ?'
-                                        );"
-                                    >
-
-                                        <button
-                                            type="submit"
-                                            class="btn-small btn-danger"
-                                        >
-                                            Supprimer
-                                        </button>
-
-                                    </form>
-
-                                </div>
-
-                            </td>
-
-                        </tr>
-
-                    {% endfor %}
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    {% else %}
-
-        <div class="empty-state">
-
-            <h3>
-                Aucune activité
-            </h3>
-
-            <p>
-                Aucune activité ou action n'a encore été enregistrée.
-            </p>
-
-        </div>
-
-    {% endif %}
+{% endif %}
 
 </section>
 

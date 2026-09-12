@@ -62,25 +62,30 @@
     </a>
 
 
-    {% if session.member_role == 'Administrateur' %}
+   {% if session.member_role == 'Administrateur' %}
 
-    <a href="{{ url_for('manage_news') }}">
-        Actualités
-    </a>
+<a href="{{ url_for('manage_news') }}">
+    Actualités
+</a>
 
-    <a href="{{ url_for('manage_contact_messages') }}">
-        Messages visiteurs
+<a href="{{ url_for('manage_activities') }}">
+    Activités
+</a>
 
-        {% if unread_contact_messages_count > 0 %}
+<a href="{{ url_for('manage_actions') }}">
+    Actions
+</a>
 
-            <span class="message-badge">
-                {{ unread_contact_messages_count }}
-            </span>
-
-        {% endif %}
-    </a>
-
+<a href="{{ url_for('manage_contact_messages') }}">
+    Messages visiteurs
+    {% if unread_contact_messages_count > 0 %}
+        <span class="message-badge">
+            {{ unread_contact_messages_count }}
+        </span>
     {% endif %}
+</a>
+
+{% endif %}
     
 
     <a href="{{ url_for('library') }}">

@@ -1,0 +1,341 @@
+{% extends "base_member.html" %}
+
+{% block title %}Modifier l'action | Videlina{% endblock %}
+
+{% block heading %}
+    Modifier l'action
+{% endblock %}
+
+{% block content %}
+
+<div class="admin-page">
+
+    <div class="admin-header">
+
+        <div>
+
+            <h2>
+                Modifier l'action
+            </h2>
+
+            <p>
+                Modifiez les informations de cette action.
+            </p>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('manage_actions') }}"
+            class="btn-secondary"
+        >
+            ← Retour aux actions
+        </a>
+
+    </div>
+
+
+    <div class="admin-card">
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+            class="admin-form"
+        >
+
+            <!-- TITRE -->
+
+            <div class="form-group">
+
+                <label for="title">
+                    Titre *
+                </label>
+
+                <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    value="{{ action.title }}"
+                    required
+                >
+
+            </div>
+
+
+            <!-- CATÉGORIE -->
+
+            <div class="form-group">
+
+                <label for="category">
+                    Catégorie *
+                </label>
+
+                <select
+                    id="category"
+                    name="category"
+                    required
+                >
+
+                    <option value="Action sociale"
+                        {% if action.category == "Action sociale" %}
+                            selected
+                        {% endif %}
+                    >
+                        Action sociale
+                    </option>
+
+                    <option value="Actions solidaires"
+                        {% if action.category == "Actions solidaires" %}
+                            selected
+                        {% endif %}
+                    >
+                        Actions solidaires
+                    </option>
+
+                    <option value="Éducation"
+                        {% if action.category == "Éducation" %}
+                            selected
+                        {% endif %}
+                    >
+                        Éducation
+                    </option>
+
+                    <option value="Culture"
+                        {% if action.category == "Culture" %}
+                            selected
+                        {% endif %}
+                    >
+                        Culture
+                    </option>
+
+                    <option value="Environnement"
+                        {% if action.category == "Environnement" %}
+                            selected
+                        {% endif %}
+                    >
+                        Environnement
+                    </option>
+
+                    <option value="Santé"
+                        {% if action.category == "Santé" %}
+                            selected
+                        {% endif %}
+                    >
+                        Santé
+                    </option>
+
+                    <option value="Fraternité"
+                        {% if action.category == "Fraternité" %}
+                            selected
+                        {% endif %}
+                    >
+                        Fraternité
+                    </option>
+
+                    <option value="Autre"
+                        {% if action.category == "Autre" %}
+                            selected
+                        {% endif %}
+                    >
+                        Autre
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- STATUT -->
+
+            <div class="form-group">
+
+                <label for="status">
+                    Statut
+                </label>
+
+                <select
+                    id="status"
+                    name="status"
+                >
+
+                    <option value="Brouillon"
+                        {% if action.status == "Brouillon" %}
+                            selected
+                        {% endif %}
+                    >
+                        Brouillon
+                    </option>
+
+                    <option value="Publié"
+                        {% if action.status == "Publié" %}
+                            selected
+                        {% endif %}
+                    >
+                        Publié
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- DATE -->
+
+            <div class="form-group">
+
+                <label for="action_date">
+                    Date de l'action
+                </label>
+
+                <input
+                    type="date"
+                    id="action_date"
+                    name="action_date"
+                    value="{% if action.action_date %}{{ action.action_date.strftime('%Y-%m-%d') }}{% endif %}"
+                >
+
+            </div>
+
+
+            <!-- LIEU -->
+
+            <div class="form-group">
+
+                <label for="location">
+                    Lieu
+                </label>
+
+                <input
+                    type="text"
+                    id="location"
+                    name="location"
+                    value="{{ action.location or '' }}"
+                >
+
+            </div>
+
+
+            <!-- EXTRAIT -->
+
+            <div class="form-group">
+
+                <label for="excerpt">
+                    Extrait
+                </label>
+
+                <textarea
+                    id="excerpt"
+                    name="excerpt"
+                    rows="3"
+                >{{ action.excerpt or '' }}</textarea>
+
+            </div>
+
+
+            <!-- CONTENU -->
+
+            <div class="form-group">
+
+                <label for="content">
+                    Contenu *
+                </label>
+
+                <textarea
+                    id="content"
+                    name="content"
+                    rows="12"
+                    required
+                >{{ action.content or '' }}</textarea>
+
+            </div>
+
+
+            <!-- IMAGE ACTUELLE -->
+
+            <div class="form-group">
+
+                <label>
+                    Image actuelle
+                </label>
+
+                {% if action.image_name %}
+
+                    <div style="margin-top: 10px;">
+
+                        <img
+                            src="{{ url_for(
+                                'action_image',
+                                filename=action.image_name
+                            ) }}"
+                            alt="{{ action.title }}"
+                            style="
+                                width: 240px;
+                                max-width: 100%;
+                                border-radius: 10px;
+                                display: block;
+                            "
+                        >
+
+                    </div>
+
+                {% else %}
+
+                    <p>
+                        Aucune image associée à cette action.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- NOUVELLE IMAGE -->
+
+            <div class="form-group">
+
+                <label for="image">
+                    Remplacer l'image
+                </label>
+
+                <input
+                    type="file"
+                    id="image"
+                    name="image"
+                    accept=".jpg,.jpeg,.png,.webp"
+                >
+
+                <small>
+                    Formats acceptés :
+                    JPG, JPEG, PNG et WEBP.
+                </small>
+
+            </div>
+
+
+            <!-- BOUTONS -->
+
+            <div class="form-actions">
+
+                <a
+                    href="{{ url_for('manage_actions') }}"
+                    class="btn-secondary"
+                >
+                    Annuler
+                </a>
+
+                <button
+                    type="submit"
+                    class="btn-primary"
+                >
+                    Enregistrer les modifications
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

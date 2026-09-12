@@ -4,8 +4,11 @@ import os
 import resend
 import uuid
 import httpx
+import secrets
+import hashlib
 
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
+
 from functools import wraps
 from pathlib import Path
 
@@ -163,7 +166,16 @@ def db():
             "DATABASE_URL"
         )
 
+        print(
+            "🔎 DATABASE_URL présente :",
+            bool(database_url)
+        )
+
         if database_url:
+            print(
+                "🔎 CIBLE DATABASE_URL :",
+                database_url.split("@")[-1]
+            )
 
             g.db = psycopg.connect(
                 database_url,
@@ -196,7 +208,7 @@ def db():
                 password=os.getenv(
                     "DB_PASSWORD",
                 ),
-
+                
                 row_factory=dict_row,
             )
 
@@ -1299,6 +1311,371 @@ def login():
         "login.html"
     )
 
+# =========================================================
+# MOT DE PASSE OUBLIÉ
+# =========================================================
+
+@app.route(
+    "/mot-de-passe-oublie",
+    methods=["GET", "POST"]
+)
+def forgot_password():
+
+    if request.method == "POST":
+
+        email = request.form.get(
+            "email",
+            "",
+        ).strip().lower()
+
+        # Message volontairement générique
+        # afin de ne pas révéler si l'adresse existe.
+        success_message = (
+            "Si cette adresse correspond à un compte, "
+            "un lien de réinitialisation vous sera envoyé."
+        )
+
+        if not email:
+            flash(
+                success_message,
+                "success",
+            )
+            return redirect(
+                url_for("forgot_password")
+            )
+
+        database = db()
+
+        member = database.execute(
+            """
+            SELECT
+                id,
+                name,
+                email,
+                status
+            FROM members
+            WHERE LOWER(email) = %s
+            """,
+            (email,),
+        ).fetchone()
+
+        # Si aucun membre ne correspond,
+        # on affiche quand même le même message.
+        if not member:
+            flash(
+                success_message,
+                "success",
+            )
+            return redirect(
+                url_for("forgot_password")
+            )
+
+        # On ne permet pas la réinitialisation
+        # d'un compte qui n'est pas actif.
+        if member["status"] != "Actif":
+            flash(
+                success_message,
+                "success",
+            )
+            return redirect(
+                url_for("forgot_password")
+            )
+
+        # Supprimer les anciennes demandes
+        # non utilisées pour ce membre.
+        database.execute(
+            """
+            DELETE FROM password_reset_tokens
+            WHERE member_id = %s
+              AND used_at IS NULL
+            """,
+            (member["id"],),
+        )
+
+        # Token sécurisé.
+        raw_token = secrets.token_urlsafe(48)
+
+        # On ne stocke jamais le token original.
+        token_hash = hashlib.sha256(
+            raw_token.encode("utf-8")
+        ).hexdigest()
+
+        # Validité : 30 minutes.
+        expires_at = datetime.now() + timedelta(
+            minutes=30
+        )
+
+        database.execute(
+            """
+            INSERT INTO password_reset_tokens
+            (
+                member_id,
+                token_hash,
+                expires_at
+            )
+            VALUES (%s, %s, %s)
+            """,
+            (
+                member["id"],
+                token_hash,
+                expires_at,
+            ),
+        )
+
+        database.commit()
+
+        # Adresse de base du site.
+        site_url = os.getenv(
+            "SITE_URL",
+            request.url_root.rstrip("/"),
+        )
+
+        reset_url = (
+            site_url
+            + url_for(
+                "reset_password",
+                token=raw_token,
+            )
+        )
+
+        email_text = f"""Bonjour {member["name"]},
+
+Une demande de réinitialisation de votre mot de passe
+pour votre espace membre VIDELINA a été effectuée.
+
+Pour créer un nouveau mot de passe, utilisez le lien suivant :
+
+{reset_url}
+
+Ce lien est valable pendant 30 minutes et ne peut être
+utilisé qu'une seule fois.
+
+Si vous n'êtes pas à l'origine de cette demande,
+vous pouvez simplement ignorer cet e-mail.
+
+Respectable Loge Mixte VIDELINA
+VIDELINA ESPACE MEMBRE
+"""
+
+        try:
+
+            resend.Emails.send(
+                {
+                    "from": os.getenv(
+                        "MAIL_FROM",
+                        "onboarding@resend.dev",
+                    ),
+                    "to": [member["email"]],
+                    "subject": (
+                        "Réinitialisation de votre "
+                        "mot de passe — VIDELINA"
+                    ),
+                    "text": email_text,
+                }
+            )
+
+        except Exception as error:
+
+            database.rollback()
+
+            print(
+                f"❌ Erreur envoi e-mail Resend : {error}"
+            )
+
+            # Supprimer le token qui vient d'être créé
+            # puisque l'e-mail n'a pas pu partir.
+            database.execute(
+                """
+                DELETE FROM password_reset_tokens
+                WHERE token_hash = %s
+                """,
+                (token_hash,),
+            )
+
+            database.commit()
+
+        flash(
+            success_message,
+            "success",
+        )
+
+        return redirect(
+            url_for("forgot_password")
+        )
+
+    return render_template(
+        "forgot_password.html"
+    )
+
+# =========================================================
+# RÉINITIALISATION DU MOT DE PASSE
+# =========================================================
+
+@app.route(
+    "/mot-de-passe-reinitialiser/<token>",
+    methods=["GET", "POST"]
+)
+def reset_password(token):
+
+    database = db()
+
+    # Calculer l'empreinte du token reçu.
+    token_hash = hashlib.sha256(
+        token.encode("utf-8")
+    ).hexdigest()
+
+    reset_request = database.execute(
+        """
+        SELECT
+            prt.id,
+            prt.member_id,
+            prt.expires_at,
+            prt.used_at,
+            m.name,
+            m.email
+        FROM password_reset_tokens prt
+        JOIN members m
+            ON m.id = prt.member_id
+        WHERE prt.token_hash = %s
+        """,
+        (token_hash,),
+    ).fetchone()
+
+    # Token inexistant
+    if not reset_request:
+
+        flash(
+            "Ce lien de réinitialisation est invalide.",
+            "error",
+        )
+
+        return redirect(
+            url_for("login")
+        )
+
+    # Token déjà utilisé
+    if reset_request["used_at"] is not None:
+
+        flash(
+            "Ce lien de réinitialisation a déjà été utilisé.",
+            "error",
+        )
+
+        return redirect(
+            url_for("login")
+        )
+
+    # Token expiré
+    if reset_request["expires_at"] <= datetime.now():
+
+        flash(
+            "Ce lien de réinitialisation a expiré.",
+            "error",
+        )
+
+        return redirect(
+            url_for("forgot_password")
+        )
+
+    if request.method == "POST":
+
+        new_password = request.form.get(
+            "nouveau_mot_de_passe",
+            "",
+        )
+
+        confirmation = request.form.get(
+            "confirmation",
+            "",
+        )
+
+        # Vérification de la longueur
+        if len(new_password) < 8:
+
+            flash(
+                "Le nouveau mot de passe doit contenir au moins 8 caractères.",
+                "error",
+            )
+
+            return render_template(
+                "reset_password.html"
+            )
+
+        # Vérification de la confirmation
+        if new_password != confirmation:
+
+            flash(
+                "Les deux nouveaux mots de passe ne correspondent pas.",
+                "error",
+            )
+
+            return render_template(
+                "reset_password.html"
+            )
+
+        # Nouveau hash
+        new_password_hash = generate_password_hash(
+            new_password
+        )
+
+        try:
+
+            # Modifier le mot de passe
+            database.execute(
+                """
+                UPDATE members
+                SET password_hash = %s
+                WHERE id = %s
+                """,
+                (
+                    new_password_hash,
+                    reset_request["member_id"],
+                ),
+            )
+
+            # Invalider immédiatement le token
+            database.execute(
+                """
+                UPDATE password_reset_tokens
+                SET used_at = CURRENT_TIMESTAMP
+                WHERE id = %s
+                """,
+                (
+                    reset_request["id"],
+                ),
+            )
+
+            database.commit()
+
+        except Exception:
+
+            database.rollback()
+
+            app.logger.exception(
+                "Erreur lors de la réinitialisation du mot de passe."
+            )
+
+            flash(
+                "Impossible de réinitialiser le mot de passe.",
+                "error",
+            )
+
+            return render_template(
+                "reset_password.html"
+            )
+
+        flash(
+            "Votre mot de passe a été réinitialisé avec succès.",
+            "success",
+        )
+
+        return redirect(
+            url_for("login")
+        )
+
+    return render_template(
+        "reset_password.html"
+    )
 
 # =========================================================
 # CHANGEMENT DE MOT DE PASSE
@@ -3318,6 +3695,10 @@ def edit_activity(activity_id):
             url_for("manage_activities")
         )
 
+    # =========================================================
+    # MODIFICATION
+    # =========================================================
+
     if request.method == "POST":
 
         title = request.form.get(
@@ -3355,18 +3736,26 @@ def edit_activity(activity_id):
             "",
         ).strip()
 
+        # -----------------------------------------------------
+        # VALIDATION DU STATUT
+        # -----------------------------------------------------
+
         if status not in (
             "Brouillon",
             "Publié",
         ):
             status = "Brouillon"
 
+        # -----------------------------------------------------
+        # VALIDATION DES CHAMPS OBLIGATOIRES
+        # -----------------------------------------------------
+
         if (
             not title
             or not category
             or not content
         ):
-
+            
             flash(
                 "Le titre, la catégorie et le contenu sont obligatoires.",
                 "error",
@@ -3379,17 +3768,20 @@ def edit_activity(activity_id):
                 )
             )
 
+        # -----------------------------------------------------
+        # IMAGE
+        # -----------------------------------------------------
+
         image = request.files.get("image")
 
-        new_image_name = activity[
-            "image_name"
-        ]
+        old_image_name = activity["image_name"]
 
+        new_image_name = old_image_name
         new_image_path = None
 
-        # -------------------------------------------------
+        # -----------------------------------------------------
         # NOUVELLE IMAGE
-        # -------------------------------------------------
+        # -----------------------------------------------------
 
         if image and image.filename:
 
@@ -3401,7 +3793,7 @@ def edit_activity(activity_id):
                 not original_name
                 or "." not in original_name
             ):
-
+                
                 flash(
                     "Nom de fichier image invalide.",
                     "error",
@@ -3420,8 +3812,10 @@ def edit_activity(activity_id):
                 .lower()
             )
 
-            if extension not in ALLOWED_ACTIVITY_IMAGE_EXTENSIONS:
-
+            if (
+                extension
+                not in ALLOWED_ACTIVITY_IMAGE_EXTENSIONS
+            ):
                 flash(
                     "Format d'image non autorisé.",
                     "error",
@@ -3434,10 +3828,12 @@ def edit_activity(activity_id):
                     )
                 )
 
+            # Nom unique
             new_image_name = (
                 f"{uuid.uuid4().hex}.{extension}"
             )
 
+            # Dossier des images
             image_folder = app.config[
                 "ACTIVITIES_IMAGE_FOLDER"
             ]
@@ -3452,7 +3848,12 @@ def edit_activity(activity_id):
                 / new_image_name
             )
 
+            # Sauvegarde de la nouvelle image
             image.save(new_image_path)
+
+        # =====================================================
+        # MISE À JOUR DE LA BASE DE DONNÉES
+        # =====================================================
 
         try:
 
@@ -3490,6 +3891,7 @@ def edit_activity(activity_id):
 
             database.rollback()
 
+            # Supprimer la nouvelle image si la BDD échoue
             if (
                 new_image_path
                 and new_image_path.exists()
@@ -3512,26 +3914,37 @@ def edit_activity(activity_id):
                 )
             )
 
-        # -------------------------------------------------
+        # =====================================================
         # SUPPRESSION DE L'ANCIENNE IMAGE
-        # -------------------------------------------------
+        # =====================================================
 
         if (
             new_image_path
-            and activity["image_name"]
-            and activity["image_name"]
-            != new_image_name
+            and old_image_name
+            and old_image_name != new_image_name
         ):
 
-            old_path = (
-                app.config[
-                    "ACTIVITIES_IMAGE_FOLDER"
-                ]
-                / activity["image_name"]
+            old_image_path = (
+                app.config["ACTIVITIES_IMAGE_FOLDER"]
+                / old_image_name
             )
 
-            if old_path.exists():
-                old_path.unlink()
+            try:
+
+                if old_image_path.exists():
+                    old_image_path.unlink()
+
+            except Exception:
+
+                app.logger.warning(
+                    "Impossible de supprimer l'ancienne image : %s",
+                    old_image_path,
+                    exc_info=True,
+                )
+
+        # =====================================================
+        # SUCCÈS
+        # =====================================================
 
         flash(
             "Activité modifiée avec succès.",
@@ -3542,8 +3955,12 @@ def edit_activity(activity_id):
             url_for("manage_activities")
         )
 
+    # =========================================================
+    # AFFICHAGE DU FORMULAIRE
+    # =========================================================
+
     return render_template(
-        "activities_edit.html",
+        "activity_edit.html",
         activity=activity,
     )
 
@@ -4152,7 +4569,7 @@ def edit_action(action_id):
         )
 
     return render_template(
-        "actions_edit.html",
+        "action_edit.html",
         action=action,
     )
 
