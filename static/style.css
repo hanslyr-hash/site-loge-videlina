@@ -3,11 +3,11 @@
    ========================================================= */
 
 :root {
-    --ink: #121d1d;
+    --ink: #880303;
     --cream: #f6f2e9;
-    --gold: #b68a3d;
+    --gold: #aa5555;
     --pale: #e8e0d0;
-    --line: #d4c8b4;
+    --line: #cf9a9a;
 
     --serif: 'Cormorant Garamond', Georgia, serif;
     --sans: 'DM Sans', Arial, sans-serif;
@@ -834,7 +834,7 @@ footer {
 
     gap: 30px;
 
-    background: #0c1212;
+    background: #331b1b;
 
     color: #ddd6c8;
 }
