@@ -1359,6 +1359,59 @@
 
     </main>
 
+<!-- =====================================================
+     STATISTIQUES DES VISITEURS
+     ===================================================== -->
+
+<section class="site-statistiques">
+    <div class="site-statistiques-inner">
+
+        <div class="statistique-visiteur">
+            <span class="statistique-visiteur-icon">👤</span>
+
+            <div>
+                <strong>
+                    {{ statistiques_visiteurs.visiteurs_uniques }}
+                </strong>
+
+                <span>
+                    Visiteurs uniques
+                </span>
+            </div>
+        </div>
+
+
+        <div class="statistique-visiteur">
+            <span class="statistique-visiteur-icon">👁</span>
+
+            <div>
+                <strong>
+                    {{ statistiques_visiteurs.visites_aujourd_hui }}
+                </strong>
+
+                <span>
+                    Visites aujourd'hui
+                </span>
+            </div>
+        </div>
+
+
+        <div class="statistique-visiteur">
+            <span class="statistique-visiteur-icon">📊</span>
+
+            <div>
+                <strong>
+                    {{ statistiques_visiteurs.total_visites }}
+                </strong>
+
+                <span>
+                    Total des visites
+                </span>
+            </div>
+        </div>
+
+    </div>
+</section>
 
     <!-- =====================================================
          FOOTER
