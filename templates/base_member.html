@@ -4,118 +4,193 @@
 <head>
     <meta charset="utf-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
 
     <title>
-        {% block title %}Espace membre | Videlina{% endblock %}
+        {% block title %}
+            Espace membre | Videlina
+        {% endblock %}
     </title>
 
     <link
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600&display=swap"
-        rel="stylesheet"
-    >
+        rel="stylesheet">
 
     <link
         rel="stylesheet"
-        href="{{ url_for('static', filename='member.css') }}"
-    >
+        href="{{ url_for('static', filename='member.css') }}">
 </head>
 
 <body>
 
-    <aside>
+    <!-- =====================================================
+         BOUTON MENU MOBILE
+         ===================================================== -->
+
+    <button
+        type="button"
+        class="mobile-menu-button"
+        id="mobile-menu-button"
+        aria-label="Ouvrir le menu"
+        aria-controls="member-sidebar"
+        aria-expanded="false">
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+    </button>
+
+
+    <!-- =====================================================
+         VOILE MOBILE
+         ===================================================== -->
+
+    <div
+        class="mobile-menu-overlay"
+        id="mobile-menu-overlay"
+        aria-hidden="true">
+    </div>
+
+
+    <!-- =====================================================
+         SIDEBAR — ESPACE MEMBRE
+         ===================================================== -->
+
+    <aside id="member-sidebar">
+
+        <!-- MARQUE -->
 
         <a
             class="member-brand"
-            href="{{ url_for('dashboard') }}"
-        >
+            href="{{ url_for('dashboard') }}">
+
             <span>V</span>
 
             <b>
                 VIDELINA
                 <small>ESPACE MEMBRE</small>
             </b>
+
         </a>
 
-    <nav>
 
-    <a href="{{ url_for('dashboard') }}">
-        Tableau de bord
-    </a>
+        <!-- BOUTON FERMER MOBILE -->
 
-    {% if session.member_role == 'Administrateur' %}
+        <button
+            type="button"
+            class="mobile-menu-close"
+            id="mobile-menu-close"
+            aria-label="Fermer le menu">
 
-    <a href="{{ url_for('manage_members') }}">
-        Membres
-    </a>
+            ×
 
-    {% endif %}
-
-
-    <a href="{{ url_for('manage_meetings') }}">
-        Réunions
-    </a>
+        </button>
 
 
-    <a href="{{ url_for('manage_documents') }}">
-        Documents
-    </a>
+        <!-- MENU -->
+
+        <nav>
+
+            <a href="{{ url_for('dashboard') }}">
+                Tableau de bord
+            </a>
 
 
-   {% if session.member_role == 'Administrateur' %}
+            {% if session.member_role == 'Administrateur' %}
 
-<a href="{{ url_for('manage_news') }}">
-    Actualités
-</a>
+            <a href="{{ url_for('manage_members') }}">
+                Membres
+            </a>
 
-<a href="{{ url_for('manage_activities') }}">
-    Activités
-</a>
-
-<a href="{{ url_for('manage_actions') }}">
-    Actions
-</a>
-
-<a href="{{ url_for('manage_contact_messages') }}">
-    Messages visiteurs
-    {% if unread_contact_messages_count > 0 %}
-        <span class="message-badge">
-            {{ unread_contact_messages_count }}
-        </span>
-    {% endif %}
-</a>
-
-{% endif %}
-    
-
-    <a href="{{ url_for('library') }}">
-        Bibliothèque
-    </a>
+            {% endif %}
 
 
-    <a href="{{ url_for('change_password') }}">
-        🔐 Changer mon mot de passe
-    </a>
+            <a href="{{ url_for('manage_meetings') }}">
+                Réunions
+            </a>
 
 
-    <a href="{{ url_for('home') }}">
-        Site public
-    </a>
+            <a href="{{ url_for('manage_documents') }}">
+                Documents
+            </a>
 
-    </nav>
 
+            {% if session.member_role == 'Administrateur' %}
+
+            <a href="{{ url_for('manage_news') }}">
+                Actualités
+            </a>
+
+
+            <a href="{{ url_for('manage_activities') }}">
+                Activités
+            </a>
+
+
+            <a href="{{ url_for('manage_actions') }}">
+                Actions
+            </a>
+
+
+            <a href="{{ url_for('manage_contact_messages') }}">
+
+                Messages visiteurs
+
+                {% if unread_contact_messages_count > 0 %}
+
+                <span class="message-badge">
+                    {{ unread_contact_messages_count }}
+                </span>
+
+                {% endif %}
+
+            </a>
+
+            {% endif %}
+
+
+            <a href="{{ url_for('library') }}">
+                Bibliothèque
+            </a>
+
+
+            <a href="{{ url_for('change_password') }}">
+                🔐 Changer mon mot de passe
+            </a>
+
+
+            <a href="{{ url_for('home') }}">
+                Site public
+            </a>
+
+        </nav>
+
+
+        <!-- DÉCONNEXION -->
 
         <a
             class="logout"
-            href="{{ url_for('logout') }}"
-        >
+            href="{{ url_for('logout') }}">
+
             Déconnexion
+
         </a>
 
     </aside>
 
 
+    <!-- =====================================================
+         CONTENU PRINCIPAL
+         ===================================================== -->
+
     <main class="member-main">
+
+
+        <!-- =================================================
+             HEADER
+             ================================================= -->
 
         <header>
 
@@ -126,24 +201,22 @@
                 </p>
 
                 <h1>
+
                     {% block heading %}
                         Espace membre
                     {% endblock %}
+
                 </h1>
 
             </div>
 
 
-            <!-- =================================================
-                 ACTIONS DU HEADER
-                 ================================================= -->
-
             <div class="header-actions">
 
 
-                <!-- =================================================
+                <!-- =========================================
                      NOTIFICATIONS
-                     ================================================= -->
+                     ========================================= -->
 
                 <div class="notification-wrapper">
 
@@ -151,8 +224,7 @@
                         type="button"
                         class="notification-button"
                         onclick="toggleNotifications()"
-                        aria-label="Notifications"
-                    >
+                        aria-label="Notifications">
 
                         🔔
 
@@ -167,18 +239,17 @@
                     </button>
 
 
-                    <!-- PANNEAU DES NOTIFICATIONS -->
-
                     <div
                         id="notification-panel"
-                        class="notification-panel"
-                    >
+                        class="notification-panel">
+
 
                         <div class="notification-header">
 
                             <b>
                                 Notifications
                             </b>
+
 
                             {% if unread_notifications_count > 0 %}
 
@@ -204,8 +275,7 @@
                                 class="notification-item
                                 {% if not notification.is_read %}
                                     unread
-                                {% endif %}"
-                            >
+                                {% endif %}">
 
                                 <strong>
                                     {{ notification.title }}
@@ -216,7 +286,9 @@
                                 </span>
 
                                 <small>
-                                    {{ notification.created_at.strftime('%d/%m/%Y %H:%M') }}
+                                    {{ notification.created_at.strftime(
+                                        '%d/%m/%Y %H:%M'
+                                    ) }}
                                 </small>
 
                             </a>
@@ -226,9 +298,7 @@
                         {% else %}
 
                             <div class="notification-empty">
-
                                 Aucune notification.
-
                             </div>
 
                         {% endif %}
@@ -238,9 +308,9 @@
                 </div>
 
 
-                <!-- =================================================
+                <!-- =========================================
                      PROFIL
-                     ================================================= -->
+                     ========================================= -->
 
                 <div class="profile">
 
@@ -269,9 +339,9 @@
 
             {% for category, message in messages %}
 
-                <div class="flash {{ category }}">
-                    {{ message }}
-                </div>
+            <div class="flash {{ category }}">
+                {{ message }}
+            </div>
 
             {% endfor %}
 
@@ -283,18 +353,21 @@
              ================================================= -->
 
         {% block content %}
-
         {% endblock %}
 
 
     </main>
 
 
-    <!-- =========================================================
-         JAVASCRIPT — NOTIFICATIONS
-         ========================================================= -->
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
 
     <script>
+
+        /* =================================================
+           NOTIFICATIONS
+           ================================================= */
 
         function toggleNotifications() {
 
@@ -311,8 +384,6 @@
 
         }
 
-
-        // Fermer le panneau lorsqu'on clique ailleurs
 
         document.addEventListener(
             "click",
@@ -335,6 +406,218 @@
                 ) {
 
                     panel.classList.remove("show");
+
+                }
+
+            }
+        );
+
+
+        /* =================================================
+           MENU MOBILE
+           ================================================= */
+
+        const mobileMenuButton =
+            document.getElementById(
+                "mobile-menu-button"
+            );
+
+        const mobileMenuClose =
+            document.getElementById(
+                "mobile-menu-close"
+            );
+
+        const mobileMenuOverlay =
+            document.getElementById(
+                "mobile-menu-overlay"
+            );
+
+        const memberSidebar =
+            document.getElementById(
+                "member-sidebar"
+            );
+
+
+        function openMobileMenu() {
+
+            if (!memberSidebar) {
+                return;
+            }
+
+            memberSidebar.classList.add(
+                "mobile-open"
+            );
+
+            if (mobileMenuOverlay) {
+
+                mobileMenuOverlay.classList.add(
+                    "show"
+                );
+
+            }
+
+            if (mobileMenuButton) {
+
+                mobileMenuButton.setAttribute(
+                    "aria-expanded",
+                    "true"
+                );
+
+                mobileMenuButton.setAttribute(
+                    "aria-label",
+                    "Fermer le menu"
+                );
+
+            }
+
+            document.body.classList.add(
+                "menu-open"
+            );
+
+        }
+
+
+        function closeMobileMenu() {
+
+            if (!memberSidebar) {
+                return;
+            }
+
+            memberSidebar.classList.remove(
+                "mobile-open"
+            );
+
+            if (mobileMenuOverlay) {
+
+                mobileMenuOverlay.classList.remove(
+                    "show"
+                );
+
+            }
+
+            if (mobileMenuButton) {
+
+                mobileMenuButton.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+                mobileMenuButton.setAttribute(
+                    "aria-label",
+                    "Ouvrir le menu"
+                );
+
+            }
+
+            document.body.classList.remove(
+                "menu-open"
+            );
+
+        }
+
+
+        if (mobileMenuButton) {
+
+            mobileMenuButton.addEventListener(
+                "click",
+                function() {
+
+                    if (
+                        memberSidebar &&
+                        memberSidebar.classList.contains(
+                            "mobile-open"
+                        )
+                    ) {
+
+                        closeMobileMenu();
+
+                    } else {
+
+                        openMobileMenu();
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        if (mobileMenuClose) {
+
+            mobileMenuClose.addEventListener(
+                "click",
+                closeMobileMenu
+            );
+
+        }
+
+
+        if (mobileMenuOverlay) {
+
+            mobileMenuOverlay.addEventListener(
+                "click",
+                closeMobileMenu
+            );
+
+        }
+
+
+        /* Fermer après clic sur un lien */
+
+        if (memberSidebar) {
+
+            const menuLinks =
+                memberSidebar.querySelectorAll(
+                    "nav a, .logout, .member-brand"
+                );
+
+            menuLinks.forEach(
+                function(link) {
+
+                    link.addEventListener(
+                        "click",
+                        function() {
+
+                            closeMobileMenu();
+
+                        }
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* Fermer avec la touche Échap */
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (event.key === "Escape") {
+
+                    closeMobileMenu();
+
+                }
+
+            }
+        );
+
+
+        /* Retour à l'état normal lors du passage
+           mobile → desktop */
+
+        window.addEventListener(
+            "resize",
+            function() {
+
+                if (
+                    window.innerWidth > 850
+                ) {
+
+                    closeMobileMenu();
 
                 }
 
