@@ -1,10 +1,231 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-{% block title %}
-Vérification du badge | Videlina
-{% endblock %}
+    <meta name="theme-color" content="#121d1d">
+    <meta name="robots" content="noindex, nofollow">
 
-{% block content %}
+    <title>Vérification du badge | VIDELINA</title>
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="{{ url_for('static', filename='Logo Videlina.png') }}"
+    >
+
+    <link
+        rel="apple-touch-icon"
+        href="{{ url_for('static', filename='Logo Videlina.png') }}"
+    >
+
+    <style>
+        
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 30px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5f0e6;
+            color: #292523;
+            font-family: Arial, sans-serif;
+        }
+
+        .badge-verification-page {
+            width: 100%;
+            max-width: 560px;
+            margin: auto;
+        }
+
+        .badge-verification-card {
+            overflow: hidden;
+            background: #fffdf8;
+            border: 1px solid #dfd2b7;
+            border-radius: 18px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.09);
+        }
+
+        .badge-verification-header {
+            padding: 30px 22px;
+            text-align: center;
+            color: #fff8e9;
+            background: #121d1d;
+            border-bottom: 4px solid #b68a3d;
+        }
+
+        .badge-verification-symbol {
+            color: #e5c878;
+            font-size: 34px;
+        }
+
+        .badge-verification-eyebrow {
+            margin: 12px 0;
+            color: #e5c878;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+
+        .badge-verification-header h1 {
+            margin: 8px 0 0;
+            font-family: Georgia, serif;
+            font-size: clamp(24px, 5vw, 32px);
+        }
+
+        .badge-status {
+            margin: 24px;
+            padding: 22px 16px;
+            text-align: center;
+            border-radius: 12px;
+        }
+
+        .badge-status-icon {
+            font-size: 38px;
+            font-weight: 700;
+        }
+
+        .badge-status h2 {
+            margin: 8px 0;
+            font-size: 20px;
+        }
+
+        .badge-status p {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        .badge-status-valid {
+            color: #155b36;
+            background: #eaf6ee;
+            border: 1px solid #b8dfc5;
+        }
+
+        .badge-status-revoked,
+        .badge-status-invalid {
+            color: #8b1e24;
+            background: #fff0ef;
+            border: 1px solid #efc4c1;
+        }
+
+        .badge-member-information {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 24px;
+            padding-bottom: 22px;
+            border-bottom: 1px solid #e5dccb;
+        }
+
+        .badge-member-avatar {
+            display: flex;
+            flex: 0 0 58px;
+            width: 58px;
+            height: 58px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #6f1017;
+            color: #fff8e9;
+            font-family: Georgia, serif;
+            font-size: 25px;
+        }
+
+        .badge-information-label {
+            display: block;
+            margin: 0 0 6px;
+            color: #806b48;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .badge-member-main h2 {
+            margin: 0;
+            overflow-wrap: anywhere;
+            font-family: Georgia, serif;
+            font-size: 23px;
+        }
+
+        .badge-member-grade {
+            margin: 6px 0 0;
+            color: #6f1017;
+        }
+
+        .badge-information-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin: 24px;
+        }
+
+        .badge-information-item {
+            padding: 15px;
+            background: #f7f1e6;
+            border-radius: 9px;
+        }
+
+        .badge-information-item strong {
+            display: block;
+            overflow-wrap: anywhere;
+        }
+
+        .badge-authenticity-message {
+            margin: 24px;
+            padding: 16px;
+            background: #f5f0e6;
+            border-left: 4px solid #b68a3d;
+            line-height: 1.6;
+        }
+
+        .badge-authenticity-message strong {
+            color: #6f1017;
+        }
+
+        .badge-verification-footer {
+            padding: 22px 16px;
+            text-align: center;
+            background: #f1e8d8;
+            border-top: 1px solid #dfd2b7;
+        }
+
+        .badge-verification-footer p {
+            margin: 0 0 8px;
+            color: #6f1017;
+            font-family: Georgia, serif;
+            font-style: italic;
+        }
+
+        .badge-verification-footer span {
+            color: #756b5d;
+            font-size: 12px;
+        }
+
+        @media (max-width: 380px) {
+            .badge-verification-header {
+                padding: 24px 14px;
+            }
+
+            .badge-status,
+            .badge-member-information,
+            .badge-information-grid,
+            .badge-authenticity-message {
+                margin: 16px;
+            }
+
+            .badge-information-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
 
 <div class="badge-verification-page">
 
@@ -218,4 +439,5 @@ Vérification du badge | Videlina
 
 </div>
 
-{% endblock %}
+</body>
+</html>
