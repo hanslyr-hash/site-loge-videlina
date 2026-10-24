@@ -3181,6 +3181,450 @@ button.button {
 
 }
 
+/* =====================================================
+   PHOTO FICHE MEMBRE
+   ===================================================== */
+
+.member-profile-avatar {
+    width: 150px;
+    height: 190px;
+    border-radius: 14px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: var(--cream);
+    border: 2px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.member-profile-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.member-profile-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: "Cormorant Garamond", serif;
+    font-size: 5rem;
+    font-weight: 600;
+
+    color: var(--gold);
+    background: var(--cream);
+}
+
+
+/* =====================================================
+   ACTIONS FICHE MEMBRE
+   ===================================================== */
+
+.member-profile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+
+/* =====================================================
+   FICHE MEMBRE
+   ===================================================== */
+
+.member-profile-card {
+    width: 100%;
+}
+
+.member-profile-header {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.member-profile-avatar {
+    width: 150px;
+    height: 190px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 14px;
+    border: 2px solid var(--gold);
+    background: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.member-profile-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.member-profile-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: "Cormorant Garamond", serif;
+    font-size: 5rem;
+    font-weight: 600;
+    color: var(--gold);
+    background: var(--cream);
+}
+
+.member-profile-identity h2 {
+    margin: 5px 0 4px;
+}
+
+.member-matricule {
+    margin: 0 0 10px;
+    color: var(--gold);
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+
+/* =====================================================
+   SECTIONS
+   ===================================================== */
+
+.member-profile-section {
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 1px solid rgba(182, 138, 61, 0.25);
+}
+
+.member-profile-section h3 {
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+
+/* =====================================================
+   INFORMATIONS
+   ===================================================== */
+
+.member-profile-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.member-info {
+    padding: 16px 18px;
+    border: 1px solid rgba(182, 138, 61, 0.20);
+    border-radius: 10px;
+    background: rgba(246, 242, 233, 0.45);
+}
+
+.member-info span {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.65;
+}
+
+.member-info strong {
+    display: block;
+    word-break: break-word;
+}
+
+
+/* =====================================================
+   ACTIONS
+   ===================================================== */
+
+.member-profile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 1px solid rgba(182, 138, 61, 0.25);
+}
+
+.member-profile-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+@media (max-width: 700px) {
+
+    .member-profile-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .member-profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .member-profile-actions {
+        flex-direction: column;
+    }
+
+    .member-profile-actions .btn {
+        width: 100%;
+    }
+
+}
+
 /* =========================================================
    FIN MEMBER.CSS
    ========================================================= */
+
+
+/* =========================================================
+   ANNUAIRE DES MEMBRES — CORRECTION DE LA MISE EN PAGE
+   Projet : VIDELINA
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   1. CONTENEUR DU TABLEAU
+   --------------------------------------------------------- */
+
+.table-panel {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.table-panel .table-responsive {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* ---------------------------------------------------------
+   2. TABLEAU DES MEMBRES
+   --------------------------------------------------------- */
+
+.table-panel .table-responsive table {
+    width: 100%;
+    min-width: 1120px;
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+.table-panel .table-responsive th,
+.table-panel .table-responsive td {
+    box-sizing: border-box;
+    padding: 10px 8px;
+    vertical-align: middle;
+    text-align: left;
+}
+
+.table-panel .table-responsive th {
+    white-space: nowrap;
+}
+
+/* Éviter que les lignes deviennent trop hautes. */
+.table-panel .table-responsive tbody tr {
+    height: auto;
+}
+
+/* ---------------------------------------------------------
+   3. LARGEUR DES COLONNES
+   --------------------------------------------------------- */
+
+/* Matricule */
+.table-panel .table-responsive th:nth-child(1),
+.table-panel .table-responsive td:nth-child(1) {
+    min-width: 105px;
+}
+
+/* Identité du membre */
+.table-panel .table-responsive th:nth-child(2),
+.table-panel .table-responsive td:nth-child(2) {
+    min-width: 235px;
+}
+
+/* Fonction */
+.table-panel .table-responsive th:nth-child(3),
+.table-panel .table-responsive td:nth-child(3) {
+    min-width: 185px;
+}
+
+/* Grade */
+.table-panel .table-responsive th:nth-child(4),
+.table-panel .table-responsive td:nth-child(4) {
+    min-width: 205px;
+}
+
+/* Statut */
+.table-panel .table-responsive th:nth-child(5),
+.table-panel .table-responsive td:nth-child(5) {
+    min-width: 100px;
+}
+
+/* Actions */
+.table-panel .table-responsive th:nth-child(6),
+.table-panel .table-responsive td:nth-child(6) {
+    min-width: 125px;
+}
+
+/* Badge */
+.table-panel .table-responsive th:nth-child(7),
+.table-panel .table-responsive td:nth-child(7) {
+    min-width: 170px;
+}
+
+/* ---------------------------------------------------------
+   4. PHOTO DU MEMBRE — DIMENSIONS FIXES
+   --------------------------------------------------------- */
+
+.table-panel .member-list-identity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.table-panel .member-list-photo,
+.table-panel .member-list-avatar {
+    display: block;
+    flex: 0 0 44px;
+
+    width: 44px;
+    min-width: 44px;
+    max-width: 44px;
+
+    height: 44px;
+    min-height: 44px;
+    max-height: 44px;
+
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+    border-radius: 50%;
+}
+
+/* Photo réelle */
+.table-panel .member-list-photo {
+    object-fit: cover;
+    object-position: center;
+    overflow: hidden;
+}
+
+/* Avatar avec initiale si aucune photo n'est disponible */
+.table-panel .member-list-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    overflow: hidden;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+/* Empêcher le nom et l'adresse de déformer la ligne. */
+.table-panel .member-list-identity > div {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.table-panel .member-name-link {
+    display: inline-block;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+}
+
+.table-panel .member-list-identity small {
+    display: block;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+}
+
+/* ---------------------------------------------------------
+   5. FORMULAIRES, LISTES DÉROULANTES ET BOUTONS
+   --------------------------------------------------------- */
+
+.table-panel td form {
+    margin: 0;
+}
+
+.table-panel td select {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    margin-bottom: 6px;
+}
+
+.table-panel .small-button,
+.table-panel .btn-small {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    max-width: 100%;
+    box-sizing: border-box;
+
+    padding: 7px 10px;
+    line-height: 1.25;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-align: center;
+}
+
+.table-panel .badge-generate-form {
+    max-width: 100%;
+}
+
+.table-panel .member-badge-cell > * {
+    max-width: 100%;
+}
+
+/* Éviter les coupures dues à des textes trop longs. */
+.table-panel .member-matricule,
+.table-panel .badge-status-inline {
+    overflow-wrap: anywhere;
+}
+
+/* ---------------------------------------------------------
+   6. ÉCRANS PLUS PETITS
+   Le tableau reste accessible par défilement horizontal.
+   --------------------------------------------------------- */
+
+@media (max-width: 768px) {
+    .table-panel {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .table-panel .table-responsive table {
+        min-width: 1120px;
+    }
+
+    .table-panel .table-responsive th,
+    .table-panel .table-responsive td {
+        padding: 8px 6px;
+    }
+}

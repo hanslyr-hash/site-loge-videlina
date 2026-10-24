@@ -1,0 +1,422 @@
+{% extends "base_member.html" %}
+
+{% block title %}
+Modifier le membre | Videlina
+{% endblock %}
+
+{% block heading %}
+Modifier le membre
+{% endblock %}
+
+{% block content %}
+
+<section class="panel member-edit-panel">
+
+<div class="member-edit-header">
+
+    <div class="member-edit-avatar">
+
+        {% if member.photo_url %}
+
+            <img
+                src="{{ member.photo_url }}"
+                alt="Photo de {{ member.name }}"
+                class="member-edit-photo"
+            >
+
+        {% else %}
+
+            <div class="member-edit-avatar-placeholder">
+                {{ member.name[0]|upper }}
+            </div>
+
+        {% endif %}
+
+    </div>
+
+    <div class="member-edit-heading">
+
+        <p class="eyebrow">
+            DOSSIER DU MEMBRE
+        </p>
+
+        <h2>
+            {{ member.name }}
+        </h2>
+
+        <p class="member-matricule">
+            RLMV-{{ "%05d"|format(member.id) }}
+        </p>
+
+    </div>
+
+</div>
+
+
+<form
+    method="POST"
+    enctype="multipart/form-data"
+    class="member-edit-form"
+>
+
+    <div class="form-grid">
+
+        <!-- NOM -->
+
+        <div class="form-group form-group-full">
+
+            <label for="name">
+                Nom complet
+            </label>
+
+            <input
+                type="text"
+                id="name"
+                name="name"
+                value="{{ member.name }}"
+                required
+            >
+
+        </div>
+
+
+        <!-- EMAIL -->
+
+        <div class="form-group">
+
+            <label for="email">
+                Adresse e-mail
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                name="email"
+                value="{{ member.email }}"
+                required
+            >
+
+        </div>
+
+
+        <!-- RÔLE -->
+
+        <div class="form-group">
+
+            <label for="role">
+                Fonction
+            </label>
+
+            <select
+                id="role"
+                name="role"
+            >
+
+                {% for role in ALLOWED_ROLES %}
+
+                    <option
+                        value="{{ role }}"
+                        {% if member.role == role %}
+                            selected
+                        {% endif %}
+                    >
+                        {{ role }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+
+        <!-- GRADE -->
+
+        <div class="form-group">
+
+            <label for="grade">
+                Grade
+            </label>
+
+            <select
+                id="grade"
+                name="grade"
+            >
+
+                {% for grade in ALLOWED_GRADES %}
+
+                    <option
+                        value="{{ grade }}"
+                        {% if member.grade == grade %}
+                            selected
+                        {% endif %}
+                    >
+                        {{ grade }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+
+        <!-- STATUT -->
+
+        <div class="form-group">
+
+            <label for="status">
+                Statut
+            </label>
+
+            <select
+                id="status"
+                name="status"
+            >
+
+                <option
+                    value="Actif"
+                    {% if member.status == "Actif" %}
+                        selected
+                    {% endif %}
+                >
+                    Actif
+                </option>
+
+                <option
+                    value="Inactif"
+                    {% if member.status == "Inactif" %}
+                        selected
+                    {% endif %}
+                >
+                    Inactif
+                </option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+
+    <!-- ============================================= -->
+    <!-- DATES INITIATIQUES -->
+    <!-- ============================================= -->
+
+    <div class="member-edit-section">
+
+        <div class="member-edit-section-heading">
+
+            <p class="eyebrow">
+                PARCOURS INITIATIQUE
+            </p>
+
+            <h3>
+                Dates maçonniques
+            </h3>
+
+        </div>
+
+
+        <div class="form-grid">
+
+            <!-- INITIATION -->
+
+            <div class="form-group">
+
+                <label for="date_initiation">
+                    Date d'initiation
+                </label>
+
+                <input
+                    type="date"
+                    id="date_initiation"
+                    name="date_initiation"
+                    value="{% if member.date_initiation %}{{ member.date_initiation.strftime('%Y-%m-%d') }}{% endif %}"
+                >
+
+                <small>
+                    Réception au grade d'Apprenti.
+                </small>
+
+            </div>
+
+
+            <!-- AUGMENTATION -->
+
+            <div class="form-group">
+
+                <label for="date_augmentation">
+                    Date d'augmentation
+                </label>
+
+                <input
+                    type="date"
+                    id="date_augmentation"
+                    name="date_augmentation"
+                    value="{% if member.date_augmentation %}{{ member.date_augmentation.strftime('%Y-%m-%d') }}{% endif %}"
+                >
+
+                <small>
+                    Passage au grade de Compagnon.
+                </small>
+
+            </div>
+
+
+            <!-- ÉLÉVATION -->
+
+            <div class="form-group">
+
+                <label for="date_elevation">
+                    Date d'élévation
+                </label>
+
+                <input
+                    type="date"
+                    id="date_elevation"
+                    name="date_elevation"
+                    value="{% if member.date_elevation %}{{ member.date_elevation.strftime('%Y-%m-%d') }}{% endif %}"
+                >
+
+                <small>
+                    Élévation au grade de Maître.
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ============================================= -->
+    <!-- PHOTO -->
+    <!-- ============================================= -->
+
+    <div class="member-edit-section">
+
+        <div class="member-edit-section-heading">
+
+            <p class="eyebrow">
+                IDENTITÉ VISUELLE
+            </p>
+
+            <h3>
+                Photo du membre
+            </h3>
+
+        </div>
+
+
+        <div class="photo-upload-box">
+
+            {% if member.photo_url %}
+
+                <div class="current-photo">
+
+                    <img
+                        src="{{ member.photo_url }}"
+                        alt="Photo actuelle de {{ member.name }}"
+                    >
+
+                    <div>
+
+                        <strong>
+                            Photo actuelle
+                        </strong>
+
+                        <p>
+                            Sélectionnez une nouvelle photo
+                            uniquement si vous souhaitez
+                            la remplacer.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            {% else %}
+
+                <div class="current-photo">
+
+                    <div class="member-edit-avatar-placeholder">
+                        {{ member.name[0]|upper }}
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Aucune photo enregistrée
+                        </strong>
+
+                        <p>
+                            Un avatar sera utilisé automatiquement
+                            si aucune photo n'est fournie.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+
+            <div class="form-group">
+
+                <label for="photo">
+                    {% if member.photo_url %}
+                        Remplacer la photo
+                    {% else %}
+                        Ajouter une photo
+                    {% endif %}
+                </label>
+
+                <input
+                    type="file"
+                    id="photo"
+                    name="photo"
+                    accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                >
+
+                <small>
+                    Formats acceptés : JPG, JPEG, PNG ou WEBP.
+                    Taille maximale : 5 Mo.
+                    La photo sera automatiquement recadrée
+                    au format portrait.
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ============================================= -->
+    <!-- ACTIONS -->
+    <!-- ============================================= -->
+
+    <div class="member-edit-actions">
+
+        <a
+            href="{{ url_for('member_detail', member_id=member.id) }}"
+            class="btn btn-secondary"
+        >
+            Annuler
+        </a>
+
+        <button
+            type="submit"
+            class="btn btn-primary"
+        >
+            Enregistrer les modifications
+        </button>
+
+    </div>
+
+</form>
+
+</section>
+
+{% endblock %}

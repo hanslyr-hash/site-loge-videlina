@@ -12,28 +12,69 @@ Fiche du membre
 
 <section class="panel member-profile-card">
 
-    <div class="member-profile-header">
+<!-- =====================================================
+     EN-TÊTE DU MEMBRE
+     ===================================================== -->
 
-        <div class="member-avatar">
-            {{ member.name[0]|upper }}
-        </div>
+<div class="member-profile-header">
 
-        <div>
-            <p class="eyebrow">
-                Respectable Loge Mixte VIDELINA
-            </p>
+    <div class="member-profile-avatar">
 
-            <h2>
-                {{ member.name }}
-            </h2>
+        {% if member.photo_url %}
 
-            <span class="badge {{ member.status|lower }}">
-                {{ member.status }}
-            </span>
-        </div>
+            <img
+                src="{{ member.photo_url }}"
+                alt="Photo de {{ member.name }}"
+                class="member-profile-photo"
+            >
+
+        {% else %}
+
+            <div class="member-profile-avatar-placeholder">
+                {{ member.name[0]|upper }}
+            </div>
+
+        {% endif %}
 
     </div>
 
+
+    <div class="member-profile-identity">
+
+        <p class="eyebrow">
+            Respectable Loge Mixte VIDELINA
+        </p>
+
+        <h2>
+            {{ member.name }}
+        </h2>
+
+        <p class="member-matricule">
+            RLMV-{{ "%05d"|format(member.id) }}
+        </p>
+
+        <span class="badge {{ member.status|lower }}">
+            {{ member.status }}
+        </span>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     INFORMATIONS GÉNÉRALES
+     ===================================================== -->
+
+<div class="member-profile-section">
+
+    <p class="eyebrow">
+        INFORMATIONS DU MEMBRE
+    </p>
+
+    <h3>
+        Identité et fonction
+    </h3>
 
     <div class="member-profile-grid">
 
@@ -43,6 +84,17 @@ Fiche du membre
 
             <strong>
                 {{ member.name }}
+            </strong>
+
+        </div>
+
+
+        <div class="member-info">
+
+            <span>Matricule</span>
+
+            <strong>
+                RLMV-{{ "%05d"|format(member.id) }}
             </strong>
 
         </div>
@@ -93,17 +145,115 @@ Fiche du membre
 
     </div>
 
+</div>
 
-    <div class="member-profile-actions">
 
-        <a
-            href="{{ url_for('manage_members') }}"
-            class="button"
-        >
-            ← Retour à l'annuaire
-        </a>
+<!-- =====================================================
+     PARCOURS INITIATIQUE
+     ===================================================== -->
+
+<div class="member-profile-section">
+
+    <p class="eyebrow">
+        PARCOURS INITIATIQUE
+    </p>
+
+    <h3>
+        Dates maçonniques
+    </h3>
+
+
+    <div class="member-profile-grid">
+
+        <div class="member-info">
+
+            <span>Date d'initiation</span>
+
+            <strong>
+
+                {% if member.date_initiation %}
+
+                    {{ member.date_initiation.strftime('%d/%m/%Y') }}
+
+                {% else %}
+
+                    Non renseignée
+
+                {% endif %}
+
+            </strong>
+
+        </div>
+
+
+        <div class="member-info">
+
+            <span>Date d'augmentation</span>
+
+            <strong>
+
+                {% if member.date_augmentation %}
+
+                    {{ member.date_augmentation.strftime('%d/%m/%Y') }}
+
+                {% else %}
+
+                    Non renseignée
+
+                {% endif %}
+
+            </strong>
+
+        </div>
+
+
+        <div class="member-info">
+
+            <span>Date d'élévation</span>
+
+            <strong>
+
+                {% if member.date_elevation %}
+
+                    {{ member.date_elevation.strftime('%d/%m/%Y') }}
+
+                {% else %}
+
+                    Non renseignée
+
+                {% endif %}
+
+            </strong>
+
+        </div>
 
     </div>
+
+</div>
+
+
+<!-- =====================================================
+     ACTIONS
+     ===================================================== -->
+
+<div class="member-profile-actions">
+
+    <a
+        href="{{ url_for('modifier_membre', member_id=member.id) }}"
+        class="btn btn-primary"
+    >
+        ✏️ Modifier le membre
+    </a>
+
+
+    <a
+        href="{{ url_for('manage_members') }}"
+        class="btn btn-secondary"
+    >
+        ← Retour aux membres
+    </a>
+
+</div>
 
 </section>
 

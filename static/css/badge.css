@@ -1,0 +1,1503 @@
+/* ============================================================
+   BADGE OFFICIEL — RESPECTABLE LOGE MIXTE VIDELINA #1
+   CSS harmonisé
+   Format physique : 85,6 × 53,98 mm par face
+   Palette : bordeaux, or, ivoire
+   ============================================================ */
+
+
+/* ============================================================
+   1. VARIABLES ET RÉINITIALISATION
+   ============================================================ */
+
+:root {
+    --badge-red: #6f1017;
+    --badge-red-dark: #3d080d;
+    --badge-red-light: #8e2028;
+
+    --badge-gold: #b68a3d;
+    --badge-gold-light: #e5c878;
+    --badge-gold-dark: #76531e;
+
+    --badge-cream: #fbf7ed;
+    --badge-white: #ffffff;
+    --badge-black: #231c18;
+
+    --badge-border: rgba(182, 138, 61, 0.72);
+
+    --badge-card-width: 85.6mm;
+    --badge-card-height: 53.98mm;
+
+    --badge-font-serif: "Cormorant Garamond", Georgia, serif;
+    --badge-font-sans: "DM Sans", Arial, sans-serif;
+}
+
+.badge-page,
+.badge-page * {
+    box-sizing: border-box;
+}
+
+.badge-page {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 28px;
+
+    color: var(--badge-black);
+    font-family: var(--badge-font-sans);
+}
+
+.badge-page img {
+    display: block;
+    max-width: 100%;
+}
+
+.badge-page button,
+.badge-page input {
+    font-family: inherit;
+}
+
+
+/* ============================================================
+   2. EN-TÊTE DE PAGE
+   ============================================================ */
+
+.badge-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 22px;
+
+    margin-bottom: 30px;
+    padding-bottom: 22px;
+
+    border-bottom: 1px solid rgba(182, 138, 61, 0.35);
+}
+
+.badge-page-header > div:first-child {
+    min-width: 220px;
+}
+
+.badge-page-eyebrow {
+    display: inline-block;
+    margin-bottom: 6px;
+
+    color: var(--badge-gold-dark);
+
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+}
+
+.badge-page-header h1 {
+    margin: 0;
+
+    color: var(--badge-red);
+
+    font-family: var(--badge-font-serif);
+    font-size: clamp(28px, 3vw, 38px);
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.badge-page-header p {
+    margin: 7px 0 0;
+
+    color: #756b61;
+    font-size: 13px;
+}
+
+.badge-page-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+
+/* ============================================================
+   3. BOUTONS
+   ============================================================ */
+
+.badge-action-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 40px;
+    padding: 10px 16px;
+
+    border: 1px solid #d8c9ad;
+    border-radius: 7px;
+
+    background: var(--badge-white);
+    color: var(--badge-red);
+
+    font-family: var(--badge-font-sans);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.3;
+    text-align: center;
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.badge-action-button:hover {
+    border-color: var(--badge-gold);
+    background: var(--badge-cream);
+    color: var(--badge-red-dark);
+}
+
+.badge-action-button:focus-visible {
+    outline: 3px solid rgba(182, 138, 61, 0.4);
+    outline-offset: 3px;
+}
+
+.badge-action-button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.badge-action-primary {
+    border-color: var(--badge-red);
+    background: var(--badge-red);
+    color: var(--badge-white);
+}
+
+.badge-action-primary:hover {
+    border-color: var(--badge-red-dark);
+    background: var(--badge-red-dark);
+    color: var(--badge-white);
+}
+
+.badge-action-danger {
+    border-color: #b42332;
+    background: #b42332;
+    color: var(--badge-white);
+}
+
+.badge-action-danger:hover {
+    border-color: #861a25;
+    background: #861a25;
+    color: var(--badge-white);
+}
+
+
+/* ============================================================
+   4. DISPOSITION DES BADGES
+   ============================================================ */
+
+.badge-display {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+
+    width: 100%;
+    padding: 8px 0 24px;
+}
+
+
+/* ============================================================
+   5. STRUCTURE COMMUNE AUX DEUX FACES
+   ============================================================ */
+
+.badge-card {
+    position: relative;
+    isolation: isolate;
+
+    display: block;
+    flex: 0 0 var(--badge-card-width);
+
+    width: var(--badge-card-width);
+    min-width: var(--badge-card-width);
+    max-width: var(--badge-card-width);
+
+    height: var(--badge-card-height);
+    min-height: var(--badge-card-height);
+    max-height: var(--badge-card-height);
+
+    padding: 0;
+    overflow: hidden;
+
+    border: 0.45mm solid var(--badge-gold);
+    border-radius: 2.2mm;
+
+    color: var(--badge-black);
+    font-family: var(--badge-font-sans);
+
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+
+    box-shadow:
+        0 8px 22px rgba(35, 20, 10, 0.15),
+        0 2px 5px rgba(35, 20, 10, 0.08);
+}
+
+.badge-front-inner,
+.badge-back-inner {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+
+    width: 100%;
+    height: 100%;
+}
+
+.badge-front-pattern,
+.badge-back-pattern {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+
+    pointer-events: none;
+}
+
+
+/* ============================================================
+   6. RECTO — FOND ET CADRE
+   ============================================================ */
+
+.badge-front {
+    background:
+        radial-gradient(
+            ellipse at 50% 0%,
+            rgba(142, 32, 40, 0.96) 0%,
+            rgba(111, 16, 23, 0.99) 47%,
+            rgba(61, 8, 13, 1) 100%
+        );
+}
+
+.badge-front::before {
+    position: absolute;
+    inset: 1.25mm;
+    z-index: 1;
+
+    border: 0.2mm solid rgba(229, 200, 120, 0.75);
+    border-radius: 1.4mm;
+
+    content: "";
+    pointer-events: none;
+}
+
+.badge-front::after {
+    position: absolute;
+    inset: 2.1mm;
+    z-index: 1;
+
+    border: 0.12mm solid rgba(229, 200, 120, 0.27);
+    border-radius: 0.9mm;
+
+    content: "";
+    pointer-events: none;
+}
+
+.badge-front-pattern {
+    opacity: 0.17;
+
+    background-image:
+        repeating-linear-gradient(
+            45deg,
+            transparent 0,
+            transparent 5mm,
+            rgba(229, 200, 120, 0.12) 5.1mm,
+            transparent 5.3mm
+        );
+}
+
+
+/* ============================================================
+   7. RECTO — EN-TÊTE ET LOGOS
+   ============================================================ */
+
+.badge-header {
+    position: absolute;
+    top: 3.4mm;
+    left: 4.2mm;
+    right: 4.2mm;
+
+    display: grid;
+    grid-template-columns: 10.5mm minmax(0, 1fr) 10.5mm;
+    align-items: center;
+    column-gap: 1.4mm;
+
+    height: 10.4mm;
+}
+
+.badge-logo-wrapper,
+.badge-logo1-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 10.5mm;
+    height: 10.4mm;
+
+    min-width: 0;
+    min-height: 0;
+
+    overflow: hidden;
+}
+
+.badge-logo,
+.badge-logo1 {
+   max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.badge-header-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 0;
+    overflow: hidden;
+
+    color: var(--badge-cream);
+    text-align: center;
+}
+
+.badge-small-title {
+    width: 100%;
+    margin-bottom: 0.35mm;
+
+    font-size: 5.5pt;
+    font-weight: 700;
+    line-height: 1.05;
+
+    letter-spacing: 0.65px;
+    white-space: nowrap;
+}
+
+.badge-main-title {
+    width: 100%;
+
+    color: var(--badge-gold-light);
+
+    font-family: var(--badge-font-serif);
+    font-size: 14pt;
+    font-weight: 700;
+    line-height: 1.05;
+
+    letter-spacing: 0.45px;
+    white-space: nowrap;
+}
+
+.badge-location {
+    width: 100%;
+    margin-top: 0.45mm;
+
+    font-size: 5.3pt;
+    font-weight: 600;
+    line-height: 1.05;
+
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+}
+
+
+/* ============================================================
+   8. FILET DORÉ
+   ============================================================ */
+
+.badge-gold-line {
+    position: absolute;
+    top: 15.1mm;
+    left: 4.4mm;
+    right: 4.4mm;
+
+    height: 0.35mm;
+    min-height: 0.35mm;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--badge-gold-dark) 10%,
+        var(--badge-gold-light) 50%,
+        var(--badge-gold-dark) 90%,
+        transparent
+    );
+}
+
+
+/* ============================================================
+   9. RECTO — IDENTITÉ DU MEMBRE ET PHOTO
+   ============================================================ */
+
+.badge-member {
+    position: absolute;
+    top: 17mm;
+    left: 5mm;
+
+    display: flex;
+    align-items: center;
+    gap: 2.5mm;
+
+    width: 51mm;
+    height: 15mm;
+
+    min-width: 0;
+    overflow: visible;
+}
+
+#badge-front .member-avatar {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 15mm;
+
+    width: 15mm;
+    min-width: 15mm;
+    max-width: 15mm;
+
+    height: 15mm;
+    min-height: 15mm;
+    max-height: 15mm;
+
+    padding: 0;
+    overflow: hidden;
+
+    border: 0.45mm solid var(--badge-gold-light);
+    border-radius: 50%;
+
+    background: var(--badge-cream);
+}
+
+#badge-front .member-avatar .member-photo {
+    display: block;
+
+    flex: 0 0 auto;
+
+    width: 100%;
+    height: 100%;
+
+    min-width: 0;
+    min-height: 0;
+    max-width: none;
+    max-height: none;
+
+    margin: 0;
+    padding: 0;
+
+    border: 0;
+    border-radius: 50%;
+
+    object-fit: cover;
+    object-position: center 25%;
+}
+
+.member-identity {
+    display: flex;
+    flex: 1 1 0;
+
+    flex-direction: column;
+    justify-content: center;
+
+    min-width: 0;
+    overflow: visible;
+
+    color: var(--badge-cream);
+}
+
+.member-label {
+    margin-bottom: 0.6mm;
+
+    color: var(--badge-gold-light);
+
+    font-size: 5.1pt;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.member-name {
+    display: block;
+
+    width: 100%;
+    max-width: 100%;
+
+    color: var(--badge-white);
+
+    font-family: var(--badge-font-serif);
+    font-size: 11pt;
+    font-weight: 700;
+    line-height: 1.2;
+
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-overflow: clip;
+}
+
+.member-grade {
+    display: block;
+
+    width: 100%;
+    max-width: 100%;
+
+    margin-top: 0.6mm;
+
+    color: var(--badge-gold-light);
+
+    font-size: 7pt;
+    font-weight: 600;
+    line-height: 1.15;
+
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+
+/* ============================================================
+   10. RECTO — INFORMATIONS
+   ============================================================ */
+
+.badge-information-grid {
+    position: absolute;
+    top: 33.4mm;
+    left: 5mm;
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, 5.5mm);
+
+    gap: 1mm;
+
+    width: 49mm;
+}
+
+.badge-info-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    min-width: 0;
+    min-height: 0;
+
+    padding: 0.45mm 1.1mm;
+    overflow: hidden;
+
+    border: 0.12mm solid rgba(229, 200, 120, 0.4);
+    border-radius: 0.7mm;
+
+    background: rgba(255, 255, 255, 0.055);
+}
+
+.badge-info-label {
+    display: block;
+
+    margin-bottom: 0.35mm;
+
+    color: var(--badge-gold-light);
+
+    font-size: 4.6pt;
+    font-weight: 700;
+    line-height: 1;
+
+    letter-spacing: 0.45px;
+}
+
+.badge-info-item strong {
+    display: block;
+
+    max-width: 100%;
+    overflow: hidden;
+
+    color: var(--badge-white);
+
+    font-size: 6.3pt;
+    font-weight: 700;
+    line-height: 1.1;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.badge-info-item .badge-status {
+    color: #f5e5b8;
+}
+
+.badge-info-item .badge-status-valid {
+    color: #c7f4c8;
+}
+
+
+/* ============================================================
+   11. RECTO — QR CODE
+   ============================================================ */
+
+.badge-qr-section {
+    position: absolute;
+    top: 19.1mm;
+    right: 5.1mm;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 22mm;
+}
+
+.badge-qr-frame {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 20mm;
+    height: 20mm;
+
+    padding: 1mm;
+    overflow: hidden;
+
+    border: 0.35mm solid var(--badge-gold);
+    border-radius: 1mm;
+
+    background: var(--badge-white);
+}
+
+.badge-qr {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+}
+
+.badge-qr-label {
+    display: block;
+
+    margin-top: 1mm;
+
+    color: var(--badge-gold-light);
+
+    font-size: 5.3pt;
+    font-weight: 800;
+    line-height: 1;
+
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+
+/* ============================================================
+   12. RECTO — DEVISE ET NUMÉRO
+   ============================================================ */
+
+.badge-motto {
+    position: absolute;
+    bottom: 2.3mm;
+    left: 4.5mm;
+
+    width: 49mm;
+    overflow: hidden;
+
+    color: var(--badge-gold-light);
+
+    font-family: var(--badge-font-serif);
+    font-size: 6.4pt;
+    font-weight: 700;
+    line-height: 1.1;
+
+    letter-spacing: 0.45px;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.badge-number {
+    position: absolute;
+    right: 4.5mm;
+    bottom: 2.3mm;
+
+    max-width: 24mm;
+    overflow: hidden;
+
+    color: var(--badge-white);
+
+    font-size: 5.4pt;
+    font-weight: 700;
+    line-height: 1.1;
+
+    letter-spacing: 0.25px;
+    white-space: nowrap;
+    text-align: right;
+}
+
+
+/* ============================================================
+   13. VERSO — FOND ET CADRE
+   ============================================================ */
+
+.badge-back {
+    background:
+        radial-gradient(
+            ellipse at 50% 0%,
+            var(--badge-white) 0%,
+            var(--badge-cream) 60%,
+            #f0e5d1 100%
+        );
+}
+
+.badge-back::before {
+    position: absolute;
+    inset: 1.25mm;
+    z-index: 1;
+
+    border: 0.25mm solid var(--badge-gold);
+    border-radius: 1.4mm;
+
+    content: "";
+    pointer-events: none;
+}
+
+.badge-back::after {
+    position: absolute;
+    inset: 2.1mm;
+    z-index: 1;
+
+    border: 0.12mm solid rgba(118, 83, 30, 0.3);
+    border-radius: 0.9mm;
+
+    content: "";
+    pointer-events: none;
+}
+
+.badge-back-pattern {
+    opacity: 0.18;
+
+    background-image:
+        repeating-linear-gradient(
+            45deg,
+            transparent 0,
+            transparent 5mm,
+            rgba(182, 138, 61, 0.1) 5.1mm,
+            transparent 5.3mm
+        );
+}
+
+
+/* ============================================================
+   14. VERSO — EN-TÊTE ET SCEAU
+   ============================================================ */
+
+.badge-back-header {
+    position: absolute;
+    top: 3mm;
+    left: 5mm;
+    right: 5mm;
+
+    height: 12mm;
+}
+
+.badge-back-logo-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 16mm;
+    height: 16mm;
+
+    overflow: hidden;
+}
+
+.badge-back-logo {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.badge-obedience {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 61mm;
+    height: 12mm;
+
+    overflow: hidden;
+
+    color: var(--badge-red);
+    text-align: center;
+}
+
+.badge-obedience-title {
+    margin-bottom: 0.6mm;
+
+    color: var(--badge-gold-dark);
+
+    font-size: 5.1pt;
+    font-weight: 800;
+    line-height: 1.1;
+
+    letter-spacing: 0.8px;
+}
+
+.badge-obedience-name {
+    width: 100%;
+
+    font-family: var(--badge-font-serif);
+    font-size: 9.1pt;
+    font-weight: 700;
+    line-height: 1.05;
+
+    letter-spacing: 0.15px;
+}
+
+.badge-obedience-subtitle {
+    margin-top: 0.5mm;
+
+    color: var(--badge-gold-dark);
+
+    font-size: 6.2pt;
+    font-weight: 800;
+    line-height: 1;
+
+    letter-spacing: 1.4px;
+}
+
+
+/* ============================================================
+   15. VERSO — FILET DORÉ
+   ============================================================ */
+
+.badge-gold-line-back {
+    top: 16.2mm;
+    left: 5mm;
+    right: 5mm;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--badge-gold) 12%,
+        var(--badge-gold-light) 50%,
+        var(--badge-gold) 88%,
+        transparent
+    );
+}
+
+
+/* ============================================================
+   16. VERSO — TEXTE OFFICIEL
+   ============================================================ */
+
+.badge-official-text {
+    position: absolute;
+    top: 17mm;
+    left: 6mm;
+    right: 6mm;
+
+    height: 11.8mm;
+    overflow: hidden;
+
+    color: #463a2d;
+    text-align: center;
+}
+
+.badge-official-title {
+    margin: 0 0 1mm;
+
+    color: var(--badge-red);
+
+    font-family: var(--badge-font-serif);
+    font-size: 9.1pt;
+    font-weight: 800;
+    line-height: 1.1;
+
+    letter-spacing: 0.5px;
+}
+
+.badge-official-text p {
+    margin: 0.6mm 0 0;
+
+    font-size: 4.8pt;
+    font-weight: 400;
+    line-height: 1.2;
+
+    text-align: center;
+}
+
+
+/* ============================================================
+   17. VERSO — INFORMATIONS DU MEMBRE
+   ============================================================ */
+
+.badge-back-information {
+    position: absolute;
+    top: 30.1mm;
+    left: 6mm;
+    right: 6mm;
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, 4.3mm);
+
+    column-gap: 2mm;
+    row-gap: 0.7mm;
+}
+
+.badge-back-info-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    min-width: 0;
+    min-height: 0;
+
+    gap: 1mm;
+    padding: 0.4mm 0.7mm;
+
+    overflow: hidden;
+
+    border-bottom: 0.15mm solid rgba(182, 138, 61, 0.55);
+}
+
+.badge-back-info-item span {
+    flex: 0 0 auto;
+
+    color: var(--badge-gold-dark);
+
+    font-size: 4.7pt;
+    font-weight: 800;
+    line-height: 1;
+
+    letter-spacing: 0.25px;
+}
+
+.badge-back-info-item strong {
+    display: block;
+    flex: 1 1 auto;
+
+    min-width: 0;
+    overflow: hidden;
+
+    color: var(--badge-red-dark);
+
+    font-size: 5.8pt;
+    font-weight: 700;
+    line-height: 1.1;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+/* ============================================================
+   18. VERSO — SIGNATURES
+   ============================================================ */
+
+#badge-back .badge-signatures {
+    position: absolute;
+    right: 5mm;
+    bottom: 5mm;
+    left: 5mm;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 4mm;
+
+    height: 11mm;
+    box-sizing: border-box;
+}
+
+#badge-back .badge-signature-box {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-end;
+
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+
+    box-sizing: border-box;
+}
+
+#badge-back .badge-signature-image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 6mm;
+    flex: 0 0 6mm;
+
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+#badge-back .badge-signature-image {
+    display: block;
+
+    /* Conserver les proportions originales */
+    width: auto;
+    height: auto;
+
+    /* Limiter l'image à son conteneur */
+    max-width: 30mm;
+    max-height: 6mm;
+
+    /* Garantir un redimensionnement proportionnel */
+    object-fit: contain;
+    object-position: center;
+
+    margin: 0 auto;
+    flex: 0 1 auto;
+
+    box-sizing: border-box;
+}
+
+#badge-back .badge-signature-line {
+    flex: 0 0 auto;
+
+    width: 90%;
+    height: 0;
+    margin: 0.4mm auto 0;
+
+    border-top: 0.15mm solid var(--badge-gold-dark);
+    box-sizing: border-box;
+}
+
+#badge-back .badge-signature-caption {
+    display: block;
+
+    width: 100%;
+    margin: 0.7mm 0 0;
+    padding: 0;
+
+    color: var(--badge-red);
+
+    font-family: var(--badge-font-sans);
+    font-size: 5.2pt;
+    font-weight: 700;
+    line-height: 1.15;
+
+    letter-spacing: 0;
+    text-align: center;
+    white-space: nowrap;
+
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   19. VERSO — PIED DE CARTE
+   ============================================================ */
+
+.badge-back-footer {
+    position: absolute;
+    right: 5mm;
+    bottom: 1.8mm;
+    left: 5mm;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 2.4mm;
+}
+
+.badge-back-motto {
+    min-width: 0;
+    overflow: hidden;
+
+    color: var(--badge-gold-dark);
+
+    font-family: var(--badge-font-serif);
+    font-size: 5.5pt;
+    font-weight: 700;
+    line-height: 1;
+
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+
+.badge-back-number {
+    flex: 0 0 auto;
+
+    color: var(--badge-red);
+
+    font-size: 5pt;
+    font-weight: 800;
+    line-height: 1;
+
+    white-space: nowrap;
+}
+
+
+/* ============================================================
+   20. VERSO — VÉRIFICATION TECHNIQUE
+   ============================================================ */
+
+.badge-technical {
+    position: absolute;
+    right: 5mm;
+    bottom: 0.2mm;
+    left: 5mm;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 1mm;
+    height: 1.3mm;
+
+    overflow: hidden;
+
+    color: #76654e;
+
+    font-size: 3.4pt;
+    line-height: 1;
+
+    white-space: nowrap;
+}
+
+.badge-technical > span:first-child {
+    flex: 0 0 auto;
+
+    font-weight: 800;
+    letter-spacing: 0.25px;
+}
+
+.badge-technical-url {
+    min-width: 0;
+    overflow: hidden;
+
+    font-weight: 500;
+    text-overflow: ellipsis;
+}
+
+
+/* ============================================================
+   21. GESTION ADMINISTRATIVE
+   ============================================================ */
+
+.badge-management {
+    margin-top: 26px;
+    padding: 24px;
+
+    border: 1px solid #e9dfce;
+    border-radius: 12px;
+
+    background: var(--badge-white);
+    box-shadow: 0 5px 18px rgba(35, 20, 10, 0.04);
+}
+
+.badge-management h2 {
+    margin: 0 0 8px;
+
+    color: var(--badge-red);
+
+    font-family: var(--badge-font-serif);
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.badge-management > p {
+    margin: 0 0 18px;
+
+    color: #756b61;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.badge-management-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.badge-management-actions form {
+    margin: 0;
+}
+
+
+/* ============================================================
+   22. ANCIENNES CLASSES DE LISTE DES MEMBRES
+   Conservées pour les éléments existants.
+   ============================================================ */
+
+.table-panel {
+    overflow: hidden;
+
+    border: 1px solid #e9dfce;
+    border-radius: 12px;
+
+    background: var(--badge-white);
+}
+
+.member-list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    padding: 18px 20px;
+
+    border-bottom: 1px solid #eee5d6;
+}
+
+.member-list-header h2 {
+    margin: 0;
+
+    color: var(--badge-red);
+
+    font-family: var(--badge-font-serif);
+    font-size: 23px;
+}
+
+.member-list-search {
+    width: 100%;
+    max-width: 300px;
+
+    padding: 10px 12px;
+
+    border: 1px solid #ded2bf;
+    border-radius: 7px;
+
+    background: var(--badge-white);
+    color: var(--badge-black);
+
+    font: inherit;
+    font-size: 13px;
+}
+
+.member-list-search:focus {
+    border-color: var(--badge-gold);
+    outline: 2px solid rgba(182, 138, 61, 0.15);
+}
+
+.member-list-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.member-list-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    font-size: 13px;
+    text-align: left;
+}
+
+.member-list-table th,
+.member-list-table td {
+    padding: 12px 16px;
+
+    border-bottom: 1px solid #f0e9dd;
+
+    vertical-align: middle;
+}
+
+.member-list-table th {
+    background: var(--badge-cream);
+    color: var(--badge-red);
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+}
+
+.member-list-table tbody tr:hover {
+    background: #fdfaf4;
+}
+
+.member-list-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+
+/* ============================================================
+   23. RESPONSIVE — PAGE
+   Les dimensions physiques du badge restent fixes.
+   ============================================================ */
+
+@media screen and (max-width: 760px) {
+
+    .badge-page {
+        padding: 16px 10px;
+    }
+
+    .badge-page-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 16px;
+
+        margin-bottom: 20px;
+        padding-bottom: 18px;
+    }
+
+    .badge-page-actions {
+        justify-content: flex-start;
+        width: 100%;
+    }
+
+    .badge-action-button {
+        min-height: 38px;
+        padding: 9px 12px;
+
+        font-size: 11px;
+    }
+
+    .badge-display {
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+    }
+
+    .badge-card {
+        flex: 0 0 var(--badge-card-width);
+    }
+
+    .badge-management {
+        padding: 18px 14px;
+    }
+
+    .badge-management-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .badge-management-actions form,
+    .badge-management-actions .badge-action-button {
+        width: 100%;
+    }
+
+    .member-list-header {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .member-list-search {
+        max-width: none;
+    }
+}
+
+
+/* ============================================================
+   24. IMPRESSION
+   ============================================================ */
+
+@page {
+    size: A4 portrait;
+    margin: 12mm;
+}
+
+@media print {
+
+    html,
+    body {
+        margin: 0 !important;
+        padding: 0 !important;
+
+        background: var(--badge-white) !important;
+    }
+
+    body * {
+        visibility: hidden !important;
+    }
+
+    #badge-front,
+    #badge-front *,
+    #badge-back,
+    #badge-back * {
+        visibility: visible !important;
+    }
+
+    .badge-page {
+        width: auto !important;
+        max-width: none !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .badge-page-header,
+    .badge-management {
+        display: none !important;
+    }
+
+    .badge-display {
+        display: flex !important;
+        align-items: flex-start !important;
+        justify-content: center !important;
+        flex-direction: column !important;
+
+        gap: 8mm !important;
+
+        width: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .badge-card {
+        flex: 0 0 var(--badge-card-width) !important;
+
+        width: var(--badge-card-width) !important;
+        min-width: var(--badge-card-width) !important;
+        max-width: var(--badge-card-width) !important;
+
+        height: var(--badge-card-height) !important;
+        min-height: var(--badge-card-height) !important;
+        max-height: var(--badge-card-height) !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        overflow: hidden !important;
+
+        border-radius: 2.2mm !important;
+        box-shadow: none !important;
+
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+    }
+
+    .badge-front,
+    .badge-back {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+    }
+
+    .badge-front-pattern,
+    .badge-back-pattern {
+        display: block !important;
+    }
+}
+
+.member-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ============================================================
+   FIN DU FICHIER badge.css
+   ============================================================ */

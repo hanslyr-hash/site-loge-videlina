@@ -1,0 +1,221 @@
+{% extends "base.html" %}
+
+{% block title %}
+Vérification du badge | Videlina
+{% endblock %}
+
+{% block content %}
+
+<div class="badge-verification-page">
+
+    <section class="badge-verification-card">
+
+        <!-- ================================================= -->
+        <!-- EN-TÊTE -->
+        <!-- ================================================= -->
+
+        <div class="badge-verification-header">
+
+            <div class="badge-verification-symbol">
+                ✦
+            </div>
+
+            <p class="badge-verification-eyebrow">
+                RESPECTABLE LOGE MIXTE VIDELINA #1
+            </p>
+
+            <h1>
+                Vérification du badge
+            </h1>
+
+        </div>
+
+
+        {% if not badge %}
+
+            <!-- ============================================= -->
+            <!-- BADGE INTROUVABLE -->
+            <!-- ============================================= -->
+
+            <div class="badge-status badge-status-invalid">
+
+                <div class="badge-status-icon">
+                    ×
+                </div>
+
+                <h2>
+                    BADGE INTROUVABLE
+                </h2>
+
+                <p>
+                    Ce badge ne peut pas être vérifié.
+                </p>
+
+                <p class="badge-status-detail">
+                    Le numéro de vérification fourni est
+                    inconnu ou invalide.
+                </p>
+
+            </div>
+
+
+        {% elif badge.status == "RÉVOQUÉ" %}
+
+            <!-- ============================================= -->
+            <!-- BADGE RÉVOQUÉ -->
+            <!-- ============================================= -->
+
+            <div class="badge-status badge-status-revoked">
+
+                <div class="badge-status-icon">
+                    !
+                </div>
+
+                <h2>
+                    BADGE RÉVOQUÉ
+                </h2>
+
+                <p>
+                    Ce badge n'est plus valide.
+                </p>
+
+                {% if badge.revoked_at %}
+
+                    <p class="badge-status-detail">
+                        Révoqué le
+                        {{ badge.revoked_at.strftime("%d/%m/%Y à %H:%M") }}
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+
+        {% else %}
+
+            <!-- ============================================= -->
+            <!-- BADGE VALIDE -->
+            <!-- ============================================= -->
+
+            <div class="badge-status badge-status-valid">
+
+                <div class="badge-status-icon">
+                    ✓
+                </div>
+
+                <h2>
+                    BADGE VALIDE
+                </h2>
+
+                <p>
+                    Ce badge est officiellement reconnu
+                    par la Respectable Loge Mixte VIDELINA #1.
+                </p>
+
+            </div>
+
+
+            <!-- ============================================= -->
+            <!-- INFORMATIONS DU MEMBRE -->
+            <!-- ============================================= -->
+
+            <div class="badge-member-information">
+
+                <div class="badge-member-avatar">
+                    {{ badge.name[0]|upper }}
+                </div>
+
+                <div class="badge-member-main">
+
+                    <p class="badge-information-label">
+                        TITULAIRE DU BADGE
+                    </p>
+
+                    <h2>
+                        {{ badge.name }}
+                    </h2>
+
+                    <p class="badge-member-grade">
+                        {{ badge.grade }}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ============================================= -->
+            <!-- INFORMATIONS DU BADGE -->
+            <!-- ============================================= -->
+
+            <div class="badge-information-grid">
+
+                <div class="badge-information-item">
+
+                    <span class="badge-information-label">
+                        STATUT
+                    </span>
+
+                    <strong>
+                        VALIDE
+                    </strong>
+
+                </div>
+
+
+                <div class="badge-information-item">
+
+                    <span class="badge-information-label">
+                        ÉMIS LE
+                    </span>
+
+                    <strong>
+                        {{ badge.created_at.strftime("%d/%m/%Y") }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="badge-authenticity-message">
+
+                <strong>
+                    ✓ Badge authentifié
+                </strong>
+
+                <p>
+                    Cette vérification confirme que le badge
+                    présenté correspond à un badge enregistré
+                    auprès de la Respectable Loge Mixte
+                    VIDELINA #1.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- ================================================= -->
+        <!-- PIED DE PAGE -->
+        <!-- ================================================= -->
+
+        <div class="badge-verification-footer">
+
+            <p>
+                <strong>
+                    In omnibus et per omnia Luceamus
+                </strong>
+            </p>
+
+            <span>
+                Système officiel de vérification des badges
+            </span>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}

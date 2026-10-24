@@ -1,0 +1,1010 @@
+
+{% extends "base_member.html" %}
+
+{% block title %}Badge officiel | Videlina{% endblock %}
+
+{% block content %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/badge.css') }}"
+>
+
+<div class="badge-page">
+
+    <!-- EN-TÊTE DE LA PAGE -->
+    <header class="badge-page-header">
+        <div>
+            <span class="badge-page-eyebrow">ESPACE MEMBRE</span>
+            <h1>Badge officiel</h1>
+            <p>Respectable Loge Mixte VIDELINA #1</p>
+        </div>
+
+        <div class="badge-page-actions">
+            <button
+                type="button"
+                class="badge-action-button"
+                onclick="window.print()"
+            >
+                Imprimer
+            </button>
+
+            <button
+                type="button"
+                class="badge-action-button badge-action-primary"
+                onclick="telechargerBadgePNG('badge-front', 'Recto')"
+            >
+                Télécharger le recto
+            </button>
+
+            <button
+                type="button"
+                class="badge-action-button badge-action-primary"
+                onclick="telechargerBadgePNG('badge-back', 'Verso')"
+            >
+                Télécharger le verso
+            </button>
+        </div>
+    </header>
+
+
+    <!-- PRÉSENTATION DES DEUX FACES -->
+    <div class="badge-display">
+
+        <!-- =================================================
+             RECTO DU BADGE
+             ================================================= -->
+
+        <section
+            class="badge-card badge-front"
+            id="badge-front"
+            aria-label="Recto du badge officiel"
+        >
+
+            <div class="badge-front-pattern" aria-hidden="true"></div>
+
+            <div class="badge-front-inner">
+
+                <!-- IDENTITÉ DE LA LOGE -->
+                <header class="badge-header">
+
+                    <div class="badge-logo-wrapper">
+                        <img
+                            class="badge-logo"
+                            src="{{ url_for('static', filename='Logo Videlina.png') }}"
+                            alt="Logo VIDELINA"
+                            crossorigin="anonymous"
+                        >
+                    </div>
+
+                    <div class="badge-header-text">
+                        <div class="badge-small-title">
+                            RESPECTABLE LOGE MIXTE
+                        </div>
+
+                        <div class="badge-main-title">
+                            VIDELINA #1
+                        </div>
+
+                        <div class="badge-location">
+                            ORIENT DE TERRIER-ROUGE
+                        </div>
+                    </div>
+
+                    <div class="badge-logo1-wrapper">
+                        <img
+                            class="badge-logo1"
+                            src="{{ url_for('static', filename='logo maconnique.png') }}"
+                            alt="Emblème maçonnique"
+                            crossorigin="anonymous"
+                        >
+                    </div>
+
+                </header>
+
+
+                <div class="badge-gold-line"></div>
+
+
+                <!-- IDENTITÉ DU MEMBRE -->
+                <section class="badge-member">
+
+                    <div class="member-avatar">
+
+                        {% if badge.photo_url %}
+
+                            <img
+                                class="member-photo"
+                                src="{{ badge.photo_url }}"
+                                alt="Photo de {{ badge.name or badge.member_name or 'Nom non renseigné' }}"
+                                crossorigin="anonymous"
+                            >
+
+                        {% else %}
+
+                            <span class="member-initial">
+                                {{ (badge.name or badge.member_name or 'M')[:1]|upper }}
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="member-identity">
+
+                        <div class="member-label">
+                            MEMBRE DE LA LOGE
+                        </div>
+
+                        <div
+                            class="member-name"
+                            title="{{ badge.name or badge.member_name or 'Nom non renseigné' }}"
+>
+                            {{ badge.name or badge.member_name or 'Nom non renseigné' }}
+                        </div>
+
+                        <div class="member-grade">
+                            {{ badge.grade or 'Grade non renseigné' }}
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- INFORMATIONS DU BADGE -->
+                <section
+                    class="badge-information-grid"
+                    aria-label="Informations du membre"
+                >
+
+                    <div class="badge-info-item">
+                        <span class="badge-info-label">MATRICULE</span>
+
+                        <strong>
+                            RLMV-{{ "%05d"|format(badge.member_id|int) }}
+                        </strong>
+                    </div>
+
+
+                    <div class="badge-info-item">
+                        <span class="badge-info-label">QUALITÉ</span>
+
+                        <strong>
+                            {{ badge.role or 'Membre' }}
+                        </strong>
+                    </div>
+
+
+                    <div class="badge-info-item">
+                        <span class="badge-info-label">STATUT MEMBRE</span>
+
+                        <strong class="badge-status">
+                            {{ badge.member_status or 'Non renseigné' }}
+                        </strong>
+                    </div>
+
+
+                    <div class="badge-info-item">
+                        <span class="badge-info-label">STATUT BADGE</span>
+
+                        <strong class="badge-status-valid">
+                            {{ badge.badge_status or 'Non renseigné' }}
+                        </strong>
+                    </div>
+
+                </section>
+
+
+                <!-- QR CODE -->
+                <section class="badge-qr-section">
+
+                    <div class="badge-qr-frame">
+
+                        <img
+                            class="badge-qr"
+                            src="{{ url_for('badge_qr', badge_id=badge.badge_id) }}"
+                            alt="QR code de vérification du badge"
+                            crossorigin="anonymous"
+                        >
+
+                    </div>
+
+                    <span class="badge-qr-label">
+                        VÉRIFIER
+                    </span>
+
+                </section>
+
+
+                <!-- DEVISE ET NUMÉRO -->
+                <div class="badge-motto">
+                    IN OMNIBUS • ET PER OMNIA • LUCEAMUS
+                </div>
+
+                <div class="badge-number">
+                    BADGE N° {{ badge.badge_id }}
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             VERSO DU BADGE
+             ================================================= -->
+
+        <section
+            class="badge-card badge-back"
+            id="badge-back"
+            aria-label="Verso du badge officiel"
+        >
+
+            <div class="badge-back-pattern" aria-hidden="true"></div>
+
+            <div class="badge-back-inner">
+
+                <!-- IDENTITÉ DE L'OBÉDIENCE -->
+                <header class="badge-back-header">
+
+                    <div class="badge-back-logo-wrapper">
+                        <img
+                            class="badge-back-logo"
+                            src="{{ url_for('static', filename='SCEAU-GLTFA.png') }}"
+                            alt="Sceau de la GLTFA"
+                            crossorigin="anonymous"
+                        >
+                    </div>
+
+                    <div class="badge-obedience">
+
+                        <div class="badge-obedience-title">
+                            OBÉDIENCE MAÇONNIQUE
+                        </div>
+
+                        <div class="badge-obedience-name">
+                            GRANDE LOGE TRADITIONNELLE
+                            FRANÇAISE ET DES AMÉRIQUES
+                        </div>
+
+                        <div class="badge-obedience-subtitle">
+                            GLTFA
+                        </div>
+
+                    </div>
+
+                </header>
+
+
+                <div class="badge-gold-line badge-gold-line-back"></div>
+
+
+                <!-- TEXTE OFFICIEL -->
+                <section class="badge-official-text">
+
+                    <h2 class="badge-official-title">
+                        CARTE OFFICIELLE DE MEMBRE
+                    </h2>
+
+                    <p>
+                        La présente carte atteste l'appartenance de son
+                        titulaire à la Respectable Loge Mixte VIDELINA #1,
+                        Orient de Terrier-Rouge.
+                    </p>
+
+                    <p>
+                        Elle demeure la propriété de la Loge et peut être
+                        soumise à vérification auprès des autorités.
+                    </p>
+
+                </section>
+
+
+                <!-- RENSEIGNEMENTS -->
+                <section
+                    class="badge-back-information"
+                    aria-label="Renseignements du membre"
+                >
+
+                    <div class="badge-back-info-item">
+                        <span>MEMBRE</span>
+
+                        <strong>
+                            {{ badge.member_name or badge.name or 'Non renseigné' }}
+                        </strong>
+                    </div>
+
+                    <div class="badge-back-info-item">
+                        <span>GRADE</span>
+
+                        <strong>
+                            {{ badge.grade or 'Non renseigné' }}
+                        </strong>
+                    </div>
+
+                    <div class="badge-back-info-item">
+                        <span>QUALITÉ</span>
+
+                        <strong>
+                            {{ badge.role or 'Membre' }}
+                        </strong>
+                    </div>
+
+                    <div class="badge-back-info-item">
+                        <span>STATUT</span>
+
+                        <strong>
+                            {{ badge.member_status or 'Non renseigné' }}
+                        </strong>
+                    </div>
+
+                </section>
+
+
+                <!-- SIGNATURES -->
+                <section class="badge-signatures">
+
+                    <div class="badge-signature-box">
+
+                        <div class="badge-signature-image-container">
+                            <img
+                                class="badge-signature-image"
+                                src="{{ url_for('static', filename='Siyati-Hansly.png') }}"
+                                alt="Signature du Vénérable"
+                                crossorigin="anonymous"
+                            >
+                        </div>
+
+                        <div class="badge-signature-line"></div>
+
+                        <div class="badge-signature-caption">
+                            LE VÉNÉRABLE MAITRE
+                        </div>
+
+                    </div>
+
+
+                    <div class="badge-signature-box">
+
+                        <div class="badge-signature-image-container">
+                            <img
+                                class="badge-signature-image"
+                                src="{{ url_for('static', filename='siyatur-Lesly.png') }}"
+                                alt="Signature du Grand Maître"
+                                crossorigin="anonymous"
+                            >
+                        </div>
+
+                        <div class="badge-signature-line"></div>
+
+                        <div class="badge-signature-caption">
+                            LE GRAND MAÎTRE
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- PIED DE CARTE -->
+                <footer class="badge-back-footer">
+
+                    <div class="badge-back-motto">
+                        IN OMNIBUS • ET PER OMNIA • LUCEAMUS
+                    </div>
+
+                    <div class="badge-back-number">
+                        RLMV-{{ "%05d"|format(badge.member_id|int) }}
+                    </div>
+
+                </footer>
+
+
+                <!-- VÉRIFICATION TECHNIQUE -->
+                <div class="badge-technical">
+                    <span>VÉRIFICATION NUMÉRIQUE</span>
+
+                    <span class="badge-technical-url">
+                        {{ verification_url }}
+                    </span>
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- =====================================================
+         GESTION ADMINISTRATIVE
+         ===================================================== -->
+
+    {% if session.get('member_role') == 'Administrateur'
+          or session.get('member_role') == 'admin' %}
+
+        <section class="badge-management">
+
+            <h2>Gestion du badge</h2>
+
+            <p>
+                Les opérations ci-dessous modifient le badge enregistré.
+                Vérifiez votre sélection avant de continuer.
+            </p>
+
+            <div class="badge-management-actions">
+
+                <form
+                    method="POST"
+                    action="{{ url_for('regenerer_qr_badge', badge_id=badge.badge_id) }}"
+                    onsubmit="return confirm('Voulez-vous vraiment régénérer le QR code de ce badge ?');"
+                >
+                    <button
+                        type="submit"
+                        class="badge-action-button badge-action-primary"
+                    >
+                        Régénérer le QR code
+                    </button>
+                </form>
+
+
+                {% if badge.badge_status != 'RÉVOQUÉ' %}
+
+                    <form
+                        method="POST"
+                        action="{{ url_for('revoquer_badge', badge_id=badge.badge_id) }}"
+                        onsubmit="return confirm('Confirmez-vous la révocation de ce badge ?');"
+                    >
+                        <button
+                            type="submit"
+                            class="badge-action-button badge-action-danger"
+                        >
+                            Révoquer le badge
+                        </button>
+                    </form>
+
+                {% endif %}
+
+
+                <a
+                    href="{{ url_for('manage_members') }}"
+                    class="badge-action-button"
+                >
+                    Retour aux membres
+                </a>
+
+            </div>
+
+        </section>
+
+    {% endif %}
+
+</div>
+
+
+<!-- HTML2CANVAS -->
+<!-- HTML2CANVAS -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<script>
+(function () {
+    "use strict";
+
+    // =====================================================
+    // CONFIGURATION
+    // =====================================================
+
+    const LARGEUR_PNG = 1011;
+    const HAUTEUR_PNG = 637;
+    const DPI = 300;
+
+    // =====================================================
+    // ATTENDRE LE CHARGEMENT ET LE DÉCODAGE D'UNE IMAGE
+    // =====================================================
+
+    function attendreImage(image) {
+        return new Promise(function (resolve, reject) {
+            if (image.complete) {
+                if (image.naturalWidth > 0 && image.naturalHeight > 0) {
+                    resolve();
+                } else {
+                    reject(new Error(
+                        "Image inaccessible : " +
+                        (image.currentSrc || image.src)
+                    ));
+                }
+
+                return;
+            }
+
+            function nettoyer() {
+                image.removeEventListener("load", charger);
+                image.removeEventListener("error", echouer);
+            }
+
+            function charger() {
+                nettoyer();
+
+                if (image.naturalWidth > 0 && image.naturalHeight > 0) {
+                    resolve();
+                } else {
+                    reject(new Error(
+                        "Image chargée sans dimensions valides : " +
+                        image.src
+                    ));
+                }
+            }
+
+            function echouer() {
+                nettoyer();
+
+                reject(new Error(
+                    "Impossible de charger l'image : " + image.src
+                ));
+            }
+
+            image.addEventListener("load", charger);
+            image.addEventListener("error", echouer);
+        });
+    }
+
+    // =====================================================
+    // ATTENDRE LE RENDU COMPLET DU BADGE
+    // =====================================================
+
+    async function attendreRenduComplet(element) {
+        const images = Array.from(element.querySelectorAll("img"));
+
+        await Promise.all(
+            images.map(async function (image) {
+                await attendreImage(image);
+
+                if (typeof image.decode === "function") {
+                    await image.decode();
+                }
+            })
+        );
+
+        if (document.fonts && document.fonts.ready) {
+            await document.fonts.ready;
+        }
+
+        await new Promise(function (resolve) {
+            requestAnimationFrame(function () {
+                requestAnimationFrame(resolve);
+            });
+        });
+    }
+
+    // =====================================================
+    // PRÉPARER LES IMAGES POUR HTML2CANVAS
+    // =====================================================
+
+    async function preparerImagesPourCapture(element) {
+        const images = Array.from(element.querySelectorAll("img"));
+
+        try {
+            for (const image of images) {
+                const sourceOriginale = image.getAttribute("src");
+                const source = image.currentSrc || image.src;
+
+                if (!source) {
+                    throw new Error(
+                        "Une image du badge n'a pas de source."
+                    );
+                }
+
+                const reponse = await fetch(source, {
+                    credentials: "same-origin",
+                    cache: "no-store"
+                });
+
+                if (!reponse.ok) {
+                    throw new Error(
+                        "Impossible de récupérer l'image : " +
+                        source +
+                        " (HTTP " +
+                        reponse.status +
+                        ")"
+                    );
+                }
+
+                const blob = await reponse.blob();
+                const urlTemporaire = URL.createObjectURL(blob);
+
+                try {
+                    const imageTest = new Image();
+                    imageTest.src = urlTemporaire;
+
+                    await attendreImage(imageTest);
+
+                    if (typeof imageTest.decode === "function") {
+                        await imageTest.decode();
+                    }
+
+                    image.dataset.sourceOriginale = sourceOriginale || "";
+                    image.dataset.urlTemporaire = urlTemporaire;
+
+                    image.src = urlTemporaire;
+
+                    await attendreImage(image);
+
+                    if (typeof image.decode === "function") {
+                        await image.decode();
+                    }
+
+                    console.log(
+                        "Image prête pour la capture :",
+                        image.className
+                    );
+
+                } catch (erreur) {
+                    URL.revokeObjectURL(urlTemporaire);
+                    throw erreur;
+                }
+            }
+
+            await new Promise(function (resolve) {
+                requestAnimationFrame(function () {
+                    requestAnimationFrame(resolve);
+                });
+            });
+
+        } catch (erreur) {
+            restaurerImagesApresCapture(element);
+            throw erreur;
+        }
+    }
+
+    // =====================================================
+    // RESTAURER LES IMAGES ORIGINALES
+    // =====================================================
+
+    function restaurerImagesApresCapture(element) {
+        const images = Array.from(
+            element.querySelectorAll("img[data-url-temporaire]")
+        );
+
+        for (const image of images) {
+            const urlTemporaire = image.dataset.urlTemporaire;
+            const sourceOriginale = image.dataset.sourceOriginale;
+
+            if (sourceOriginale) {
+                image.setAttribute("src", sourceOriginale);
+            }
+
+            delete image.dataset.sourceOriginale;
+            delete image.dataset.urlTemporaire;
+
+            if (urlTemporaire) {
+                URL.revokeObjectURL(urlTemporaire);
+            }
+        }
+    }
+
+    // =====================================================
+    // AJOUTER LES MÉTADONNÉES PNG À 300 DPI
+    // =====================================================
+
+    function ajouterResolutionPNG(canvas, dpi) {
+        const donnees = canvas.toDataURL("image/png");
+        const base64 = donnees.split(",")[1];
+
+        if (!base64) {
+            throw new Error(
+                "Impossible de convertir le canvas en PNG."
+            );
+        }
+
+        const binaire = atob(base64);
+        const octets = new Uint8Array(binaire.length);
+
+        for (let i = 0; i < binaire.length; i++) {
+            octets[i] = binaire.charCodeAt(i);
+        }
+
+        function lireUint32(position) {
+            return (
+                (octets[position] << 24) |
+                (octets[position + 1] << 16) |
+                (octets[position + 2] << 8) |
+                octets[position + 3]
+            ) >>> 0;
+        }
+
+        function ecrireUint32(valeur) {
+            return new Uint8Array([
+                (valeur >>> 24) & 255,
+                (valeur >>> 16) & 255,
+                (valeur >>> 8) & 255,
+                valeur & 255
+            ]);
+        }
+
+        function concatener(tableaux) {
+            const longueur = tableaux.reduce(
+                (total, tableau) => total + tableau.length,
+                0
+            );
+
+            const resultat = new Uint8Array(longueur);
+            let position = 0;
+
+            for (const tableau of tableaux) {
+                resultat.set(tableau, position);
+                position += tableau.length;
+            }
+
+            return resultat;
+        }
+
+        function crc32(tableau) {
+            let crc = -1;
+
+            for (let i = 0; i < tableau.length; i++) {
+                crc ^= tableau[i];
+
+                for (let j = 0; j < 8; j++) {
+                    crc = (crc >>> 1) ^
+                        ((crc & 1) ? 0xEDB88320 : 0);
+                }
+            }
+
+            return (crc ^ -1) >>> 0;
+        }
+
+        function creerChunk(type, donneesChunk) {
+            const nom = new TextEncoder().encode(type);
+            const contenu = concatener([nom, donneesChunk]);
+
+            return concatener([
+                ecrireUint32(donneesChunk.length),
+                contenu,
+                ecrireUint32(crc32(contenu))
+            ]);
+        }
+
+        const pixelsParMetre = Math.round(dpi / 0.0254);
+
+        const donneesPhys = concatener([
+            ecrireUint32(pixelsParMetre),
+            ecrireUint32(pixelsParMetre),
+            new Uint8Array([1])
+        ]);
+
+        const chunkPhys = creerChunk("pHYs", donneesPhys);
+
+        const morceaux = [octets.slice(0, 8)];
+
+        let position = 8;
+        let insertionEffectuee = false;
+
+        while (position < octets.length) {
+            if (position + 8 > octets.length) {
+                throw new Error("Structure PNG invalide.");
+            }
+
+            const longueur = lireUint32(position);
+            const fin = position + 12 + longueur;
+
+            if (fin > octets.length) {
+                throw new Error("Données PNG incomplètes.");
+            }
+
+            const type = String.fromCharCode(
+                octets[position + 4],
+                octets[position + 5],
+                octets[position + 6],
+                octets[position + 7]
+            );
+
+            // Éviter d'insérer plusieurs chunks pHYs.
+            if (type !== "pHYs") {
+                if (type === "IEND") {
+                    morceaux.push(chunkPhys);
+                    insertionEffectuee = true;
+                }
+
+                morceaux.push(octets.slice(position, fin));
+            }
+
+            position = fin;
+        }
+
+        if (!insertionEffectuee) {
+            throw new Error("Fin du fichier PNG introuvable.");
+        }
+
+        return new Blob(morceaux, {
+            type: "image/png"
+        });
+    }
+
+    // =====================================================
+    // EXPORTER LE RECTO OU LE VERSO DU BADGE
+    // =====================================================
+
+    window.telechargerBadgePNG = async function (identifiant, face) {
+        const element = document.getElementById(identifiant);
+
+        if (!element) {
+            alert("Impossible de trouver la face du badge à exporter.");
+            return;
+        }
+
+        if (typeof html2canvas === "undefined") {
+            alert("Le module html2canvas n'a pas pu être chargé.");
+            return;
+        }
+
+        const bouton = document.activeElement;
+        const texteInitial = bouton ? bouton.textContent : "";
+
+        let imagesPreparees = false;
+
+        try {
+            if (bouton && bouton.tagName === "BUTTON") {
+                bouton.disabled = true;
+                bouton.textContent = "Préparation du badge...";
+            }
+
+            // 1. Préparer le rendu.
+            await attendreRenduComplet(element);
+
+            // 2. Préparer les images.
+            await preparerImagesPourCapture(element);
+            imagesPreparees = true;
+
+            // 3. Vérifier les dimensions.
+            const dimensions = element.getBoundingClientRect();
+
+            const largeur = dimensions.width;
+            const hauteur = dimensions.height;
+
+            if (largeur <= 0 || hauteur <= 0) {
+                throw new Error(
+                    "Les dimensions du badge sont invalides."
+                );
+            }
+
+            // 4. Capturer le badge.
+            const canvasCapture = await html2canvas(element, {
+                scale: 3,
+                useCORS: true,
+                allowTaint: false,
+                backgroundColor: "#fbf7ed",
+                logging: false,
+                imageTimeout: 20000,
+                removeContainer: true,
+                foreignObjectRendering: false,
+                scrollX: 0,
+                scrollY: 0,
+                width: largeur,
+                height: hauteur
+            });
+
+            if (
+                !canvasCapture ||
+                canvasCapture.width <= 0 ||
+                canvasCapture.height <= 0
+            ) {
+                throw new Error("La capture du badge est vide.");
+            }
+
+            // 5. Créer le PNG final.
+    
+// Dimensions souhaitées du PNG final
+const LARGEUR_PNG = 1011;
+const HAUTEUR_PNG = 637;
+
+// Dimensions réelles de la capture HTML
+const largeurCapture = canvasCapture.width;
+const hauteurCapture = canvasCapture.height;
+
+// Calcul d'une échelle uniforme pour conserver les proportions
+const echelle = Math.min(
+    LARGEUR_PNG / largeurCapture,
+    HAUTEUR_PNG / hauteurCapture
+);
+
+const largeurRedimensionnee = Math.round(largeurCapture * echelle);
+const hauteurRedimensionnee = Math.round(hauteurCapture * echelle);
+
+// Création du canvas final
+const canvasFinal = document.createElement("canvas");
+canvasFinal.width = LARGEUR_PNG;
+canvasFinal.height = HAUTEUR_PNG;
+
+const contexteFinal = canvasFinal.getContext("2d");
+
+if (!contexteFinal) {
+    throw new Error("Impossible de créer le canvas final.");
+}
+
+// Fond blanc pour éviter la transparence autour du badge
+contexteFinal.fillStyle = "#ffffff";
+contexteFinal.fillRect(0, 0, LARGEUR_PNG, HAUTEUR_PNG);
+
+// Centrage sans déformation
+const positionX = Math.round(
+    (LARGEUR_PNG - largeurRedimensionnee) / 2
+);
+
+const positionY = Math.round(
+    (HAUTEUR_PNG - hauteurRedimensionnee) / 2
+);
+
+// Dessin en conservant le rapport largeur/hauteur
+contexteFinal.drawImage( 
+    canvasCapture, 
+    0, 0, 
+    largeurCapture, 
+    hauteurCapture, 
+    positionX, 
+    positionY, 
+    largeurRedimensionnee, 
+    hauteurRedimensionnee 
+);
+
+            // 6. Ajouter les métadonnées de résolution.
+            const blobPNG = ajouterResolutionPNG(canvasFinal, DPI);
+
+            if (!blobPNG || blobPNG.size === 0) {
+                throw new Error(
+                    "Le fichier PNG final est vide."
+                );
+            }
+
+            // 7. Télécharger le fichier final.
+            const urlTelechargement = URL.createObjectURL(blobPNG);
+            const lien = document.createElement("a");
+
+            lien.href = urlTelechargement;
+            lien.download = "VIDELINA_Badge_" + face + ".png";
+            lien.style.display = "none";
+
+            document.body.appendChild(lien);
+            lien.click();
+            lien.remove();
+
+            setTimeout(function () {
+                URL.revokeObjectURL(urlTelechargement);
+            }, 10000);
+
+            console.log("Export du badge terminé :", {
+                face: face,
+                largeur: canvasFinal.width,
+                hauteur: canvasFinal.height,
+                dpi: DPI,
+                taille: blobPNG.size
+            });
+
+        } catch (erreur) {
+            console.error(
+                "Erreur lors de l'exportation du badge :",
+                erreur
+            );
+
+            alert(
+                "L'exportation du badge a échoué.\n\n" +
+                "Détail : " + erreur.message
+            );
+
+        } finally {
+            if (imagesPreparees) {
+                restaurerImagesApresCapture(element);
+            }
+
+            if (bouton && bouton.tagName === "BUTTON") {
+                bouton.disabled = false;
+                bouton.textContent = texteInitial;
+            }
+        }
+    };
+
+})();
+</script>
+
+{% endblock %}
