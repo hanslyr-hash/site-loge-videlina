@@ -121,7 +121,7 @@ ALLOWED_GRADES = (
     "Chevalier Rose-Croix",
     "CKS",
     "SGIG 33e",
-    "PGM",
+    "PVM",
 )
 
 
@@ -141,7 +141,7 @@ GRADE_LEVELS = {
     "Chevalier Rose-Croix": 6,
     "CKS": 7,
     "SGIG 33e": 8,
-    "PGM": 9,
+    "PVM": 9,
 }
 
 
